@@ -12,9 +12,9 @@ import {
   Safe,
   ToastAndroid
 } from 'react-native';
-import { openDatabase } from 'react-native-sqlite-storage';
 import CheckBox from '@react-native-community/checkbox';
-const db = openDatabase({name: "Database1.db", createFromLocation : '~Database.db'});
+var SQLite=require('react-native-sqlite-storage') 
+var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
 export default class Login extends React.Component {
   constructor(props){
     super(props)
@@ -29,12 +29,16 @@ export default class Login extends React.Component {
         
         if(len==0)
           ToastAndroid.show("Tài khoản không tồn tại",ToastAndroid.SHORT);
+          
         else{
           var row=results.rows.item(0);
-          if(this.state.password==row.Password)
+          if(this.state.password==row.Password){
             ToastAndroid.show("Đăng nhập thành công",ToastAndroid.SHORT);
+            this.props.navigation.navigate('Main')
+          }
+            
           else
-            ToastAndroid.show("Sai tào khoảng hoặc mật khẩu",ToastAndroid.SHORT);
+            ToastAndroid.show("Sai tài khoảng hoặc mật khẩu",ToastAndroid.SHORT);
         }
       });
     });
