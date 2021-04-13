@@ -9,11 +9,33 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  Safe,
+  ToastAndroid
 } from 'react-native';
+import { openDatabase } from 'react-native-sqlite-storage';
 import CheckBox from '@react-native-community/checkbox';
-
+var db = openDatabase({name: "Database.db", createFromLocation : 1});
 export default class Login extends React.Component {
-  state = { user: '', password: '' };
+  constructor(props){
+    super(props)
+    this.state = { user: '', password: '' };
+  }
+  OnPressLogin=()=>{
+    db.transaction((tx)=>{
+      tx.executeSql("select *from user where TenDangNhap=?",[this.state.user],(tx,results)=>{
+        var len=results.rows.length;
+        if(len==0)
+          ToastAndroid.show("Tài khoản không tồn tại",ToastAndroid.SHORT);
+        else{
+          var row=results.rows.item(0);
+          if(this.state.password==row.Password)
+            ToastAndroid.show("Đăng nhập thành công",ToastAndroid.SHORT);
+          else
+            ToastAndroid.show("Sai tào khoảng hoặc mật khẩu",ToastAndroid.SHORT);
+        }
+      });
+    });
+  }
   render() {
     return (
      <ImageBackground
@@ -60,16 +82,7 @@ export default class Login extends React.Component {
               <View style={styles.containera}>
                 <TouchableOpacity
                   style={styles.btnlogin}
-                  onPress={() => {
-                    var login = this.state.user;
-                    var pass = this.state.password;
-                    if (login == 'a' && pass == 'a') {
-                      Alert.alert('Đăng nhập thành công');
-                      this.props.navigation.navigate('Main');
-                    } else {
-                      Alert.alert('Sai tên đăng nhập hoặc mật khẩu');
-                    }
-                  }}>
+                  onPress={this.OnPressLogin}>
                   <Text style={styles.txtdn}>Đăng nhập</Text>
                 </TouchableOpacity>
                 <View style={{ flexDirection: 'row' }}>
