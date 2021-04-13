@@ -23,7 +23,7 @@ export default class DoiTac extends React.Component {
     return (
       <ImageBackground
 
-        source={require('../assets/background2.png')}
+        source={require('../images/background2.png')}
         style={styles.image}>
 
         <View style={styles.container}>
@@ -31,10 +31,10 @@ export default class DoiTac extends React.Component {
           onPress={() => {this.props.navigation.navigate('Main')}}>
             <ImageBackground
               style={styles.icon}
-              source={require('../assets/Back.png')}></ImageBackground>
+              source={require('../images/Back.png')}></ImageBackground>
           </TouchableOpacity> <ImageBackground
               style={styles.iconDT}
-              source={require('../assets/contract1.png')}></ImageBackground> Quản lý đối tác</Text>
+              source={require('../images/contract1.png')}></ImageBackground> Quản lý đối tác</Text>
 
 
 
@@ -48,7 +48,7 @@ export default class DoiTac extends React.Component {
           <TouchableOpacity style={styles.btnIconDel} >
             <ImageBackground
               style={styles.icon}
-              source={require('../assets/Delete.png')}>
+              source={require('../images/Delete.png')}>
             </ImageBackground>
           </TouchableOpacity>
 

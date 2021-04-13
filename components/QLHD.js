@@ -18,7 +18,7 @@ export default class Main extends Component {
   render() {
     return (
       <ImageBackground
-        source={require('../assets/background2.png')}
+        source={require('../images/background2.png')}
         style={styles.image}>
         <View style={styles.container}>
           <View style={styles.header}>
@@ -28,12 +28,12 @@ export default class Main extends Component {
               onPress={() => {this.props.navigation.navigate('Main')}}>
                   <ImageBackground
                     style={styles.icon}
-                    source={require('../assets/Back.png')}>
+                    source={require('../images/Back.png')}>
                   </ImageBackground>
               </TouchableOpacity>
               <ImageBackground
                     style={styles.iconTD}
-                    source={require('../assets/qlhd.png')}>
+                    source={require('../images/qlhd.png')}>
               </ImageBackground> Quản lý hóa đơn</Text>
           </View>
           <TextInput

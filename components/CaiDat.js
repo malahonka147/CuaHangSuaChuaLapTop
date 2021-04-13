@@ -15,18 +15,18 @@ export default class CaiDat extends React.Component {
   render() {
     return (
       <ImageBackground
-        source={require('../assets/background2.png')}
+        source={require('../images/background2.png')}
         style={styles.image}>
         <View style={styles.container}>
           <Text style={styles.txtCaiDat}> <TouchableOpacity style={styles.btnIcon}
                        onPress={() => {this.props.navigation.navigate('Main')}}>
             <ImageBackground
               style={styles.icon}
-              source={require('../assets/Back.png')}></ImageBackground>
+              source={require('../images/Back.png')}></ImageBackground>
           </TouchableOpacity>
            <ImageBackground
               style={styles.iconCD}
-              source={require('../assets/settings1.png')}></ImageBackground> Cài đặt</Text>
+              source={require('../images/settings1.png')}></ImageBackground> Cài đặt</Text>
           <TouchableOpacity style={styles.btnCaidat} >
             <Text style={styles.txtContent} >Ngôn ngữ</Text>
           </TouchableOpacity>

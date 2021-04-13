@@ -23,7 +23,7 @@ export default class QLNhanVien extends React.Component {
     return (
       <ImageBackground
 
-        source={require('../assets/background2.png')}
+        source={require('../images/background2.png')}
         style={styles.image}>
 
         <View style={styles.container}>
@@ -32,12 +32,12 @@ export default class QLNhanVien extends React.Component {
             onPress={() => {this.props.navigation.navigate('Main')}}>
             <ImageBackground
               style={styles.icon}
-              source={require('../assets/Back.png')}></ImageBackground>
+              source={require('../images/Back.png')}></ImageBackground>
           </TouchableOpacity>
           <TouchableOpacity style={styles.btnIconNV} >
              <ImageBackground
               style={styles.iconNV}
-               source={require('../assets/NhanVien.png')}></ImageBackground>
+               source={require('../images/NhanVien.png')}></ImageBackground>
           </TouchableOpacity> Quản lý nhân viên</Text>
 
 
@@ -53,7 +53,7 @@ export default class QLNhanVien extends React.Component {
           <TouchableOpacity style={styles.btnIconDel} >
             <ImageBackground
               style={styles.icon}
-              source={require('../assets/Delete.png')}>
+              source={require('../images/Delete.png')}>
             </ImageBackground>
           </TouchableOpacity>
          <TouchableOpacity style={styles.Add}

@@ -23,17 +23,17 @@ export default class ChamCong extends React.Component {
     return (
       <ImageBackground
 
-        source={require('../assets/background2.png')}
+        source={require('../images/background2.png')}
         style={styles.image}>
         <View style={styles.container}>
           <Text style={styles.txtChamcong}> <TouchableOpacity style={styles.btnIcon}
           onPress={() => {this.props.navigation.navigate('Main')}}>
             <ImageBackground
               style={styles.icon}
-              source={require('../assets/Back.png')}></ImageBackground>
+              source={require('../images/Back.png')}></ImageBackground>
           </TouchableOpacity> <ImageBackground
               style={styles.iconCCong}
-              source={require('../assets/calculator1.png')}></ImageBackground> Quản lý chấm công</Text>
+              source={require('../images/calculator1.png')}></ImageBackground> Quản lý chấm công</Text>
           <View style={styles.header}>
           <Text style={styles.headerText}>Chấm công</Text>
         </View>
@@ -44,7 +44,7 @@ export default class ChamCong extends React.Component {
           <TouchableOpacity style={styles.btnIconDel} >
             <ImageBackground
               style={styles.icon}
-              source={require('../assets/Delete.png')}>
+              source={require('../images/Delete.png')}>
             </ImageBackground>
           </TouchableOpacity>
 

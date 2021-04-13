@@ -14,16 +14,19 @@ import {
 } from 'react-native';
 import { openDatabase } from 'react-native-sqlite-storage';
 import CheckBox from '@react-native-community/checkbox';
-var db = openDatabase({name: "Database.db", createFromLocation : 1});
+const db = openDatabase({name: "Database.db", createFromLocation : 1});
 export default class Login extends React.Component {
   constructor(props){
     super(props)
     this.state = { user: '', password: '' };
   }
+
   OnPressLogin=()=>{
     db.transaction((tx)=>{
-      tx.executeSql("select *from user where TenDangNhap=?",[this.state.user],(tx,results)=>{
+      
+      tx.executeSql('select * from user where TenDangNhap=?',[this.state.user],(tx,results)=>{
         var len=results.rows.length;
+        ToastAndroid.show(len,ToastAndroid.SHORT);
         if(len==0)
           ToastAndroid.show("Tài khoản không tồn tại",ToastAndroid.SHORT);
         else{
@@ -35,7 +38,7 @@ export default class Login extends React.Component {
         }
       });
     });
-  }
+  };
   render() {
     return (
      <ImageBackground

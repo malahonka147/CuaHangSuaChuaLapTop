@@ -22,13 +22,13 @@ export default class Profile extends React.Component {
   render() {
     return (
       <ImageBackground
-        source={require('../assets/background2.png')}
+        source={require('../images/background2.png')}
         style={styles.image}>
         <View style={styles.container}>
 
                 <ImageBackground
                  style={styles.icon }
-                                source={require('../assets/Back.png')}>
+                                source={require('../images/Back.png')}>
                    <TouchableOpacity style={styles.btnIcon}
                       onPress={() => {this.props.navigation.navigate('Main')}}>
 
@@ -39,7 +39,7 @@ export default class Profile extends React.Component {
           <Text style={styles.txtDiaChi}>
             <ImageBackground
               style={styles.iconDiaChi}
-              source={require('../assets/location-sign.png')}>
+              source={require('../images/location-sign.png')}>
             </ImageBackground>
             Los Angeles, California</Text>
         </View>
@@ -61,7 +61,7 @@ export default class Profile extends React.Component {
                 <Text style={styles.txtContent2Change}>Trọng Phan</Text>
                 <ImageBackground
                   style={styles.iconNext}
-                  source={require('../assets/Next.png')}>
+                  source={require('../images/Next.png')}>
                 </ImageBackground>
 
               </View>
@@ -70,7 +70,7 @@ export default class Profile extends React.Component {
                 <Text style={styles.txtContent2Change}>trongdeptrai@mail.com</Text>
                 <ImageBackground
                   style={styles.iconNext}
-                  source={require('../assets/Next.png')}>
+                  source={require('../images/Next.png')}>
                 </ImageBackground>
               </View>
               <View  style={styles.content2}>
@@ -78,7 +78,7 @@ export default class Profile extends React.Component {
               <Text style={styles.txtContent2Change}>+12348746348</Text>
                 <ImageBackground
                   style={styles.iconNext}
-                  source={require('../assets/Next.png')}>
+                  source={require('../images/Next.png')}>
                 </ImageBackground>
               </View>
               <View  style={styles.content2}>
@@ -86,7 +86,7 @@ export default class Profile extends React.Component {
                <Text style={styles.txtContent2Change}>1827,Phường Tân Định..</Text>
                 <ImageBackground
                   style={styles.iconNext}
-                  source={require('../assets/Next.png')}>
+                  source={require('../images/Next.png')}>
                 </ImageBackground>
               </View>
             </View>

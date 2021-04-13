@@ -30,7 +30,7 @@ export default class Login extends React.Component {
 
     return (
       <ImageBackground
-        source={require('../assets/background.png')}
+        source={require('../images/background.png')}
         style={styles.image}>
         <View style={styles.container}>
           <View style={styles.containera}>

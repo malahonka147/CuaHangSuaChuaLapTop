@@ -18,7 +18,7 @@ export default class Main extends Component {
   render() {
     return (
       <ImageBackground
-        source={require('../assets/background2.png')}
+        source={require('../images/background2.png')}
         style={styles.image}>
         <View style={styles.container}>
           <View style={styles.header}>
@@ -28,12 +28,12 @@ export default class Main extends Component {
               onPress={() => {this.props.navigation.navigate('Main')}}>
                   <ImageBackground
                     style={styles.icon}
-                    source={require('../assets/Back.png')}>
+                    source={require('../images/Back.png')}>
                   </ImageBackground>
               </TouchableOpacity>
               <ImageBackground
                     style={styles.iconTD}
-                    source={require('../assets/qlsp.png')}>
+                    source={require('../images/qlsp.png')}>
               </ImageBackground> Quản lý sản phẩm</Text>
           </View>
         </View>
@@ -41,13 +41,13 @@ export default class Main extends Component {
           <TouchableOpacity style={styles.box} >
             <ImageBackground
               style={styles.icon}
-              source={require('../assets/qlsp.png')}></ImageBackground>
+              source={require('../images/qlsp.png')}></ImageBackground>
             <Text style={styles.txtbox}>Danh sách {'\n'} sản phẩm</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.box}>
             <ImageBackground
               style={styles.icon}
-              source={require('../assets/qlhn.png')}></ImageBackground>
+              source={require('../images/qlhn.png')}></ImageBackground>
             <Text style={styles.txtbox}>Quản lý {'\n'} hàng nhập</Text>
           </TouchableOpacity>
         </View>
