@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { openDatabase } from 'react-native-sqlite-storage';
 import CheckBox from '@react-native-community/checkbox';
-const db = openDatabase({name: "Database.db", createFromLocation : 1});
+const db = openDatabase({name: "Database1.db", createFromLocation : '~Database.db'});
 export default class Login extends React.Component {
   constructor(props){
     super(props)
@@ -23,10 +23,10 @@ export default class Login extends React.Component {
 
   OnPressLogin=()=>{
     db.transaction((tx)=>{
-      
-      tx.executeSql('select * from user where TenDangNhap=?',[this.state.user],(tx,results)=>{
+      sql='select * from User where TenDangNhap=\''+this.state.user+'\'';
+      tx.executeSql(sql,[],(tx,results)=>{
         var len=results.rows.length;
-        ToastAndroid.show(len,ToastAndroid.SHORT);
+        
         if(len==0)
           ToastAndroid.show("Tài khoản không tồn tại",ToastAndroid.SHORT);
         else{
