@@ -15,26 +15,23 @@ import {
 import CheckBox from '@react-native-community/checkbox';
 var SQLite=require('react-native-sqlite-storage') 
 var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
-export default class Login extends React.Component {
-  constructor(props){
-    super(props)
-    this.state = { user: '', password: '' };
-  }
-
+export default function Login ({navigation,route}) {
+ const [user,setuser]=useState();
+ const[password,setpassword]=useState();
   OnPressLogin=()=>{
     db.transaction((tx)=>{
-      sql='select * from User where TenDangNhap=\''+this.state.user+'\'';
+      sql='select * from User where TenDangNhap=\''+user+'\'';
       tx.executeSql(sql,[],(tx,results)=>{
         var len=results.rows.length;
         
-        if(len==0)
+        if(len==0){
           ToastAndroid.show("Tài khoản không tồn tại",ToastAndroid.SHORT);
-          
+        }
         else{
           var row=results.rows.item(0);
-          if(this.state.password==row.Password){
+          if(password==row.Password){
             ToastAndroid.show("Đăng nhập thành công",ToastAndroid.SHORT);
-            this.props.navigation.navigate('Main')
+            navigation.navigate("Main");
           }
             
           else
@@ -43,7 +40,6 @@ export default class Login extends React.Component {
       });
     });
   };
-  render() {
     return (
      <ImageBackground
             source={require('../images/background.png')}
@@ -56,8 +52,8 @@ export default class Login extends React.Component {
                   style={styles.textInput}
                   placeholder="Tài khoản"
                   placeholderTextColor="white"
-                  onChangeText={(user) => this.setState({ user })}
-                  value={this.state.user}
+                  onChangeText={(user) => setuser(user)}
+                  defaultValue={user}
                 />
 
                 <TextInput
@@ -65,8 +61,8 @@ export default class Login extends React.Component {
                   style={styles.textInput}
                   placeholder="Mật khẩu"
                   placeholderTextColor="white"
-                  onChangeText={(password) => this.setState({ password })}
-                  value={this.state.password}
+                  onChangeText={(password) => setpassword(password)}
+                  defaultValue={password}
                 />
               </View>
 
@@ -79,7 +75,7 @@ export default class Login extends React.Component {
                 <View style={styles.checkboxContainer}>
                   <TouchableOpacity
                     onPress={() => {
-                      this.props.navigation.navigate('ForgotPassword');
+                    navigation.navigate('ForgotPassword');
                     }}>
                     <Text style={{ color: 'white' }}>Quên mật khẩu</Text>
                   </TouchableOpacity>
@@ -89,14 +85,14 @@ export default class Login extends React.Component {
               <View style={styles.containera}>
                 <TouchableOpacity
                   style={styles.btnlogin}
-                  onPress={this.OnPressLogin}>
+                  onPress={OnPressLogin}>
                   <Text style={styles.txtdn}>Đăng nhập</Text>
                 </TouchableOpacity>
                 <View style={{ flexDirection: 'row' }}>
                   <Text style={{ color: 'white' }}>Chưa có tài khoản?</Text>
                   <TouchableOpacity
                     onPress={() => {
-                      this.props.navigation.navigate('SignUp');
+                      navigation.navigate('SignUp');
                     }}>
                     <Text
                       style={{ color: 'blue', fontWeight: 'bold', marginLeft: 15 }}>
@@ -109,7 +105,6 @@ export default class Login extends React.Component {
           </ImageBackground>
     );
   }
-}
 
 const styles = StyleSheet.create({
   container: {

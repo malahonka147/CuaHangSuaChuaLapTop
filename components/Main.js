@@ -13,64 +13,62 @@ import {
   Icon,
 } from 'react-native';
 
-export default class Main extends Component {
-  state = { user: 'Trọng' };
-  render() {
+export default function Main ({navigation,route}) {
     return (
       <ImageBackground
         source={require('../images/home.png')}
         style={styles.image}>
         <View style={styles.container}>
           <View style={styles.header}>
-            <Text style={styles.txth1}>Chào {this.state.user} </Text>
+            <Text style={styles.txth1}>Xin chào </Text>
             <Text style={styles.txth2}>Let’s Learn More About App</Text>
           </View>
 
           <View style={styles.content}>
           <TouchableOpacity style={styles.box}
-          onPress={() => {this.props.navigation.navigate('Profile')}}>
+          onPress={() => {navigation.navigate('Profile')}}>
             <ImageBackground
               style={styles.icon}
               source={require('../images/user.png')}></ImageBackground>
             <Text style={styles.txtbox}>Quản lý {'\n'} tài khoản</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.box}
-          onPress={() => {this.props.navigation.navigate('QLSP')}}>
+          onPress={() => {navigation.navigate('QLSP')}}>
             <ImageBackground
               style={styles.icon}
               source={require('../images/qlsp.png')}></ImageBackground>
             <Text style={styles.txtbox}>Quản lý {'\n'} sản phẩm</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.box}
-          onPress={() => {this.props.navigation.navigate('QLNV')}}>
+          onPress={() => {navigation.navigate('QLNV')}}>
             <ImageBackground
               style={styles.icon}
               source={require('../images/qlnv.png')}></ImageBackground>
             <Text style={styles.txtbox}>Quản lý {'\n'} nhân viên</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.box}
-          onPress={() => {this.props.navigation.navigate('DoiTac')}}>
+          onPress={() => {navigation.navigate('DoiTac')}}>
             <ImageBackground
               style={styles.icon}
               source={require('../images/qldt.png')}></ImageBackground>
             <Text style={styles.txtbox}>Quản lý {'\n'} đối tác</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.box}
-          onPress={() => {this.props.navigation.navigate('QLHD')}}>
+          onPress={() => {navigation.navigate('QLHD')}}>
             <ImageBackground
               style={styles.icon}
               source={require('../images/qlhd.png')}></ImageBackground>
             <Text style={styles.txtbox}>Quản lý {'\n'} hóa đơn</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.box}
-          onPress={() => {this.props.navigation.navigate('ChamCong')}}>
+          onPress={() => {navigation.navigate('ChamCong')}}>
             <ImageBackground
               style={styles.icon}
               source={require('../images/qlcc.png')}></ImageBackground>
             <Text style={styles.txtbox}>Quản lý {'\n'} chấm công</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.box}
-          onPress={() => {this.props.navigation.navigate('CaiDat')}}>
+          onPress={() => {navigation.navigate('CaiDat')}}>
             <ImageBackground
               style={styles.icon}
               source={require('../images/cd.png')}></ImageBackground>
@@ -81,7 +79,6 @@ export default class Main extends Component {
       </ImageBackground>
     );
   }
-}
 const styles = StyleSheet.create({
   container: {
     marginTop:100,

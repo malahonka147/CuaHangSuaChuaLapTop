@@ -20,8 +20,8 @@ var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Databa
 export default function QLNhanVien ({navigation,route}) {
 
   const [items, setItems] = useState([]);
-    const [empty, setEmpty] = useState([]);
-   
+  const [empty, setEmpty] = useState([]);
+  const[IDNhanVien,setIDNhanVien]=useState([]);
     useEffect(() => {
       db.transaction((tx) => {
         tx.executeSql(
@@ -68,6 +68,31 @@ export default function QLNhanVien ({navigation,route}) {
         </View>
       );
     }
+    let deleteNV = () => {
+      db.transaction((tx) => {
+        tx.executeSql(
+          'DELETE FROM  NhanVien where MaNhanVien=?',
+          [IDNhanVien],
+          (tx, results) => {
+            console.log('Results', results.rowsAffected);
+            if (results.rowsAffected > 0) {
+              Alert.alert(
+                'Success',
+                'Đã xaóa nhân viên',
+                [
+                  {
+                    text: 'Ok',
+                  },
+                ],
+                {cancelable: false},
+              );
+            } else {
+              alert('Xóa thất bại');
+            }
+          },
+        );
+      });
+    };
     return (
       <ImageBackground
 
@@ -77,7 +102,7 @@ export default function QLNhanVien ({navigation,route}) {
         <View style={styles.container}>
           <Text style={styles.txtNhanVien}>
           <TouchableOpacity style={styles.btnIcon}
-            onPress={() => {this.props.navigation.navigate('Main')}}>
+            onPress={() => {navigation.navigate('Main')}}>
             <ImageBackground
               style={styles.icon}
               source={require('../images/Back.png')}></ImageBackground>
@@ -108,9 +133,15 @@ export default function QLNhanVien ({navigation,route}) {
                     marginBottom: -10,
                     height: 59,
                   }}
+                  
                 >
                    <Text style={styles.txtContent}>{item.TenNhanVien}</Text>
-                   <TouchableOpacity style={styles.btnIconDel} >
+                   <TouchableOpacity style={styles.btnIconDel} 
+                    onPress={
+                      setIDNhanVien(item.MaNhanVien),
+                      deleteNV
+                    }
+                   >
                     <ImageBackground
                       style={styles.icon}
                       source={require('../images/Delete.png')}>
