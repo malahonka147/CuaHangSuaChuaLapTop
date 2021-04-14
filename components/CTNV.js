@@ -12,6 +12,7 @@ import {
   FlatList,
   SafeAreaView,
   ToastAndroid,
+  Modal,
 } from 'react-native';
 import { useState,useEffect } from 'react';
 var SQLite=require('react-native-sqlite-storage') 
@@ -178,6 +179,12 @@ export default function CTNV ({navigation,route}) {
             }
             extraData={isRender}
            />
+           <Modal
+            animationType='fade'
+            visible={isModalVisible}
+           >
+
+           </Modal>
               </SafeAreaView>
            
               
