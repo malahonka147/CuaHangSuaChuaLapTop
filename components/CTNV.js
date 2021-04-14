@@ -9,10 +9,64 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  FlatList,
+  SafeAreaView,
+  ToastAndroid,
 } from 'react-native';
-
+import { useState,useEffect } from 'react';
+var SQLite=require('react-native-sqlite-storage') 
+var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
 export default function CTNV ({navigation,route}) {
-  
+  const {ID}=route.params;
+  const [items, setItems] = useState([]);
+  const [empty, setEmpty] = useState([]);
+  const[isRender,setisRender]=useState(false);
+    useEffect(() => {
+      db.transaction((tx) => {
+        tx.executeSql(
+          'SELECT * FROM NhanVien where MaNhanVien=?',
+          [ID],
+          (tx, results) => {
+            var temp = [];
+            for (let i = 0; i < results.rows.length; ++i)
+              temp.push(results.rows.item(i));
+            setItems(temp);
+   
+            if (results.rows.length >= 1) {
+              setEmpty(false);
+            } else {
+              setEmpty(true)
+            }
+   
+          }
+        );
+   
+      });
+    }, []);
+   
+    const listViewItemSeparator = () => {
+      return (
+        <View
+          style={{
+            height: 1,
+            width: '100%',
+            backgroundColor: '#000'
+          }}
+        />
+      );
+    };
+   
+    const emptyMSG = (status) => {
+      return (
+        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+   
+          <Text style={{ fontSize: 25, textAlign: 'center' }}>
+            No Record Inserted Database is Empty...
+            </Text>
+   
+        </View>
+      );
+    }
     return (
       <ImageBackground
         source={require('../images/background2.png')}
@@ -28,91 +82,106 @@ export default function CTNV ({navigation,route}) {
 
                    </TouchableOpacity>
                    </ImageBackground>
-                   
-          <Text style={styles.txtUser}>Trọng Phan</Text>
-          <Text style={styles.txtDiaChi}>
-            <ImageBackground
-              style={styles.iconDiaChi}
-              source={require('../images/location-sign.png')}>
-            </ImageBackground>
-            1827,Phường Tân Định..</Text>
+                   <View style={styles.contenthead}>
+                  <Text style={styles.txtcontenthead}> Thông tin nhân viên</Text>
+                  </View>
         </View>
         <View style={styles.content}>
-          <View style={styles.contenthead}>
-            <Text style={styles.txtcontenthead}> Thông tin nhân viên</Text>
-          </View>
+         
           <View style={styles.contentmid}>
             <View style={styles.txtTT}>
 
-              <Text style={styles.txtContent2}> Mã NV</Text>
-              <Text style={styles.txtContent2}> Tên NV</Text>
-              <Text style={styles.txtContent2}> Giới Tính</Text>
-              <Text style={styles.txtContent2}> Email</Text>
-              <Text style={styles.txtContent2}> Số điện thoại</Text>
-              <Text style={styles.txtContent2}> Địa Chỉ</Text>
-              <Text style={styles.txtContent2}> Ghi Chú</Text>
+              <Text style={styles.txtContent2}> Mã NV:</Text>
+              <Text style={styles.txtContent2}> Tên NV:</Text>
+              <Text style={styles.txtContent2}> Giới Tính:</Text>
+              <Text style={styles.txtContent2}> Số điện thoại:</Text>
+              <Text style={styles.txtContent2}> Địa Chỉ:</Text>
+              <Text style={styles.txtContent2}> Ghi Chú:</Text>
             </View>
 
-            <View>
             <View  style={styles.content2}>
+            <SafeAreaView>
+              <FlatList
+              data={items}
+              ItemSeparatorComponent={listViewItemSeparator}
+              keyExtractor={(item,index)=>index.toString()}
+              renderItem={({item})=>
+                <View key={item.MaNhanVien} >
+                <View  style={styles.content2}>
 
-              <Text style={styles.txtContent2Change}>1</Text>
-              <ImageBackground
-                style={styles.iconNext}
-                >
-              </ImageBackground>
+                <Text style={styles.txtContent2Change}>{item.MaNhanVien}</Text>
+                  <ImageBackground
+                    style={styles.iconNext}
+                    
+                    >
+                  </ImageBackground>
 
-              </View>
-              <View  style={styles.content2}>
+                </View>
+                
+                  <View  style={styles.content2}>
 
-                <Text style={styles.txtContent2Change}>Trọng Phan</Text>
-                <ImageBackground
-                  style={styles.iconNext}
-                  source={require('../images/Next.png')}>
-                </ImageBackground>
+                  <Text style={styles.txtContent2Change}>{item.TenNhanVien}</Text>
+                  <TouchableOpacity>
+                    <ImageBackground
+                      style={styles.iconNext}
+                      source={require('../images/Next.png')}>
+                    </ImageBackground>
+                  </TouchableOpacity>
+                  
 
-              </View>
-              <View  style={styles.content2}>
+                  </View>
+                  <View  style={styles.content2}>
 
-                <Text style={styles.txtContent2Change}>Nam</Text>
-                <ImageBackground
-                  style={styles.iconNext}
-                  source={require('../images/Next.png')}>
-                </ImageBackground>
+                  <Text style={styles.txtContent2Change}>{item.GioiTinh}</Text>
+                  <TouchableOpacity>
+                    <ImageBackground
+                      style={styles.iconNext}
+                      source={require('../images/Next.png')}>
+                    </ImageBackground>
+                  </TouchableOpacity>
 
-              </View>
-              <View  style={styles.content2}>
+                  </View>
+                  
+                  <View  style={styles.content2}>
 
-                <Text style={styles.txtContent2Change}>trongdeptrai@mail.com</Text>
-                <ImageBackground
-                  style={styles.iconNext}
-                  source={require('../images/Next.png')}>
-                </ImageBackground>
-              </View>
-              <View  style={styles.content2}>
+                  <Text style={styles.txtContent2Change}>{item.SoDT}</Text>
+                  <TouchableOpacity>
+                    <ImageBackground
+                      style={styles.iconNext}
+                      source={require('../images/Next.png')}>
+                    </ImageBackground>
+                  </TouchableOpacity>
+                  </View>
+                  <View  style={styles.content2}>
 
-              <Text style={styles.txtContent2Change}>+12348746348</Text>
-                <ImageBackground
-                  style={styles.iconNext}
-                  source={require('../images/Next.png')}>
-                </ImageBackground>
-              </View>
-              <View  style={styles.content2}>
+                  <Text style={styles.txtContent2Change}>{item.DiaChi}</Text>
+                  <TouchableOpacity>
+                    <ImageBackground
+                      style={styles.iconNext}
+                      source={require('../images/Next.png')}>
+                    </ImageBackground>
+                  </TouchableOpacity>
+                  </View>
+                  <View  style={styles.content2}>
 
-               <Text style={styles.txtContent2Change}>1827,Phường Tân Định..</Text>
-                <ImageBackground
-                  style={styles.iconNext}
-                  source={require('../images/Next.png')}>
-                </ImageBackground>
-              </View>
-              <View  style={styles.content2}>
-
-               <Text style={styles.txtContent2Change}>Khong co</Text>
-                <ImageBackground
-                  style={styles.iconNext}
-                  source={require('../images/Next.png')}>
-                </ImageBackground>
-              </View>
+                  <Text style={styles.txtContent2Change}>{item.GhiChu}</Text>
+                  <TouchableOpacity>
+                    <ImageBackground
+                      style={styles.iconNext}
+                      source={require('../images/Next.png')}>
+                    </ImageBackground>
+                  </TouchableOpacity>
+                  </View>
+                                  
+                                    
+                </View>
+            }
+            extraData={isRender}
+           />
+              </SafeAreaView>
+           
+              
+             
             </View>
 
           </View>
@@ -123,7 +192,7 @@ export default function CTNV ({navigation,route}) {
           <TouchableOpacity
               style={styles.btnlogin}
               onPress={() => {
-                  this.props.navigation.navigate('');
+                  ToastAndroid.show("CC"+ID,ToastAndroid.SHORT);
               }}>
               <Text style={styles.txtdn}>Cập nhật</Text>
           </TouchableOpacity>
@@ -140,6 +209,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontFamily: 'Roboto',
     alignItems: 'center',
+    top:30
 
   },
 
@@ -212,7 +282,8 @@ const styles = StyleSheet.create({
     color: 'white',
     marginRight:100,
     marginBottom:25,
-    marginLeft:10,
+    marginLeft:50,
+    
   },
   
   txtContent2Change:{
@@ -226,11 +297,11 @@ const styles = StyleSheet.create({
     height: 30,
   },
   contenthead:{
-    marginTop:50,
-    marginBottom:50,
+    right:90,
+    bottom:25
   },
   txtcontenthead:{
-    fontSize: 20,
+    fontSize: 25,
     color: 'white',
     marginLeft:10,
     fontWeight: 'bold',
