@@ -26,13 +26,6 @@ export default function Main ({navigation,route}) {
 
           <View style={styles.content}>
           <TouchableOpacity style={styles.box}
-          onPress={() => {navigation.navigate('Profile')}}>
-            <ImageBackground
-              style={styles.icon}
-              source={require('../images/user.png')}></ImageBackground>
-            <Text style={styles.txtbox}>Quản lý {'\n'} tài khoản</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.box}
           onPress={() => {navigation.navigate('QLSP')}}>
             <ImageBackground
               style={styles.icon}
@@ -47,32 +40,11 @@ export default function Main ({navigation,route}) {
             <Text style={styles.txtbox}>Quản lý {'\n'} nhân viên</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.box}
-          onPress={() => {navigation.navigate('DoiTac')}}>
+          onPress={() => {navigation.navigate('QLNV')}}>
             <ImageBackground
               style={styles.icon}
-              source={require('../images/qldt.png')}></ImageBackground>
-            <Text style={styles.txtbox}>Quản lý {'\n'} đối tác</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.box}
-          onPress={() => {navigation.navigate('QLHD')}}>
-            <ImageBackground
-              style={styles.icon}
-              source={require('../images/qlhd.png')}></ImageBackground>
-            <Text style={styles.txtbox}>Quản lý {'\n'} hóa đơn</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.box}
-          onPress={() => {navigation.navigate('ChamCong')}}>
-            <ImageBackground
-              style={styles.icon}
-              source={require('../images/qlcc.png')}></ImageBackground>
-            <Text style={styles.txtbox}>Quản lý {'\n'} chấm công</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.box}
-          onPress={() => {navigation.navigate('CaiDat')}}>
-            <ImageBackground
-              style={styles.icon}
-              source={require('../images/cd.png')}></ImageBackground>
-            <Text style={styles.txtbox}>Cài đặt</Text>
+              source={require('../images/qlnv.png')}></ImageBackground>
+            <Text style={styles.txtbox}>Quản lý {'\n'} phiếu nhập</Text>
           </TouchableOpacity>
           </View>
         </View>
