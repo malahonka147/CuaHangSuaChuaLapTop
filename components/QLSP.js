@@ -12,6 +12,7 @@ import {
   ToastAndroid,
   SafeAreaView,
   FlatList,
+  ScrollView,
 } from 'react-native';
 import { useState,useEffect } from 'react';
 var SQLite=require('react-native-sqlite-storage') 
@@ -127,12 +128,14 @@ export default function QLSanPham ({navigation,route,props}) {
                source={require('../images/qlsp.png')}></ImageBackground>
           </TouchableOpacity> Danh sách sản phẩm</Text>
 
-
+          
           <View style={styles.header}>
-          <Text style={styles.headerText}>Nhân Viên</Text>
-
+          <Text style={styles.headerText}>Sản Phẩm</Text>
+          
         </View>
+        <ScrollView>
         <SafeAreaView>
+        
          <View>
            <FlatList
               data={items}
@@ -142,14 +145,28 @@ export default function QLSanPham ({navigation,route,props}) {
               <TouchableOpacity onPress={()=>{navigation.navigate("CTNV")}}>
                 <View key={item.MaNhanVien}
                   style={{
-                    backgroundColor: 'white',
+                 
                     width: 384,
                     marginTop: -0,
                     marginBottom: -10,
                     height: 100,
                   }}
                 >
-                 
+                  <View style={{
+                        flex: 1,
+                        flexDirection: 'row'
+                    }}>
+                    <Image style={{
+                      width: 70,
+                      height:70,
+                    }}>
+                     
+                    </Image>
+                    <View style={{
+                        flex: 1,
+                        flexDirection: 'column'
+                    }}>
+                    
                     <Text style={styles.txtContent}>ID: {item.MaSanPham}</Text>
                     <Text style={styles.txtContent}>Tên: {item.TenSanPham}</Text>
                     <Text style={styles.txtContent}>Số Lượng: {item.TonKho}</Text>
@@ -176,22 +193,32 @@ export default function QLSanPham ({navigation,route,props}) {
                       style={styles.icon}
                       source={require('../images/Delete.png')}>
                     </ImageBackground>
-                      </TouchableOpacity>
+                  </TouchableOpacity>
+                  </View>
+                  </View>
                 </View>
                 </TouchableOpacity>
+                
             }
             extraData={isRender}
            />
+           
            </View>
         </SafeAreaView>
          
-        
+        </ScrollView>
          <TouchableOpacity style={styles.Add}>
               <Text style={styles.AddText}>+</Text>
           </TouchableOpacity>
-
-
+          <TouchableOpacity
+                  style={styles.btnlogin}
+                  onPress={() => {navigation.navigate('ThemSP')}}>
+                              
+                  <Text style={styles.txtdn}>Thêm Sản Phẩm</Text>
+          </TouchableOpacity>
+          
           </View>
+         
       </ImageBackground>
 
     );
@@ -257,7 +284,7 @@ const styles = StyleSheet.create({
     bottom:50,
     height: 40,
     width:30,
-    marginLeft:320,
+    marginLeft:280,
   },
   txtNhanVien: {
     fontSize: 30,
@@ -275,7 +302,7 @@ const styles = StyleSheet.create({
     height: 59,
   },
   txtContent: {
-    color: '#002D69',
+    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: 'bold',
     textAlignVertical: 'center',
@@ -298,5 +325,21 @@ const styles = StyleSheet.create({
     color: '#002D69',
     fontSize: 30,
     fontWeight:'bold'
-  }
+  },
+  btnlogin: {
+    backgroundColor: '#0431B4',
+    borderRadius: 23,
+    width: '90%',
+    marginTop: 10,
+    marginBottom: 5,
+    height: 52,
+  },
+  txtdn: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlignVertical: 'center',
+    margin: 14,
+  },
 });
