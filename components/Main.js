@@ -40,10 +40,10 @@ export default function Main ({navigation,route}) {
             <Text style={styles.txtbox}>Quản lý {'\n'} nhân viên</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.box}
-          onPress={() => {navigation.navigate('QLNV')}}>
+          onPress={() => {navigation.navigate('QLPN')}}>
             <ImageBackground
               style={styles.icon}
-              source={require('../images/qlnv.png')}></ImageBackground>
+              source={require('../images/qlhn.png')}></ImageBackground>
             <Text style={styles.txtbox}>Quản lý {'\n'} phiếu nhập</Text>
           </TouchableOpacity>
           </View>

@@ -9,8 +9,10 @@ import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import Main from './components/Main';
 import QLSP from './components/QLSP';
+import QLPN from './components/QLPN';
+import ThemPN from './components/ThemPN';
 const AppNavigator = createStackNavigator(
-  {SignIn,SignUp,Main,QLNV,Profile,QLSP,CTNV},
+  {SignIn,SignUp,Main,QLNV,Profile,QLSP,CTNV,QLPN,ThemPN},
   { headerMode: 'none' }
 );
 const AppContainer = createAppContainer(AppNavigator);
