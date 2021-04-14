@@ -17,11 +17,11 @@ import { useState,useEffect } from 'react';
 var SQLite=require('react-native-sqlite-storage') 
 var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
 
-export default function QLNhanVien ({navigation,route}) {
-
+export default function QLNhanVien ({navigation,route,props}) {
   const [items, setItems] = useState([]);
   const [empty, setEmpty] = useState([]);
   const[IDNhanVien,setIDNhanVien]=useState([]);
+  const[isRender,setisRender]=useState(false);
     useEffect(() => {
       db.transaction((tx) => {
         tx.executeSql(
@@ -68,24 +68,36 @@ export default function QLNhanVien ({navigation,route}) {
         </View>
       );
     }
-    let deleteNV = () => {
+    const deleteNV = (item) => {
       db.transaction((tx) => {
         tx.executeSql(
           'DELETE FROM  NhanVien where MaNhanVien=?',
-          [IDNhanVien],
+          [item.MaNhanVien],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
             if (results.rowsAffected > 0) {
-              Alert.alert(
-                'Success',
-                'Đã xaóa nhân viên',
-                [
-                  {
-                    text: 'Ok',
-                  },
-                ],
-                {cancelable: false},
-              );
+              alert('Xóa thành công');
+                db.transaction((tx) => {
+                  tx.executeSql(
+                    'SELECT * FROM NhanVien',
+                    [],
+                    (tx, results) => {
+                      var temp = [];
+                      for (let i = 0; i < results.rows.length; ++i)
+                        temp.push(results.rows.item(i));
+                      setItems(temp);
+             
+                      if (results.rows.length >= 1) {
+                        setEmpty(false);
+                      } else {
+                        setEmpty(true)
+                      }
+             
+                    }
+                  );
+             
+                });
+              setisRender(!isRender);
             } else {
               alert('Xóa thất bại');
             }
@@ -93,6 +105,7 @@ export default function QLNhanVien ({navigation,route}) {
         );
       });
     };
+    
     return (
       <ImageBackground
 
@@ -102,9 +115,10 @@ export default function QLNhanVien ({navigation,route}) {
         <View style={styles.container}>
           <Text style={styles.txtNhanVien}>
           <TouchableOpacity style={styles.btnIcon}
-            onPress={() => {navigation.navigate('Main')}}>
+          onPress={() => {navigation.navigate('Main')}}
+            >
             <ImageBackground
-              style={styles.icon}
+              style={styles.iconBack}
               source={require('../images/Back.png')}></ImageBackground>
           </TouchableOpacity>
           <TouchableOpacity style={styles.btnIconNV} >
@@ -131,16 +145,30 @@ export default function QLNhanVien ({navigation,route}) {
                     width: 384,
                     marginTop: -0,
                     marginBottom: -10,
-                    height: 59,
+                    height: 100,
                   }}
-                  
                 >
-                   <Text style={styles.txtContent}>{item.TenNhanVien}</Text>
+                  <Text style={styles.txtContent}>ID: {item.MaNhanVien}</Text>
+                   <Text style={styles.txtContent}>Tên: {item.TenNhanVien}</Text>
+                   <Text style={styles.txtContent}>SDT: {item.SoDT}</Text>
+                  
                    <TouchableOpacity style={styles.btnIconDel} 
-                    onPress={
-                      setIDNhanVien(item.MaNhanVien),
-                      deleteNV
-                    }
+                     onPress={
+                      ()=> {
+                        Alert.alert(
+                          'Cảnh báo!',
+                          'Bạn có muốn xóa nhân viên này?',
+                          [
+                            {text: 'Có', onPress: () => {deleteNV(item)}},
+                            {text: 'Không', onPress: () => {}},
+                          ],
+                          { 
+                            cancelable: true 
+                          }
+                        );
+                        }
+                      }
+                    
                    >
                     <ImageBackground
                       style={styles.icon}
@@ -149,6 +177,7 @@ export default function QLNhanVien ({navigation,route}) {
                       </TouchableOpacity>
                 </View>
             }
+            extraData={isRender}
            />
            </View>
         </SafeAreaView>
@@ -182,15 +211,21 @@ const styles = StyleSheet.create({
       },
       headerText:{
         color: '#002D69',
-        fontSize: 20,
+        fontSize: 25,
         fontWeight: 'bold',
-        paddingRight:185
+        paddingRight:250
       },
   image: {
     flex: 1,
   },
   icon: {
-    bottom:15,
+    width: 30,
+    height: 30,
+    alignSelf: 'center',
+    marginVertical: -5,
+  },
+  iconBack: {
+    bottom:-20,
     width: 30,
     height: 30,
     alignSelf: 'center',
@@ -198,7 +233,7 @@ const styles = StyleSheet.create({
   },
   btnIcon: {
     width: 30,
-    height: 40,
+    height: 30,
     marginTop:3,
   },
   iconNV: {
@@ -216,9 +251,10 @@ const styles = StyleSheet.create({
       marginTop:3,
     },
   btnIconDel:{
-    marginTop:-31,
-    paddingLeft:290,
-    height: 30,
+    bottom:50,
+    height: 40,
+    width:30,
+    marginLeft:320,
   },
   txtNhanVien: {
     fontSize: 30,
@@ -226,7 +262,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginBottom: 130,
     marginTop: 25,
-    paddingRight:100
+    paddingRight:80
   },
   btnNhanVien:{
     backgroundColor: 'white',
@@ -240,7 +276,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     textAlignVertical: 'center',
-    margin: 19,
+    margin: 2,
+    left:10
 
   },
   Add:{
