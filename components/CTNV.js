@@ -11,15 +11,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-export default class CTNV extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      noteArray: [],
-      noteText: '',
-    }
-  }
-  render() {
+export default function CTNV ({navigation,route}) {
+  
     return (
       <ImageBackground
         source={require('../images/background2.png')}
@@ -53,6 +46,7 @@ export default class CTNV extends React.Component {
 
               <Text style={styles.txtContent2}> Mã NV</Text>
               <Text style={styles.txtContent2}> Tên NV</Text>
+              <Text style={styles.txtContent2}> Giới Tính</Text>
               <Text style={styles.txtContent2}> Email</Text>
               <Text style={styles.txtContent2}> Số điện thoại</Text>
               <Text style={styles.txtContent2}> Địa Chỉ</Text>
@@ -72,6 +66,15 @@ export default class CTNV extends React.Component {
               <View  style={styles.content2}>
 
                 <Text style={styles.txtContent2Change}>Trọng Phan</Text>
+                <ImageBackground
+                  style={styles.iconNext}
+                  source={require('../images/Next.png')}>
+                </ImageBackground>
+
+              </View>
+              <View  style={styles.content2}>
+
+                <Text style={styles.txtContent2Change}>Nam</Text>
                 <ImageBackground
                   style={styles.iconNext}
                   source={require('../images/Next.png')}>
@@ -128,20 +131,8 @@ export default class CTNV extends React.Component {
       </ImageBackground>
 
     );
-  }
-  addNote(){
-    if(this.state.noteText){
-      var d= new Date();
-      this.state.noteArray.push({
-        'date' : d.getFullYear()+
-        "/" +(d.getMonth() + 1)+
-        "/" + d.getDate(),
-        'note': this.state.noteText
-      });
-      this.setState({noteArray:this.state.noteArray})
-      this.setState({noteText:''});
-    }
-  }
+  
+  
 }
 
 const styles = StyleSheet.create({
@@ -153,7 +144,7 @@ const styles = StyleSheet.create({
   },
 
   content:{
-    marginBottom:380,
+    marginBottom:320,
   },
   image: {
     flex: 1,
