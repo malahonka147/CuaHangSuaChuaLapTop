@@ -38,7 +38,7 @@ export default class Login extends React.Component {
           }
             
           else
-            ToastAndroid.show("Sai tài khoảng hoặc mật khẩu",ToastAndroid.SHORT);
+            ToastAndroid.show("Sai tài khoản hoặc mật khẩu",ToastAndroid.SHORT);
         }
       });
     });

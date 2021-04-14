@@ -6,6 +6,7 @@ import CaiDat from './components/CaiDat';
 import DoiTac from './components/DoiTac';
 import ChamCong from './components/ChamCong';
 import QLNV from './components/QLNV';
+import CTNV from './components/CTNV';
 import Profile from './components/Profile';
 import QLHD from './components/QLHD';
 import SignIn from './components/SignIn';
@@ -15,7 +16,7 @@ import ChangeNewPassword from './components/ChangeNewPassword';
 import ForgotPassword from './components/FogotPassword';
 import QLSP from './components/QLSP';
 const AppNavigator = createStackNavigator(
-  {SignIn,SignUp,CaiDat,ChamCong,DoiTac,Main,QLHD,QLNV,Profile,ChangeNewPassword,ForgotPassword,QLSP},
+  {SignIn,SignUp,CaiDat,ChamCong,DoiTac,Main,QLHD,QLNV,Profile,ChangeNewPassword,ForgotPassword,QLSP,CTNV},
   { headerMode: 'none' }
 );
 const AppContainer = createAppContainer(AppNavigator);
