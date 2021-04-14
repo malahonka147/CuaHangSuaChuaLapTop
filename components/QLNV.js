@@ -139,6 +139,7 @@ export default function QLNhanVien ({navigation,route,props}) {
               ItemSeparatorComponent={listViewItemSeparator}
               keyExtractor={(item,index)=>index.toString()}
               renderItem={({item})=>
+              <TouchableOpacity onPress={()=>{navigation.navigate("CTNV")}}>
                 <View key={item.MaNhanVien}
                   style={{
                     backgroundColor: 'white',
@@ -148,10 +149,11 @@ export default function QLNhanVien ({navigation,route,props}) {
                     height: 100,
                   }}
                 >
-                  <Text style={styles.txtContent}>ID: {item.MaNhanVien}</Text>
-                   <Text style={styles.txtContent}>Tên: {item.TenNhanVien}</Text>
-                   <Text style={styles.txtContent}>SDT: {item.SoDT}</Text>
-                  
+                 
+                    <Text style={styles.txtContent}>ID: {item.MaNhanVien}</Text>
+                    <Text style={styles.txtContent}>Tên: {item.TenNhanVien}</Text>
+                    <Text style={styles.txtContent}>SDT: {item.SoDT}</Text>
+                 
                    <TouchableOpacity style={styles.btnIconDel} 
                      onPress={
                       ()=> {
@@ -176,6 +178,7 @@ export default function QLNhanVien ({navigation,route,props}) {
                     </ImageBackground>
                       </TouchableOpacity>
                 </View>
+                </TouchableOpacity>
             }
             extraData={isRender}
            />
