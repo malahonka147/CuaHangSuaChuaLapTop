@@ -16,7 +16,7 @@ import ChangeNewPassword from './components/ChangeNewPassword';
 import ForgotPassword from './components/FogotPassword';
 import QLSP from './components/QLSP';
 const AppNavigator = createStackNavigator(
-  {SignIn,SignUp,CaiDat,ChamCong,DoiTac,Main,QLHD,QLNV,Profile,ChangeNewPassword,ForgotPassword,QLSP,CTNV},
+  {CTNV,SignIn,SignUp,CaiDat,ChamCong,DoiTac,Main,QLHD,QLNV,Profile,ChangeNewPassword,ForgotPassword,QLSP},
   { headerMode: 'none' }
 );
 const AppContainer = createAppContainer(AppNavigator);
