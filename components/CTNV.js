@@ -23,7 +23,7 @@ export default function CTNV ({navigation,route}) {
                  style={styles.icon }
                                 source={require('../images/Back.png')}>
                    <TouchableOpacity style={styles.btnIcon}
-                      onPress={() => {this.props.navigation.navigate('Main')}}>
+                      onPress={() => {navigation.navigate('Main')}}>
 
 
                    </TouchableOpacity>
