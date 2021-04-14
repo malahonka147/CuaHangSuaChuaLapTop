@@ -9,17 +9,65 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  ToastAndroid,
+  SafeAreaView,
+  FlatList,
 } from 'react-native';
+import { useState,useEffect } from 'react';
+var SQLite=require('react-native-sqlite-storage') 
+var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
 
-export default class QLNhanVien extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      noteArray: [],
-      noteText: '',
+export default function QLNhanVien ({navigation,route}) {
+
+  const [items, setItems] = useState([]);
+    const [empty, setEmpty] = useState([]);
+   
+    useEffect(() => {
+      db.transaction((tx) => {
+        tx.executeSql(
+          'SELECT * FROM NhanVien',
+          [],
+          (tx, results) => {
+            var temp = [];
+            for (let i = 0; i < results.rows.length; ++i)
+              temp.push(results.rows.item(i));
+            setItems(temp);
+   
+            if (results.rows.length >= 1) {
+              setEmpty(false);
+            } else {
+              setEmpty(true)
+            }
+   
+          }
+        );
+   
+      });
+    }, []);
+   
+    const listViewItemSeparator = () => {
+      return (
+        <View
+          style={{
+            height: 1,
+            width: '100%',
+            backgroundColor: '#000'
+          }}
+        />
+      );
+    };
+   
+    const emptyMSG = (status) => {
+      return (
+        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+   
+          <Text style={{ fontSize: 25, textAlign: 'center' }}>
+            No Record Inserted Database is Empty...
+            </Text>
+   
+        </View>
+      );
     }
-  }
-  render() {
     return (
       <ImageBackground
 
@@ -45,19 +93,37 @@ export default class QLNhanVien extends React.Component {
           <Text style={styles.headerText}>Nhân Viên</Text>
 
         </View>
-
-           <TouchableOpacity style={styles.btnNhanVien}>
-            <Text style={styles.txtContent}>Jack</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.btnIconDel} >
-            <ImageBackground
-              style={styles.icon}
-              source={require('../images/Delete.png')}>
-            </ImageBackground>
-          </TouchableOpacity>
-         <TouchableOpacity style={styles.Add}
-           onPress={this.addNote.bind(this)}>
+        <SafeAreaView>
+         <View>
+           <FlatList
+              data={items}
+              ItemSeparatorComponent={listViewItemSeparator}
+              keyExtractor={(item,index)=>index.toString()}
+              renderItem={({item})=>
+                <View key={item.MaNhanVien}
+                  style={{
+                    backgroundColor: 'white',
+                    width: 384,
+                    marginTop: -0,
+                    marginBottom: -10,
+                    height: 59,
+                  }}
+                >
+                   <Text style={styles.txtContent}>{item.TenNhanVien}</Text>
+                   <TouchableOpacity style={styles.btnIconDel} >
+                    <ImageBackground
+                      style={styles.icon}
+                      source={require('../images/Delete.png')}>
+                    </ImageBackground>
+                      </TouchableOpacity>
+                </View>
+            }
+           />
+           </View>
+        </SafeAreaView>
+         
+        
+         <TouchableOpacity style={styles.Add}>
               <Text style={styles.AddText}>+</Text>
           </TouchableOpacity>
 
@@ -67,20 +133,6 @@ export default class QLNhanVien extends React.Component {
 
     );
   }
-  addNote(){
-    if(this.state.noteText){
-      var d= new Date();
-      this.state.noteArray.push({
-        'date' : d.getFullYear()+
-        "/" +(d.getMonth() + 1)+
-        "/" + d.getDate(),
-        'note': this.state.noteText
-      });
-      this.setState({noteArray:this.state.noteArray})
-      this.setState({noteText:''});
-    }
-  }
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -107,13 +159,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   icon: {
+    bottom:15,
     width: 30,
     height: 30,
     alignSelf: 'center',
     marginVertical: -5,
   },
   btnIcon: {
-    paddingTop:20,
     width: 30,
     height: 40,
     marginTop:3,
@@ -135,8 +187,7 @@ const styles = StyleSheet.create({
   btnIconDel:{
     marginTop:-31,
     paddingLeft:290,
-    marginBottom: -10,
-    height: 59,
+    height: 30,
   },
   txtNhanVien: {
     fontSize: 30,
