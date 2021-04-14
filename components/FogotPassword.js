@@ -22,7 +22,7 @@ export default class ForgotPassword extends React.Component {
       return false;
     } else {
       this.setState({ email: text });
-      console.log('Email is Correct');
+      console.log('Email is Correct!');
     }
   };
   render() {
