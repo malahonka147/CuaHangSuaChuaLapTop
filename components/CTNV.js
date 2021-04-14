@@ -22,6 +22,13 @@ export default function CTNV ({navigation,route}) {
   const [items, setItems] = useState([]);
   const [empty, setEmpty] = useState([]);
   const[isRender,setisRender]=useState(false);
+  const[isModalVisible,setisModalVisible]=useState(false);
+  const [TenNhanVien, setTenNhanVien] = useState([]);
+  const [NgaySinh, setNgaySinh] = useState([]);
+  const [SoDT, setSoDT] = useState([]);
+  const [DiaChi, setDiaChi] = useState([]);
+  const [GioiTinh, setGioiTinh] = useState([]);
+  const [GhiChu, setGhiChu] = useState([]);
     useEffect(() => {
       db.transaction((tx) => {
         tx.executeSql(
@@ -30,7 +37,16 @@ export default function CTNV ({navigation,route}) {
           (tx, results) => {
             var temp = [];
             for (let i = 0; i < results.rows.length; ++i)
+            {
               temp.push(results.rows.item(i));
+              setDiaChi(item(i).DiaChi);
+              setGhiChu(item(i).GhiChu);
+              setGioiTinh(item(i).GioiTinh);
+              setNgaySinh(item(i).NgaySinh);
+              setSoDT(item(i).SoDT);
+              setTenNhanVien(item(i).TenNhanVien)
+            }
+              
             setItems(temp);
    
             if (results.rows.length >= 1) {
@@ -68,7 +84,10 @@ export default function CTNV ({navigation,route}) {
         </View>
       );
     }
+
+    
     return (
+      
       <ImageBackground
         source={require('../images/background2.png')}
         style={styles.image}>
@@ -107,7 +126,9 @@ export default function CTNV ({navigation,route}) {
               ItemSeparatorComponent={listViewItemSeparator}
               keyExtractor={(item,index)=>index.toString()}
               renderItem={({item})=>
+               
                 <View key={item.MaNhanVien} >
+                  
                 <View  style={styles.content2}>
 
                 <Text style={styles.txtContent2Change}>{item.MaNhanVien}</Text>
@@ -166,7 +187,7 @@ export default function CTNV ({navigation,route}) {
                   <View  style={styles.content2}>
 
                   <Text style={styles.txtContent2Change}>{item.GhiChu}</Text>
-                  <TouchableOpacity>
+                  <TouchableOpacity >
                     <ImageBackground
                       style={styles.iconNext}
                       source={require('../images/Next.png')}>
@@ -179,12 +200,6 @@ export default function CTNV ({navigation,route}) {
             }
             extraData={isRender}
            />
-           <Modal
-            animationType='fade'
-            visible={isModalVisible}
-           >
-
-           </Modal>
               </SafeAreaView>
            
               
@@ -199,7 +214,8 @@ export default function CTNV ({navigation,route}) {
           <TouchableOpacity
               style={styles.btnlogin}
               onPress={() => {
-                  ToastAndroid.show("CC"+ID,ToastAndroid.SHORT);
+                  
+                  ToastAndroid.show(""+ID+" "+TenNhanVien+" "+NgaySinh+" "+SoDT,ToastAndroid.SHORT);
               }}>
               <Text style={styles.txtdn}>Cập nhật</Text>
           </TouchableOpacity>
@@ -219,7 +235,11 @@ const styles = StyleSheet.create({
     top:30
 
   },
-
+  modalView:{
+    flex:1,
+    alignItems:'center',
+    justifyContent:'center',
+  },
   content:{
     marginBottom:320,
   },
