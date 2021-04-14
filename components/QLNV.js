@@ -20,7 +20,6 @@ var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Databa
 export default function QLNhanVien ({navigation,route,props}) {
   const [items, setItems] = useState([]);
   const [empty, setEmpty] = useState([]);
-  const[IDNhanVien,setIDNhanVien]=useState([]);
   const[isRender,setisRender]=useState(false);
     useEffect(() => {
       db.transaction((tx) => {
@@ -139,7 +138,10 @@ export default function QLNhanVien ({navigation,route,props}) {
               ItemSeparatorComponent={listViewItemSeparator}
               keyExtractor={(item,index)=>index.toString()}
               renderItem={({item})=>
-              <TouchableOpacity onPress={()=>{navigation.navigate("CTNV")}}>
+              <TouchableOpacity onPress={()=>{
+                const ID=item.MaNhanVien;
+                navigation.navigate("CTNV",{ID})
+                }}>
                 <View key={item.MaNhanVien}
                   style={{
                     backgroundColor: 'white',
