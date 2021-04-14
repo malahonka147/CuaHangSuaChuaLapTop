@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import QLNV from './components/QLNV';
 import CTNV from './components/CTNV';
 import Profile from './components/Profile';
@@ -9,14 +8,19 @@ import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import Main from './components/Main';
 import QLSP from './components/QLSP';
-import QLSP from './components/QLPN';
-const AppNavigator = createStackNavigator(
-  {SignIn,SignUp,Main,QLNV,Profile,QLSP,CTNV},
-  { headerMode: 'none' }
-);
-const AppContainer = createAppContainer(AppNavigator);
-export default class App extends React.Component {
-  render() {
-    return <AppContainer />;
-  }
+export default function App() {
+  const Stack = createStackNavigator();
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="SignIn">
+      
+        <Stack.Screen name="SignIn" component={SignIn} options={{headerShown: false,}} />
+        <Stack.Screen name="SignUp" component={SignUp} options={{headerShown: false,}} />
+        <Stack.Screen name="QLNV" component={QLNV} options={{headerShown: false,}} />
+        <Stack.Screen name="CTNV" component={CTNV} options={{headerShown: false,}} />
+        <Stack.Screen name="Main" component={Main} options={{headerShown: false,}} />
+        
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
