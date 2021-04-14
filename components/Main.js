@@ -18,7 +18,7 @@ export default class Main extends Component {
   render() {
     return (
       <ImageBackground
-        source={require('../assets/home.png')}
+        source={require('../images/home.png')}
         style={styles.image}>
         <View style={styles.container}>
           <View style={styles.header}>
@@ -31,49 +31,49 @@ export default class Main extends Component {
           onPress={() => {this.props.navigation.navigate('Profile')}}>
             <ImageBackground
               style={styles.icon}
-              source={require('../assets/user.png')}></ImageBackground>
+              source={require('../images/user.png')}></ImageBackground>
             <Text style={styles.txtbox}>Quản lý {'\n'} tài khoản</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.box}
           onPress={() => {this.props.navigation.navigate('QLSP')}}>
             <ImageBackground
               style={styles.icon}
-              source={require('../assets/qlsp.png')}></ImageBackground>
+              source={require('../images/qlsp.png')}></ImageBackground>
             <Text style={styles.txtbox}>Quản lý {'\n'} sản phẩm</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.box}
           onPress={() => {this.props.navigation.navigate('QLNV')}}>
             <ImageBackground
               style={styles.icon}
-              source={require('../assets/qlnv.png')}></ImageBackground>
+              source={require('../images/qlnv.png')}></ImageBackground>
             <Text style={styles.txtbox}>Quản lý {'\n'} nhân viên</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.box}
           onPress={() => {this.props.navigation.navigate('DoiTac')}}>
             <ImageBackground
               style={styles.icon}
-              source={require('../assets/qldt.png')}></ImageBackground>
+              source={require('../images/qldt.png')}></ImageBackground>
             <Text style={styles.txtbox}>Quản lý {'\n'} đối tác</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.box}
           onPress={() => {this.props.navigation.navigate('QLHD')}}>
             <ImageBackground
               style={styles.icon}
-              source={require('../assets/qlhd.png')}></ImageBackground>
+              source={require('../images/qlhd.png')}></ImageBackground>
             <Text style={styles.txtbox}>Quản lý {'\n'} hóa đơn</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.box}
           onPress={() => {this.props.navigation.navigate('ChamCong')}}>
             <ImageBackground
               style={styles.icon}
-              source={require('../assets/qlcc.png')}></ImageBackground>
+              source={require('../images/qlcc.png')}></ImageBackground>
             <Text style={styles.txtbox}>Quản lý {'\n'} chấm công</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.box}
           onPress={() => {this.props.navigation.navigate('CaiDat')}}>
             <ImageBackground
               style={styles.icon}
-              source={require('../assets/cd.png')}></ImageBackground>
+              source={require('../images/cd.png')}></ImageBackground>
             <Text style={styles.txtbox}>Cài đặt</Text>
           </TouchableOpacity>
           </View>

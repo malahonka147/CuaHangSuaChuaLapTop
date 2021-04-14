@@ -9,15 +9,44 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  Safe,
+  ToastAndroid
 } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
-
+var SQLite=require('react-native-sqlite-storage') 
+var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
 export default class Login extends React.Component {
-  state = { user: '', password: '' };
+  constructor(props){
+    super(props)
+    this.state = { user: '', password: '' };
+  }
+
+  OnPressLogin=()=>{
+    db.transaction((tx)=>{
+      sql='select * from User where TenDangNhap=\''+this.state.user+'\'';
+      tx.executeSql(sql,[],(tx,results)=>{
+        var len=results.rows.length;
+        
+        if(len==0)
+          ToastAndroid.show("Tài khoản không tồn tại",ToastAndroid.SHORT);
+          
+        else{
+          var row=results.rows.item(0);
+          if(this.state.password==row.Password){
+            ToastAndroid.show("Đăng nhập thành công",ToastAndroid.SHORT);
+            this.props.navigation.navigate('Main')
+          }
+            
+          else
+            ToastAndroid.show("Sai tài khoảng hoặc mật khẩu",ToastAndroid.SHORT);
+        }
+      });
+    });
+  };
   render() {
     return (
      <ImageBackground
-            source={require('../assets/background.png')}
+            source={require('../images/background.png')}
             style={styles.image}>
             <View style={styles.container}>
               <View style={styles.containera}>
@@ -60,16 +89,7 @@ export default class Login extends React.Component {
               <View style={styles.containera}>
                 <TouchableOpacity
                   style={styles.btnlogin}
-                  onPress={() => {
-                    var login = this.state.user;
-                    var pass = this.state.password;
-                    if (login == 'a' && pass == 'a') {
-                      Alert.alert('Đăng nhập thành công');
-                      this.props.navigation.navigate('Main');
-                    } else {
-                      Alert.alert('Sai tên đăng nhập hoặc mật khẩu');
-                    }
-                  }}>
+                  onPress={this.OnPressLogin}>
                   <Text style={styles.txtdn}>Đăng nhập</Text>
                 </TouchableOpacity>
                 <View style={{ flexDirection: 'row' }}>
