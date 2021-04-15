@@ -341,7 +341,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlignVertical: 'center',
     margin: 2,
-    left:10
+    left:10,
 
   },
   Add:{
