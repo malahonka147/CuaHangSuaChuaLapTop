@@ -27,11 +27,9 @@ export default function CTPN ({navigation,route,props}) {
   const [GiaNhap, setGiaNhap] = useState([]);
   const [ChuThich, setChuThich] = useState([]);
   
-  
-
   const[isRender,setisRender]=useState(false);
     useEffect(() => {
-      console.log(IDMaCTPN);
+      
       db.transaction((tx) => {
         tx.executeSql(
           'SELECT * FROM ChiTietPhieuNhap where MaCTPN=?',
@@ -42,11 +40,12 @@ export default function CTPN ({navigation,route,props}) {
             {
               temp.push(results.rows.item(i));
               setMaSP(results.rows.item(i).MaSanPham);
-              setChuThich(results.rows.item(i).ChuThich);
               setSoLuong(results.rows.item(i).SoLuong);
               setGiaNhap(results.rows.item(i).GiaNhap);
-              
+              setChuThich(results.rows.item(i).ChuThich);
             } 
+            setItems(temp);
+            console.log(IDMaCTPN,MaSP,SoLuong,GiaNhap,ChuThich);
             if (results.rows.length >= 1) {
               setEmpty(false);
             } else {
