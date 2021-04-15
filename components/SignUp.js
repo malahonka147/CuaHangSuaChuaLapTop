@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,25 +10,80 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  ToastAndroid,
 } from 'react-native';
-
-export default class Login extends React.Component {
-  state = { user: '', email: '', password: '', repassword: '' };
-  validate = (text) => {
-  console.log(text);
-  let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  if (reg.test(text) === false) {
-    console.log("Email is Not Correct");
-    this.setState({ email: text })
-    return false;
+var SQLite=require('react-native-sqlite-storage') 
+var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
+export default function SignUp ({navigation,route}) {
+  
+  const [user,setuser]=useState([]);
+  const [password,setpassword]=useState([]);
+  const [maNV,setmaNV]=useState([]);
+  const [repassword,setrepassword]=useState([]);
+  const DangKyTK=()=>{
+    if (!user) {
+      alert('Vui lòng nhập tên tài khoản');
+      return;
+    }
+    if (!password) {
+      alert('Vui lòng nhập mật khẩu');
+      return;
+    }
+    if (!maNV) {
+      alert('Vui lòng nhập mã nhân viên');
+      return;
+    }
+    if (!repassword) {
+      alert('Vui lòng nhập lại mật khẩu');
+      return;
+    }
+    if (repassword!=password) {
+      alert('Nhập lai mật khẩu không khớp');
+      return;
+    }
+    db.transaction((tx)=>{
+      
+      sql='select * from NhanVien where MaNhanVien=\''+maNV+'\'';
+      
+      tx.executeSql(sql,[],(tx,results)=>{
+        var len=results.rows.length;
+        
+        if(len==0){
+          ToastAndroid.show("Mã nhân viên không tồn tại",ToastAndroid.SHORT);
+        }
+        else{
+          
+          db.transaction((tx)=>{
+      
+            sql='select * from User where MaNhanVien=\''+maNV+'\'';
+            tx.executeSql(sql,[],(tx,results)=>{
+              var len=results.rows.length;
+              
+              if(len>0){
+                ToastAndroid.show("Nhân viên này đã tạo tài khoản",ToastAndroid.SHORT);
+              }
+              else{
+                  db.transaction((tx)=>{
+                    tx.executeSql("INSERT INTO User (MaNhanVien,TenDangNhap, Password, Quyen) VALUES (?,?,?,?)",
+                    [maNV,user,password,2],(tx,results)=>{
+                      console.log('Results', results.rowsAffected);
+                      if (results.rowsAffected > 0) {
+                        
+                        Alert.alert(
+                          'Đăng ký thành công'
+                          
+                        );
+                        navigation.navigate('SignIn');
+                      } else alert('Đăng ký thất bại');
+                    });
+                  });
+              }
+            });
+          });
+        }
+      });
+    });
   }
-  else {
-    this.setState({ email: text })
-    console.log("Email is Correct");
-  }
-}
-  render() {
-
     return (
       <ImageBackground
         source={require('../images/background.png')}
@@ -41,17 +96,15 @@ export default class Login extends React.Component {
             style={styles.textInput}
             placeholder="Tài khoản"
             placeholderTextColor="white"
-            onChangeText={(user) => this.setState({ user })}
-            value={this.state.user}
+            onChangeText={(user) => setuser( user )}
           />
 
           <TextInput
             style={styles.textInput}
-            placeholder="Email"
+            placeholder="Mã nhân viên"
             placeholderTextColor="white"
             autoCorrect={false}
-            onChangeText={(email) => this.setState({ email })}
-            value={ this.state.email }
+            onChangeText={(maNV) => setmaNV( maNV )}
           />
           <TextInput
             secureTextEntry
@@ -59,31 +112,22 @@ export default class Login extends React.Component {
             placeholder="Mật khẩu"
             placeholderTextColor="white"
             autoCorrect={false}
-            onChangeText={(password) => this.setState({ password })}
-            value={this.state.password}
+            onChangeText={(password) => setpassword( password )}
           />
           <TextInput
             secureTextEntry
             style={styles.textInput}
             placeholder="Nhập lại Mật khẩu"
             placeholderTextColor="white"
-            onChangeText={(repassword) => this.setState({ repassword })}
-            value={this.state.repassword}
+            onChangeText={(repassword) => setrepassword(repassword )}
           />
           <TouchableOpacity
             style={styles.btnlogin}
-            onPress={() => {
-              var login = this.state.user;
-              var pass = this.state.password;
-              var repass = this.state.repassword;
-              var email = this.state.email;
-              if (pass == repass) {
-                Alert.alert('Đăng ký thành công');
-                this.props.navigation.navigate('SignIn');
-              } else {
-                Alert.alert('Không thành công');
-              }
-            }}>
+            onPress={()=>{
+              
+               DangKyTK()
+            }}
+            >
             <Text style={styles.txtdn}>Đăng Ký</Text>
           </TouchableOpacity>
           <View style={{ flexDirection: 'row' }}>
@@ -92,7 +136,7 @@ export default class Login extends React.Component {
             </Text>
             <TouchableOpacity
               onPress={() => {
-                this.props.navigation.navigate('SignIn');
+                navigation.navigate('SignIn');
               }}>
               <Text
                 style={{ color: 'blue', fontWeight: 'bold', marginLeft: 15 }}>
@@ -105,7 +149,6 @@ export default class Login extends React.Component {
       </ImageBackground>
     );
   }
-}
 
 const styles = StyleSheet.create({
   container: {

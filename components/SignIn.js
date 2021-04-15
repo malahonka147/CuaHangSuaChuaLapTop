@@ -13,12 +13,13 @@ import {
   ToastAndroid
 } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
+import { useEffect } from 'react';
 var SQLite=require('react-native-sqlite-storage') 
 var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
 export default function Login ({navigation,route}) {
  const [user,setuser]=useState();
  const[password,setpassword]=useState();
-  OnPressLogin=()=>{
+  const OnPressLogin=()=>{
     db.transaction((tx)=>{
       
       sql='select * from User where TenDangNhap=\''+user+'\'';
@@ -29,14 +30,15 @@ export default function Login ({navigation,route}) {
           ToastAndroid.show("Tài khoản không tồn tại",ToastAndroid.SHORT);
         }
         else{
-          var row=results.rows.item(0);
+          var row=results.rows.item(0);      
           if(password==row.Password){
             ToastAndroid.show("Đăng nhập thành công",ToastAndroid.SHORT);
             navigation.navigate("Main");
           }
-            
-          else
+          else{
             ToastAndroid.show("Sai tài khoản hoặc mật khẩu",ToastAndroid.SHORT);
+          }
+            
         }
       });
     });
@@ -86,7 +88,8 @@ export default function Login ({navigation,route}) {
               <View style={styles.containera}>
                 <TouchableOpacity
                   style={styles.btnlogin}
-                  onPress={OnPressLogin}>
+                  onPress={()=>{
+                    OnPressLogin()}} >
                   <Text style={styles.txtdn}>Đăng nhập</Text>
                 </TouchableOpacity>
                 <View style={{ flexDirection: 'row' }}>

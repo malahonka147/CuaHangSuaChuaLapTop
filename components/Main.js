@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,24 +11,43 @@ import {
   TouchableOpacity,
   CheckBox,
   Icon,
+  ToastAndroid,
 } from 'react-native';
-
+import { useState,useEffect } from 'react';
+var SQLite=require('react-native-sqlite-storage') 
+var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
 export default function Main ({navigation,route}) {
+  
+  const ID=route.params;
+  ToastAndroid.show(""+ID,ToastAndroid.SHORT);
+  const[tenNhanVien,settenNhanVien]=useState('Admin');
+  
+ 
     return (
       <ImageBackground
         source={require('../images/home.png')}
         style={styles.image}>
         <View style={styles.container}>
           <View style={styles.header}>
+
             <Text style={styles.txth1}>Xin chào </Text>
             <Text style={styles.txth2}>Let’s Learn More About App</Text>
-            <TouchableOpacity>
-           
-              <ImageBackground
-              source={require('../images/logout.png')}
-              style={styles.image}></ImageBackground>
-               <Text style={styles.txth3}>Đăng xuất</Text>
-            </TouchableOpacity>
+            
+            <View style={{
+              top:10,
+              width:100,
+              height:100,
+              left:400
+            }}>
+            <TouchableOpacity style={styles.logout}
+          onPress={() => {navigation.navigate('SignIn')}}>
+            <ImageBackground
+              style={styles.icondx}
+              source={require('../images/logout.png')}></ImageBackground>
+            <Text style={styles.txth3}>Đăng xuất</Text>
+          </TouchableOpacity>
+            </View>
+            
             
           </View>
 
@@ -80,6 +99,14 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     marginTop:10,
   },
+  icondx:{
+    width:30,
+    height: 30,
+    alignSelf: 'center',
+    marginVertical: 5,
+    left:50,
+    top:15
+  },
   txtbox: {
     textAlign: 'center',
     color: 'rgba(255, 254, 254, 0.8)',
@@ -98,9 +125,10 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     color: 'white',
     fontWeight: '700',
-    fontSize: 30,
+    fontSize: 20,
     lineHeight: 30,
-    bottom:83,
+    bottom:20,
+    right:30
     
 
   },
@@ -116,6 +144,13 @@ const styles = StyleSheet.create({
   {
     flexDirection:'row',
     flexWrap:'wrap',
+
+  },
+  logout:{
+    bottom:120,
+    width:120,
+    height:40,
+    right:45
 
   },
   box: {
