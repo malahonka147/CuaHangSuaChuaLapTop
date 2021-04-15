@@ -17,6 +17,7 @@ import CTPN from './components/CTPN';
 import CTSP from './components/CTSP';
 import ThemCTPN from './components/ThemCTPN';
 import CTPNH from './components/CTPNH';
+import SuaCTPN from './components/SuaCTPN';
 export default function App() {
   const Stack = createStackNavigator();
   return (
@@ -38,6 +39,7 @@ export default function App() {
         <Stack.Screen name="CTPN" component={CTPN} options={{headerShown: false,}}/>
         <Stack.Screen name="CTPNH" component={CTPNH} options={{headerShown: false,}}/>
         <Stack.Screen name="ThemCTPN" component={ThemCTPN} options={{headerShown: false,}}/>
+        <Stack.Screen name="SuaCTPN" component={SuaCTPN} options={{headerShown: false,}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

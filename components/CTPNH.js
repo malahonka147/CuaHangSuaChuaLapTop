@@ -19,7 +19,7 @@ var SQLite=require('react-native-sqlite-storage')
 var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
 
 export default function CTPN ({navigation,route,props}) {
-  const {IDMaCTPN,IDPhieuNhap}=route.params;
+  const {IDMaCTPN,IDMaPN}=route.params;
   const [items, setItems] = useState([]);
   const [empty, setEmpty] = useState([]);
   const [MaSP, setMaSP] = useState([]);
@@ -129,7 +129,7 @@ export default function CTPN ({navigation,route,props}) {
                 
               <View  style={styles.content2}>
 
-              <Text style={styles.txtContent2Change}>{IDPhieuNhap}</Text>
+              <Text style={styles.txtContent2Change}>{IDMaCTPN}</Text>
                 <ImageBackground
                   style={styles.iconNext}
                   
@@ -140,7 +140,7 @@ export default function CTPN ({navigation,route,props}) {
               
                 <View  style={styles.content2}>
 
-                <Text style={styles.txtContent2Change}>{item.MaSP}</Text>
+                <Text style={styles.txtContent2Change}>{IDMaPN}</Text>
                 <TouchableOpacity>
                   <ImageBackground
                     style={styles.iconNext}
@@ -150,6 +150,18 @@ export default function CTPN ({navigation,route,props}) {
                 
 
                 </View>
+                <View  style={styles.content2}>
+
+                <Text style={styles.txtContent2Change}>{item.MaSanPham}</Text>
+                <TouchableOpacity>
+                  <ImageBackground
+                    style={styles.iconNext}
+                    source={require('../images/Next.png')}>
+                  </ImageBackground>
+                </TouchableOpacity>
+
+                </View>
+                
                 <View  style={styles.content2}>
 
                 <Text style={styles.txtContent2Change}>{item.SoLuong}</Text>
@@ -159,26 +171,31 @@ export default function CTPN ({navigation,route,props}) {
                     source={require('../images/Next.png')}>
                   </ImageBackground>
                 </TouchableOpacity>
-
                 </View>
                 
                 <View  style={styles.content2}>
 
-                <Text style={styles.txtContent2Change}>{item.ChuThich}</Text>
-                <TouchableOpacity>
-                  <ImageBackground
-                    style={styles.iconNext}
-                    source={require('../images/Next.png')}>
-                  </ImageBackground>
-                </TouchableOpacity>
-                </View>
-                <View  style={styles.content2}>
+<Text style={styles.txtContent2Change}>{item.GiaNhap} VNĐ</Text>
+<TouchableOpacity>
+  <ImageBackground
+    style={styles.iconNext}
+    source={require('../images/Next.png')}>
+  </ImageBackground>
+</TouchableOpacity>
 
+</View>
                 
-                
-                </View>
-                
-                                
+<View  style={styles.content2}>
+
+<Text style={styles.txtContent2Change}>{item.ChuThich}</Text>
+<TouchableOpacity>
+  <ImageBackground
+    style={styles.iconNext}
+    source={require('../images/Next.png')}>
+  </ImageBackground>
+</TouchableOpacity>
+
+</View>        
                                   
               </View>
               }
@@ -198,7 +215,7 @@ export default function CTPN ({navigation,route,props}) {
         <TouchableOpacity
             style={styles.btnlogin}
             onPress={() => {
-                navigation.navigate("SuaCTPN",{ID,tenNhanVien,ngaySinh,gioiTinh,soDT,diaChi,ghiChu})
+                navigation.navigate("SuaCTPN",{IDMaCTPN,IDMaPN,MaSP,SoLuong,GiaNhap,ChuThich})
             
             }}>
             <Text style={styles.txtdn}>Sửa thông tin</Text>
