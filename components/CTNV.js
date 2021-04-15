@@ -23,12 +23,12 @@ export default function CTNV ({navigation,route}) {
   const [empty, setEmpty] = useState([]);
   const[isRender,setisRender]=useState(false);
   const[isModalVisible,setisModalVisible]=useState(false);
-  const [TenNhanVien, setTenNhanVien] = useState([]);
-  const [NgaySinh, setNgaySinh] = useState([]);
-  const [SoDT, setSoDT] = useState([]);
-  const [DiaChi, setDiaChi] = useState([]);
-  const [GioiTinh, setGioiTinh] = useState([]);
-  const [GhiChu, setGhiChu] = useState([]);
+  const [tenNhanVien, settenNhanVien] = useState([]);
+  const [ngaySinh, setngaySinh] = useState([]);
+  const [soDT, setsoDT] = useState([]);
+  const [diaChi, setdiaChi] = useState([]);
+  const [gioiTinh, setgioiTinh] = useState([]);
+  const [ghiChu, setghiChu] = useState([]);
     useEffect(() => {
       db.transaction((tx) => {
         tx.executeSql(
@@ -39,16 +39,14 @@ export default function CTNV ({navigation,route}) {
             for (let i = 0; i < results.rows.length; ++i)
             {
               temp.push(results.rows.item(i));
-              setDiaChi(item(i).DiaChi);
-              setGhiChu(item(i).GhiChu);
-              setGioiTinh(item(i).GioiTinh);
-              setNgaySinh(item(i).NgaySinh);
-              setSoDT(item(i).SoDT);
-              setTenNhanVien(item(i).TenNhanVien)
-            }
-              
+              setdiaChi(results.rows.item(i).DiaChi);
+              setghiChu(results.rows.item(i).GhiChu);
+              setgioiTinh(results.rows.item(i).GioiTinh);
+              setngaySinh(results.rows.item(i).NgaySinh);
+              setsoDT(results.rows.item(i).SoDT);
+              settenNhanVien(results.rows.item(i).TenNhanVien);
+            } 
             setItems(temp);
-   
             if (results.rows.length >= 1) {
               setEmpty(false);
             } else {
@@ -215,9 +213,9 @@ export default function CTNV ({navigation,route}) {
               style={styles.btnlogin}
               onPress={() => {
                   
-                  ToastAndroid.show(""+ID+" "+TenNhanVien+" "+NgaySinh+" "+SoDT,ToastAndroid.SHORT);
+              
               }}>
-              <Text style={styles.txtdn}>Cập nhật</Text>
+              <Text style={styles.txtdn}>Sửa thông tin</Text>
           </TouchableOpacity>
         </View>
       </ImageBackground>
