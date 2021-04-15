@@ -36,10 +36,10 @@ export default function ThemSP ({navigation,route,props})
     return true;
   }
 
-   const ThemSP=()=>{
-    
+   const LuuSP=()=>{
         if (!tenSanPham) {
             alert('Vui lòng nhập tên sản phẩm');
+            
             return;
           }
           if (!loaiSanPham) {
@@ -65,9 +65,11 @@ export default function ThemSP ({navigation,route,props})
           db.transaction(function (tx) {
             
             tx.executeSql(
-              'INSERT INTO SanPham (TenSanPham,LoaiSanPham,HangSanXuat,GiaBan,TonKho,TrangThai,ChuThich) VALUES (?,?,?,?,?,?,?)',
               
+              'INSERT INTO SanPham(TenSanPham, LoaiSanPham, HangSanXuat,GiaBan,TonKho,TrangThai,ChuThich ) VALUES (?,?,?,?,?,?,?)',
+        
               [tenSanPham,loaiSanPham, hangSanXuat,giaBan,tonKho,trangThai,chuThich],
+              
               (tx, results) => {
                 
                 console.log('Results', results.rowsAffected);
@@ -84,7 +86,7 @@ export default function ThemSP ({navigation,route,props})
           });
         
         
-    }
+    };
       
     return (
       <ImageBackground
@@ -170,7 +172,7 @@ export default function ThemSP ({navigation,route,props})
       
         <TouchableOpacity
           style={styles.btnthem}
-          onPress={()=>{ThemSP()}}>
+          onPress={()=>{LuuSP()}}>
          <Text style={styles.txtdn}>Thêm</Text>
         </TouchableOpacity>
 

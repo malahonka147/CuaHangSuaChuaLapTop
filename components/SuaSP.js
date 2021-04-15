@@ -162,6 +162,7 @@ export default function SuaSP ({navigation,route,props}) {
                     placeholder="Nhập vào trạng thái"
                     placeholderTextColor="gray"
                     onChangeText={(TrangThai) => setTrangThai(TrangThai)}
+                  
                     defaultValue={trangThai}
                     />
                     <Text style={styles.txtContent2}> Ghi Chú:</Text>
