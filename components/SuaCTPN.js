@@ -121,7 +121,7 @@ return (
                 style={styles.textInput}
                 placeholder="Nhập vào mã sản phẩm"
                 placeholderTextColor="gray"
-                onChangeText={(maSP) => setMaSP(maSP)}
+                onChangeText={(maSP) => setmaSP(maSP)}
                 
                
                 />
@@ -130,7 +130,7 @@ return (
                 style={styles.textInput}
                 placeholder="Nhập vào số lượng"
                 placeholderTextColor="gray"
-                onChangeText={(soLuong) => setSoLuong(soLuong)}
+                onChangeText={(soLuong) => setsoLuong(soLuong)}
                 
                
                 />
@@ -139,7 +139,7 @@ return (
                 style={styles.textInput}
                 placeholder="Nhập vào giá nhập"
                 placeholderTextColor="gray"
-                onChangeText={(giaNhap) => setGiaNhap(giaNhap)}
+                onChangeText={(giaNhap) => setgiaNhap(giaNhap)}
                 
                
                 />
@@ -149,7 +149,7 @@ return (
                 style={styles.textInput}
                 placeholder="Nhập vào chú thích"
                 placeholderTextColor="gray"
-                onChangeText={(chuThich) => setChuThich(chuThich)}
+                onChangeText={(chuThich) => setchuThich(chuThich)}
                 
                 />
             </View>
