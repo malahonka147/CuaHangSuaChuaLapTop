@@ -30,10 +30,12 @@ export default function Login ({navigation,route}) {
           ToastAndroid.show("Tài khoản không tồn tại",ToastAndroid.SHORT);
         }
         else{
-          var row=results.rows.item(0);      
+          var row=results.rows.item(0); 
+          const ID=row.MaNhanVien;
+          const Loai=row.Quyen;
           if(password==row.Password){
             ToastAndroid.show("Đăng nhập thành công",ToastAndroid.SHORT);
-            navigation.navigate("Main");
+              navigation.navigate("Main",{ID,Loai}); 
           }
           else{
             ToastAndroid.show("Sai tài khoản hoặc mật khẩu",ToastAndroid.SHORT);

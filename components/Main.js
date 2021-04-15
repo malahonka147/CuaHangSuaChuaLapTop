@@ -18,11 +18,33 @@ var SQLite=require('react-native-sqlite-storage')
 var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
 export default function Main ({navigation,route}) {
   
-  const ID=route.params;
-  ToastAndroid.show(""+ID,ToastAndroid.SHORT);
+  const ID=route.params?.ID;
+  const Loai=route.params?.Loai;
+  const [tenNV,settenNV]=useState();
+  useEffect(() => {
+    
+    db.transaction((tx) => {
+      tx.executeSql(
+        'SELECT * FROM NhanVien where MaNhanVien=?',
+        [ID],
+        (tx, results) => {
+          settenNV(results.rows.item(0).TenNhanVien)
+ 
+        }
+      );
+ 
+    });
+  }, []);
   const[tenNhanVien,settenNhanVien]=useState('Admin');
   
- 
+ const OnPressQLNV=()=>{
+   if(Loai!=1)
+   {
+     alert("Bạn không được phép vào mục này!!!");
+   }else{
+    navigation.navigate("QLNV");
+   }
+ }
     return (
       <ImageBackground
         source={require('../images/home.png')}
@@ -30,7 +52,7 @@ export default function Main ({navigation,route}) {
         <View style={styles.container}>
           <View style={styles.header}>
 
-            <Text style={styles.txth1}>Xin chào </Text>
+            <Text style={styles.txth1}>Xin chào {tenNV}</Text>
             <Text style={styles.txth2}>Let’s Learn More About App</Text>
             
             <View style={{
@@ -60,7 +82,7 @@ export default function Main ({navigation,route}) {
             <Text style={styles.txtbox}>Quản lý {'\n'} sản phẩm</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.box}
-          onPress={() => {navigation.navigate('QLNV')}}>
+          onPress={() =>OnPressQLNV()}>
             <ImageBackground
               style={styles.icon}
               source={require('../images/qlnv.png')}></ImageBackground>
@@ -116,7 +138,7 @@ const styles = StyleSheet.create({
   },
   txth1: {
     fontWeight: '700',
-    fontSize: 30,
+    fontSize: 25,
     color: 'white',
     lineHeight: 30,
     marginLeft:10,
@@ -133,7 +155,7 @@ const styles = StyleSheet.create({
 
   },
   txth2: {
-    fontSize: 20,
+    fontSize: 16,
     color: 'white',
     lineHeight: 19,
     marginBottom: 21,

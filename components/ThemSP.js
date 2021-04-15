@@ -18,10 +18,13 @@ import {
 import DatePicker from 'react-native-date-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useState,useEffect } from 'react';
+//import ImagePicker from 'react-native-image-picker';
+//import RNFetchBlob from 'rn-fetch-blob';
 var SQLite=require('react-native-sqlite-storage') 
 var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
 
-export default function ThemSP ({navigation,route,props}) {  
+export default function ThemSP ({navigation,route,props}) 
+{  
   const [tenSanPham, setTenSanPham] = useState([])
   const[loaiSanPham,setLoaiSanPham]=useState([]);
   const[hangSanXuat,setHangSanXuat]=useState([]);
@@ -29,12 +32,13 @@ export default function ThemSP ({navigation,route,props}) {
   const[giaBan,setGiaBan]=useState([]);
   const[tonKho,setTonKho]=useState([]);
   const[trangThai,setTrangThai]=useState([]);
-  const[image,setImage]=useState([]);
   const[chuThich,setChuThich]=useState('');
   const isRender=()=>{
     return true;
   }
-   const LuuSP=()=>{
+
+   const ThemSP=()=>{
+   
         if (!tenSanPham) {
             alert('Vui lòng nhập tên sản phẩm');
             return;
@@ -66,16 +70,23 @@ export default function ThemSP ({navigation,route,props}) {
           db.transaction(function (tx) {
             
             tx.executeSql(
-              'INSERT INTO SanPham (TenSanPham,LoaiSanPham, HangSanXuat, GiaNhap,GiaBan,TonKho,TrangThai,Image,ChuThich) VALUES (?,?,?,?,?,?,?,?)',
-              [tenSanPham,loaiSanPham, hangSanXuat, giaNhap,giaBan,tonKho,trangThai,image,chuThich],
+              'INSERT INTO SanPham (TenSanPham,LoaiSanPham, HangSanXuat, GiaNhap,GiaBan,TonKho,TrangThai,ChuThich) VALUES (?,?,?,?,?,?,?,?)',
+              [tenSanPham,loaiSanPham, hangSanXuat, giaNhap,giaBan,tonKho,trangThai,chuThich],
               (tx, results) => {
-                
+             
                 console.log('Results', results.rowsAffected);
                 if (results.rowsAffected > 0) {
                    
                   Alert.alert(
-                    'Thành công'
-                    
+                    'Thành công',
+                    'Bạn đã thêm thành công',
+                    [
+                      {
+                        text: 'Ok',
+                        onPress: () => navigation.navigate('QLSP'),
+                      },
+                    ],
+                    {cancelable: false},
                   );
                   navigation.navigate('QLSP');
                 } else alert('Thêm thất bại');
@@ -106,7 +117,8 @@ export default function ThemSP ({navigation,route,props}) {
                   <Text style={styles.txtcontenthead}> Thêm sản phẩm</Text>
                   </View>
         </View>
-        <View style={styles.content}>
+       
+        <ScrollView style={styles.content}>
                 <View style={styles.txtTT}>
                     <Text style={styles.txtContent2}> Tên Sản Phẩm:</Text>
                     <TextInput
@@ -163,15 +175,7 @@ export default function ThemSP ({navigation,route,props}) {
                     placeholderTextColor="gray"
                     onChangeText={(trangThai) => setTrangThai(trangThai)}
                     
-                    />
-                    <Text style={styles.txtContent2}> Image:</Text>
-                    <TextInput
-                    style={styles.textInput}
-                    placeholder="Image"
-                    placeholderTextColor="gray"
-                    onChangeText={(image) => setImage(image)}
-                    
-                    />
+                    />                 
                     <Text style={styles.txtContent2}> Chú Thích:</Text>
                     <TextInput
                     style={styles.textInput}
@@ -181,10 +185,11 @@ export default function ThemSP ({navigation,route,props}) {
                     
                     />
                 </View>
-        </View>
+        </ScrollView>
+      
         <TouchableOpacity
           style={styles.btnthem}
-          onPress={()=>LuuSP()}>
+          onPress={()=>{ThemSP()}}>
          <Text style={styles.txtdn}>Thêm</Text>
         </TouchableOpacity>
 
@@ -193,6 +198,7 @@ export default function ThemSP ({navigation,route,props}) {
 
     );
   }
+  
 
   const styles = StyleSheet.create({
     container: {
@@ -224,7 +230,8 @@ export default function ThemSP ({navigation,route,props}) {
       },
     content:{
       marginBottom:100,
-        height: 550,
+      height: 550,
+      marginTop:150,
 
     },
     image: {
@@ -309,7 +316,7 @@ export default function ThemSP ({navigation,route,props}) {
     },
     contenthead:{
       right:90,
-      bottom:25
+      bottom:25,
     },
     txtcontenthead:{
       fontSize: 25,
@@ -325,7 +332,6 @@ export default function ThemSP ({navigation,route,props}) {
       marginBottom: 20,
       marginLeft: 20,
       height: 52,
-  
     },
     txtdn: {
       color: 'white',
