@@ -149,6 +149,7 @@ export default function QLSanPham ({navigation,route,props}) {
                               <TouchableOpacity onPress={()=>{
                 const ID=item.MaSanPham;
                 navigation.navigate("CTSP",{ID})
+                
                 }}>
                 <View key={item.MaNhanVien}
                   style={{
@@ -213,7 +214,9 @@ export default function QLSanPham ({navigation,route,props}) {
           </TouchableOpacity>
           <TouchableOpacity
                   style={styles.btnlogin}
-                  onPress={() => {navigation.navigate('ThemSP')}}>
+                  onPress={() => {navigation.navigate('ThemSP')}}
+                  >
+
                               
                   <Text style={styles.txtdn}>Thêm Sản Phẩm</Text>
           </TouchableOpacity>

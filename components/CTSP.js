@@ -19,6 +19,7 @@ var SQLite=require('react-native-sqlite-storage')
 var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
 export default function CTSP ({navigation,route}) {
   const {ID}=route.params;
+  
   const [items, setItems] = useState([]);
   const [empty, setEmpty] = useState([]);
   const[isRender,setisRender]=useState(false);
@@ -30,6 +31,7 @@ export default function CTSP ({navigation,route}) {
   const[tonKho,setTonKho]=useState([]);
   const[trangThai,setTrangThai]=useState([]);
   const[chuThich,setChuThich]=useState('');
+
     useEffect(() => {
       db.transaction((tx) => {
         tx.executeSql(
@@ -40,13 +42,13 @@ export default function CTSP ({navigation,route}) {
             for (let i = 0; i < results.rows.length; ++i)
             {
               temp.push(results.rows.item(i));
-              setTenSanPham(results.rows.item(i).tenSanPham);
-              setLoaiSanPham(results.rows.item(i).loaiSanPham);
-              setHangSanXuat(results.rows.item(i).hangSanXuat);
-              setGiaBan(results.rows.item(i).giaBan);
-              setTonKho(results.rows.item(i).tonKho);
-              setTrangThai(results.rows.item(i).trangThai);
-              setChuThich(results.rows.item(i).chuThich);
+              setTenSanPham(results.rows.item(i).TenSanPham);
+              setLoaiSanPham(results.rows.item(i).LoaiSanPham);
+              setHangSanXuat(results.rows.item(i).HangSanXuat);
+              setGiaBan(results.rows.item(i).GiaBan);
+              setTonKho(results.rows.item(i).TonKho);
+              setTrangThai(results.rows.item(i).TrangThai);
+              setChuThich(results.rows.item(i).ChuThich);
             } 
             setItems(temp);
             if (results.rows.length >= 1) {
@@ -212,11 +214,15 @@ export default function CTSP ({navigation,route}) {
                     <TouchableOpacity >
                     <ImageBackground
                         style={styles.iconNext}
-                        source={require('../images/Next.png')}>
+                        source={require('../images/Next.png')}
+                        >
+                            
                     </ImageBackground>
                     </TouchableOpacity>
-                    </View>                 
+                    </View> 
+                                    
                 </View>
+                
             }
             extraData={isRender}
            />
@@ -235,7 +241,7 @@ export default function CTSP ({navigation,route}) {
               style={styles.btnlogin}
               onPress={() => {
                   navigation.navigate("SuaSP",{ID,tenSanPham,loaiSanPham,hangSanXuat,giaBan,tonKho,trangThai,chuThich})
-              
+                  
               }}>
               <Text style={styles.txtdn}>Sửa thông tin</Text>
           </TouchableOpacity>

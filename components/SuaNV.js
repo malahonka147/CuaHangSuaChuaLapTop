@@ -61,6 +61,7 @@ export default function ThemPN ({navigation,route,props}) {
       });
     }, []);
     const CapNhatNV=()=>{
+      
       if (!tenNhanVien) {
           alert('Vui lòng nhập tên nhân viên');
           return;
@@ -87,6 +88,7 @@ export default function ThemPN ({navigation,route,props}) {
           tx.executeSql(
             'Update NhanVien set TenNhanVien=?, NgaySinh=?, GioiTinh=?, SoDT=?,DiaChi=?,GhiChu=?  where MaNhanVien=?',
             [TenNhanVien,NgaySinh, GioiTinh, SoDT,DiaChi,GhiChu,ID],
+
             (tx, results) => {
               console.log('Results', results.rowsAffected);
               if (results.rowsAffected > 0) {
