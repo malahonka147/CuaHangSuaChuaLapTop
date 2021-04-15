@@ -212,7 +212,7 @@ export default function CTNV ({navigation,route}) {
           <TouchableOpacity
               style={styles.btnlogin}
               onPress={() => {
-                  
+                  navigation.navigate("SuaNV",{ID,tenNhanVien,gioiTinh,soDT,diaChi,ghiChu})
               
               }}>
               <Text style={styles.txtdn}>Sửa thông tin</Text>

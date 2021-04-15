@@ -9,128 +9,74 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  FlatList,
+  SafeAreaView,
+  ToastAndroid,
+  Modal,
 } from 'react-native';
+import { useState,useEffect } from 'react';
+var SQLite=require('react-native-sqlite-storage') 
+var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
+export default function SuaNV ({navigate,route}) {
+const {ID,tenNhanVien,gioiTinh,soDT,diaChi,ghiChu}=route.params;
+ToastAndroid.show(""+ID+tenNhanVien+gioiTinh+soDT+diaChi+ghiChu,ToastAndroid.SHORT);
+return (
+      
+    <ImageBackground
+      source={require('../images/background2.png')}
+      style={styles.image}>
+      <View style={styles.container}>
 
-export default class Profile extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      noteArray: [],
-      noteText: '',
-    }
-  }
-  render() {
-    return (
-      <ImageBackground
-        source={require('../images/background2.png')}
-        style={styles.image}>
-        <View style={styles.container}>
-
-                <ImageBackground
-                 style={styles.icon }
-                                source={require('../images/Back.png')}>
-                   <TouchableOpacity style={styles.btnIcon}
-                      onPress={() => {this.props.navigation.navigate('Main')}}>
+              <ImageBackground
+               style={styles.icon }
+                              source={require('../images/Back.png')}>
+                 <TouchableOpacity style={styles.btnIcon}
+                    onPress={() => {navigation.navigate('QLNV')}}>
 
 
-                   </TouchableOpacity>
-                   </ImageBackground>
-          <Text style={styles.txtUser}>Trọng Phan</Text>
-          <Text style={styles.txtDiaChi}>
-            <ImageBackground
-              style={styles.iconDiaChi}
-              source={require('../images/location-sign.png')}>
-            </ImageBackground>
-            Los Angeles, California</Text>
+                 </TouchableOpacity>
+                 </ImageBackground>
+                 <View style={styles.contenthead}>
+                <Text style={styles.txtcontenthead}> Thông tin nhân viên</Text>
+                </View>
+      </View>
+      <View style={styles.content}>
+       
+        <View style={styles.contentmid}>
+          <View style={styles.txtTT}>
+
+            <Text style={styles.txtContent2}> Mã NV:</Text>
+            <Text style={styles.txtContent2}> Tên NV:</Text>
+            <Text style={styles.txtContent2}> Giới Tính:</Text>
+            <Text style={styles.txtContent2}> Số điện thoại:</Text>
+            <Text style={styles.txtContent2}> Địa Chỉ:</Text>
+            <Text style={styles.txtContent2}> Ghi Chú:</Text>
+          </View>
+
+          <View  style={styles.content2}>
+        
+          </View>
+
         </View>
-        <View style={styles.content}>
-          <View style={styles.contenthead}>
-            <Text style={styles.txtcontenthead}> Thông tin tài khoản</Text>
-          </View>
-          <View style={styles.contentmid}>
-            <View style={styles.txtTT}>
-              <Text style={styles.txtContent2}> Tên tài khoản</Text>
-              <Text style={styles.txtContent2}> Email</Text>
-              <Text style={styles.txtContent2}> Số điện thoại</Text>
-              <Text style={styles.txtContent2}> Địa Chỉ</Text>
-            </View>
 
-            <View>
-              <View  style={styles.content2}>
+        
+      </View>
+      <View style={styles.footer}>
+        <TouchableOpacity
+            style={styles.btnlogin}
+            onPress={() => {
+                navigation.navigate("CTNV")
+            
+            }}>
+            <Text style={styles.txtdn}>Sửa thông tin</Text>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
 
-                <Text style={styles.txtContent2Change}>Trọng Phan</Text>
-                <ImageBackground
-                  style={styles.iconNext}
-                  source={require('../images/Next.png')}>
-                </ImageBackground>
+  );
 
-              </View>
-              <View  style={styles.content2}>
 
-                <Text style={styles.txtContent2Change}>trongdeptrai@mail.com</Text>
-                <ImageBackground
-                  style={styles.iconNext}
-                  source={require('../images/Next.png')}>
-                </ImageBackground>
-              </View>
-              <View  style={styles.content2}>
-
-              <Text style={styles.txtContent2Change}>+12348746348</Text>
-                <ImageBackground
-                  style={styles.iconNext}
-                  source={require('../images/Next.png')}>
-                </ImageBackground>
-              </View>
-              <View  style={styles.content2}>
-
-               <Text style={styles.txtContent2Change}>1827,Phường Tân Định..</Text>
-                <ImageBackground
-                  style={styles.iconNext}
-                  source={require('../images/Next.png')}>
-                </ImageBackground>
-              </View>
-            </View>
-
-          </View>
-
-          <View>
-            <Text style={styles.txtContent2}> Thay đổi mật khẩu</Text>
-          </View>
-          <View style={styles.contentfooter}>
-            <TouchableOpacity
-               onPress={() => {this.props.navigation.navigate('SignIn')}}>
-             <Text style={styles.txtcontentfooter}> Đăng xuất</Text>
-             </TouchableOpacity>
-          </View>
-        </View>
-        <View style={styles.footer}>
-          <TouchableOpacity
-              style={styles.btnlogin}
-              onPress={() => {
-                  this.props.navigation.navigate('');
-              }}>
-              <Text style={styles.txtdn}>Cập nhật</Text>
-          </TouchableOpacity>
-        </View>
-      </ImageBackground>
-
-    );
-  }
-  addNote(){
-    if(this.state.noteText){
-      var d= new Date();
-      this.state.noteArray.push({
-        'date' : d.getFullYear()+
-        "/" +(d.getMonth() + 1)+
-        "/" + d.getDate(),
-        'note': this.state.noteText
-      });
-      this.setState({noteArray:this.state.noteArray})
-      this.setState({noteText:''});
-    }
-  }
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
