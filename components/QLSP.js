@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
   AddText:{
     color: '#002D69',
     fontSize: 30,
-    fontWeight:'bold'
+    fontWeight:'bold',
   },
   btnlogin: {
     backgroundColor: '#0431B4',

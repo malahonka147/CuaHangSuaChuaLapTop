@@ -316,7 +316,7 @@ export default function ThemSP ({navigation,route,props})
     },
     contenthead:{
       right:90,
-      bottom:25
+      bottom:25,
     },
     txtcontenthead:{
       fontSize: 25,

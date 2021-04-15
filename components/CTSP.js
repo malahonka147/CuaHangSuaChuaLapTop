@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
   },
   contentFlatlist:{
     width:280,
-    right:100
+    right:100,
   },
   content:{
     marginBottom:200,

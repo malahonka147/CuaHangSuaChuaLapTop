@@ -15,6 +15,7 @@ import SuaNV from './components/SuaNV';
 import ThemNV from './components/ThemNV';
 import CTPN from './components/CTPN';
 import CTSP from './components/CTSP';
+
 export default function App() {
   const Stack = createStackNavigator();
   return (
@@ -34,6 +35,7 @@ export default function App() {
         <Stack.Screen name="ThemNV" component={ThemNV} options={{headerShown: false,}} />
         <Stack.Screen name="CTSP" component={CTSP} options={{headerShown: false,}}/>
         <Stack.Screen name="CTPN" component={ThemNV} options={{headerShown: false,}} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
