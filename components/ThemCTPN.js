@@ -69,22 +69,23 @@ export default function ThemPN ({navigation,route,props}) {
               'INSERT INTO ChiTietPhieuNhap (MaPhieuNhap, MaSanPham, GiaNhap, SoLuong,ChuThich) VALUES (?,?,?,?,?)',
               [IDPN, MaSanPham,GiaNhap, SoLuong,ChuThich],
               (tx, results) => {
-
-                if (results.rows.length > 0) 
+                console.log('Results', results.rowsAffected);
+                if (results.rowsAffected > 0) 
                 {
-                  /*db.transaction((tx)=>
+                  db.transaction((tx)=>
                   {
                     tx.executeSql('Update phieunhap set Tongtien=? where MaPhieuNhap=?',
                     [(SoLuong*GiaNhap),IDPN],
                     (tx, results) => {
-                      if (results.rows.length > 0) */
-                      { Alert.alert('Thêm thành công')
                       console.log('Results', results.rowsAffected);
-
+                      if (results.rowsAffected > 0) 
+                      { Alert.alert('Thêm thành công')
+                      
+                      navigation.navigate('CTPN');
                       }
-                      /*else alert('Cập nhật thất bại!!!');
+                      else alert('Cập nhật thất bại!!!');
                   });
-                  });*/
+                  });
                   
                 } else alert('Thêm thất bại!!!');
               },
