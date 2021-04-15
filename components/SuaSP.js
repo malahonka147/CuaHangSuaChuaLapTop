@@ -28,40 +28,20 @@ export default function SuaSP ({navigation,route,props}) {
   const [items, setItems] = useState([]);
   const [empty, setEmpty] = useState([]);
    
-  const {ID,tenSanPham,loaiSanPham,hangSanXuat,giaBan,tonKho,trangThai,chuThich}=route.params;
-  const [TenSanPham, setTenSanPham] = useState(tenSanPham)
+  const{ID,tenSanPham,loaiSanPham,hangSanXuat,giaBan,tonKho,trangThai,chuThich}=route.params;
+
+  const[TenSanPham, setTenSanPham] = useState(tenSanPham)
+
   const[LoaiSanPham,setLoaiSanPham]=useState(loaiSanPham);
   const[HangSanXuat,setHangSanXuat]=useState(hangSanXuat);
   const[GiaBan,setGiaBan]=useState(giaBan);
+
   const[TonKho,setTonKho]=useState(tonKho);
   const[TrangThai,setTrangThai]=useState(trangThai);
   const[ChuThich,setChuThich]=useState(chuThich);
-    useEffect(() => {
-      db.transaction((tx) => {
-        tx.executeSql(
-          'SELECT TenSanPham,MaSanPham FROM SanPham',
-          [],
-          (tx, results) => {
-            var temp = [];
-            for (let i = 0; i < results.rows.length; ++i)
-              temp.push({label: results.rows.item(i).TenSanPham, value: results.rows.item[i].MaSanPham});
-              console.log(label);
-              console.log(value);
-            setItems({items: temp});
-   
-            if (results.rows.length >= 1) {
-              setEmpty(false);
-            } else {
-              setEmpty(true)
-            }
-            
-   
-          }
-        );
-   
-      });
-    }, []);
+  ID
     const CapNhatSP=()=>{
+
         if (!tenSanPham) {
             alert('Vui lòng nhập tên sản phẩm');
             return;
@@ -90,7 +70,7 @@ export default function SuaSP ({navigation,route,props}) {
         db.transaction(function (tx) {
           
           tx.executeSql(
-            'Update SanPham set TenSanPham=?, LoaiSanPham=?, HangSanXuat=?, GiaBan=?,TonKho=?,TrangThai=?,GhiChu=?   where MaSanPham=?',
+            'Update SanPham set TenSanPham=?, LoaiSanPham=?, HangSanXuat=?, GiaBan=?,TonKho=?,TrangThai=?,ChuThich=?   where MaSanPham=?',
             [TenSanPham,LoaiSanPham, HangSanXuat,GiaBan,TonKho,TrangThai,ChuThich,ID],
             (tx, results) => {
               console.log('Results', results.rowsAffected);
@@ -119,7 +99,7 @@ export default function SuaSP ({navigation,route,props}) {
                  style={styles.icon }
                                 source={require('../images/Back.png')}>
                    <TouchableOpacity style={styles.btnIcon}
-                      onPress={() => {navigation.navigate('QLSP')}}>
+                      onPress={() => {navigation.navigate('CTSP')}}>
 
 
                    </TouchableOpacity>
@@ -163,6 +143,7 @@ export default function SuaSP ({navigation,route,props}) {
                     placeholder="Nhập vào số giá bán"
                     placeholderTextColor="gray"
                     onChangeText={(GiaBan) => setGiaBan(GiaBan)}
+                    
                     defaultValue={giaBan}
                     
                     />
@@ -211,7 +192,7 @@ export default function SuaSP ({navigation,route,props}) {
       flex: 1,
       fontFamily: 'Roboto',
       alignItems: 'center',
-      top:30
+        marginTop:30,
   
     },
     btnthem: {
@@ -236,7 +217,7 @@ export default function SuaSP ({navigation,route,props}) {
 
       },
     content:{
-      marginBottom:100,
+      marginBottom:20,
     },
     image: {
       flex: 1,

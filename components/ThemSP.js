@@ -25,19 +25,19 @@ var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Databa
 
 export default function ThemSP ({navigation,route,props}) 
 {  
-  const [tenSanPham, setTenSanPham] = useState([])
+  const[tenSanPham, setTenSanPham]=useState([])
   const[loaiSanPham,setLoaiSanPham]=useState([]);
   const[hangSanXuat,setHangSanXuat]=useState([]);
   const[giaBan,setGiaBan]=useState([]);
   const[tonKho,setTonKho]=useState([]);
   const[trangThai,setTrangThai]=useState([]);
-  const[chuThich,setChuThich]=useState('');
+  const[chuThich,setChuThich]=useState();
   const isRender=()=>{
     return true;
   }
 
    const ThemSP=()=>{
-   
+    
         if (!tenSanPham) {
             alert('Vui lòng nhập tên sản phẩm');
             return;
@@ -65,23 +65,17 @@ export default function ThemSP ({navigation,route,props})
           db.transaction(function (tx) {
             
             tx.executeSql(
-              'INSERT INTO SanPham (TenSanPham,LoaiSanPham, HangSanXuat,GiaBan,TonKho,TrangThai,ChuThich) VALUES (?,?,?,?,?,?,?)',
+              'INSERT INTO SanPham (TenSanPham,LoaiSanPham,HangSanXuat,GiaBan,TonKho,TrangThai,ChuThich) VALUES (?,?,?,?,?,?,?)',
+              
               [tenSanPham,loaiSanPham, hangSanXuat,giaBan,tonKho,trangThai,chuThich],
               (tx, results) => {
-             
+                
                 console.log('Results', results.rowsAffected);
                 if (results.rowsAffected > 0) {
                    
                   Alert.alert(
-                    'Thành công',
-                    'Bạn đã thêm thành công',
-                    [
-                      {
-                        text: 'Ok',
-                        onPress: () => navigation.navigate('QLSP'),
-                      },
-                    ],
-                    {cancelable: false},
+                    'Thành công'
+                    
                   );
                   navigation.navigate('QLSP');
                 } else alert('Thêm thất bại');
