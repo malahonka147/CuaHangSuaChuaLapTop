@@ -21,7 +21,8 @@ import { useState,useEffect } from 'react';
 var SQLite=require('react-native-sqlite-storage') 
 var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
 
-export default function ThemPN ({navigation,route,props}) {  
+export default function ThemPN ({navigation,route,props}) 
+{  
   const [date, setDate] = useState()
   const[NhaPhanPhoi,setnhaphanphoi]=useState();
 
