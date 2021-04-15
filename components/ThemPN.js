@@ -34,7 +34,7 @@ export default function ThemPN ({navigation,route,props}) {
   const [TenNhanVien, setTenNhanVien] = useState([]);
   const ThemPNhap = () => {
     console.log(NhaPhanPhoi, MaNhanVien, date,ChuThich);
-
+    
     if (!NhaPhanPhoi) {
       alert('Vui lòng nhập tên nhà phân phối');
       return;
@@ -47,30 +47,34 @@ export default function ThemPN ({navigation,route,props}) {
       alert('Vui lòng nhập chú thích');
       return;
     }
-
-    db.transaction(function (tx) {
-      tx.executeSql(
-        'INSERT INTO PhieuNhap (MaNhanVien, NhaPhanPhoi, TongTien,NgayNhap,ChuThich) VALUES (?,?,?,?,?)',
-        [MaNhanVien, NhaPhanPhoi, 0,date,ChuThich],
-        (tx, results) => {
-          console.log('Results', results.rowsAffected);
-          if (results.rowsAffected > 0) {
-            Alert.alert(
-              'Thành công',
-              'Bạn đã thêm thành công',
-              [
-                {
-                  text: 'Ok',
-                  onPress: () => navigation.navigate('QLPN'),
-                },
-              ],
-              {cancelable: false},
+    
+          db.transaction(function (tx) {
+            tx.executeSql(
+              'INSERT INTO PhieuNhap (MaNhanVien, NhaPhanPhoi, TongTien,NgayNhap,ChuThich) VALUES (?,?,?,?,?)',
+              [MaNhanVien, NhaPhanPhoi, 0,date,ChuThich],
+              (tx, results) => {
+                console.log('Results', results.rowsAffected);
+                if (results.rowsAffected > 0) {
+                  Alert.alert(
+                    'Thành công',
+                    'Bạn đã thêm thành công',
+                    [
+                      {
+                        text: 'Ok',
+                        onPress: () => navigation.navigate('QLPN'),
+                      },
+                    ],
+                    {cancelable: false},
+                  );
+                  
+                } else alert('Thêm thất bại!!!');
+              },
             );
-            
-          } else alert('Thêm thất bại!!!');
-        },
-      );
-    });
+          });
+        
+
+        
+      
   };
    
     
