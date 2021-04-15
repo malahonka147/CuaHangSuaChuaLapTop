@@ -32,8 +32,6 @@ return (
                               source={require('../images/Back.png')}>
                  <TouchableOpacity style={styles.btnIcon}
                     onPress={() => {navigation.navigate('QLNV')}}>
-
-
                  </TouchableOpacity>
                  </ImageBackground>
                  <View style={styles.contenthead}>
