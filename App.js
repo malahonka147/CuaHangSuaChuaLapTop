@@ -17,6 +17,7 @@ import CTPN from './components/CTPN';
 import CTSP from './components/CTSP';
 import SuaSP from './components/SuaSP';
 import ThemCTPN from './components/ThemCTPN';
+import CTPNH from './components/CTPNH';
 export default function App() {
   const Stack = createStackNavigator();
   return (
