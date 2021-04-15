@@ -21,74 +21,57 @@ import { useState,useEffect } from 'react';
 var SQLite=require('react-native-sqlite-storage') 
 var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
 
-export default function ThemPN ({navigation,route,props}) {  
+export default function SuaSP ({navigation,route,props}) {  
   const [date, setDate] = useState(new Date())
   const[NhaPhanPhoi,setnhaphanphoi]=useState();
   
   const [items, setItems] = useState([]);
   const [empty, setEmpty] = useState([]);
    
-  const {ID,tenNhanVien,ngaySinh,gioiTinh,soDT,diaChi,ghiChu}=route.params;
-  const [TenNhanVien, setTenNhanVien] = useState(tenNhanVien);
-  const [NgaySinh, setNgaySinh] = useState(ngaySinh);
-  const [SoDT, setSoDT] = useState(soDT);
-  const [DiaChi, setDiaChi] = useState(diaChi);
-  const [GioiTinh, setGioiTinh] = useState(gioiTinh);
-  const [GhiChu, setGhiChu] = useState(ghiChu);
-    useEffect(() => {
-      db.transaction((tx) => {
-        tx.executeSql(
-          'SELECT TenNhanVien,MaNhanVien FROM NhanVien',
-          [],
-          (tx, results) => {
-            var temp = [];
-            for (let i = 0; i < results.rows.length; ++i)
-              temp.push({label: results.rows.item(i).TenNhanVien, value: results.rows.item[i].MaNhanVien});
-              console.log(label);
-              console.log(value);
-            setItems({items: temp});
-   
-            if (results.rows.length >= 1) {
-              setEmpty(false);
-            } else {
-              setEmpty(true)
-            }
-            
-   
+  const{ID,tenSanPham,loaiSanPham,hangSanXuat,giaBan,tonKho,trangThai,chuThich}=route.params;
+
+  const[TenSanPham, setTenSanPham] = useState(tenSanPham)
+
+  const[LoaiSanPham,setLoaiSanPham]=useState(loaiSanPham);
+  const[HangSanXuat,setHangSanXuat]=useState(hangSanXuat);
+  const[GiaBan,setGiaBan]=useState(giaBan);
+
+  const[TonKho,setTonKho]=useState(tonKho);
+  const[TrangThai,setTrangThai]=useState(trangThai);
+  const[ChuThich,setChuThich]=useState(chuThich);
+  ID
+    const CapNhatSP=()=>{
+
+        if (!tenSanPham) {
+            alert('Vui lòng nhập tên sản phẩm');
+            return;
           }
-        );
-   
-      });
-    }, []);
-    const CapNhatNV=()=>{
-      
-      if (!tenNhanVien) {
-          alert('Vui lòng nhập tên nhân viên');
-          return;
-        }
-        if (!gioiTinh||(gioiTinh!='Nam'&&gioiTinh!='Nữ')) {
-          alert('Vui lòng nhập giới tính bằng Nam hoặc Nữ');
-          return;
-        }
-        if (!soDT) {
-          alert('Vui lòng nhập số điện thoại');
-          return;
-        }
-        if (!diaChi) {
-          alert('Vui lòng nhập địa chỉ');
-          return;
-        }
-        if (!ngaySinh) {
-          alert('Vui lòng nhập địa chỉ');
-          return;
-        }
+          if (!loaiSanPham) {
+            alert('Vui lòng nhập loại sản phẩm');
+            return;
+          }
+          if (!hangSanXuat) {
+            alert('Vui lòng nhập hãng sản xuất');
+            return;
+          }
+          if (!giaBan) {
+            alert('Vui lòng nhập giá bán');
+            return;
+          }
+          if (!tonKho) {
+            alert('Vui lòng nhập tồn kho');
+            return;
+          }
+          if (!trangThai) {
+            alert('Vui lòng nhập trạng thái');
+            return;
+          }
         
         db.transaction(function (tx) {
           
           tx.executeSql(
-            'Update NhanVien set TenNhanVien=?, NgaySinh=?, GioiTinh=?, SoDT=?,DiaChi=?,GhiChu=?  where MaNhanVien=?',
-            [TenNhanVien,NgaySinh, GioiTinh, SoDT,DiaChi,GhiChu,ID],
-
+            'Update SanPham set TenSanPham=?, LoaiSanPham=?, HangSanXuat=?, GiaBan=?,TonKho=?,TrangThai=?,ChuThich=?   where MaSanPham=?',
+            [TenSanPham,LoaiSanPham, HangSanXuat,GiaBan,TonKho,TrangThai,ChuThich,ID],
             (tx, results) => {
               console.log('Results', results.rowsAffected);
               if (results.rowsAffected > 0) {
@@ -97,7 +80,7 @@ export default function ThemPN ({navigation,route,props}) {
                   'Thành công'
                   
                 );
-                navigation.navigate('QLNV');
+                navigation.navigate('QLSP');
               } else alert('Thêm thất bại');
             }
           );
@@ -116,75 +99,85 @@ export default function ThemPN ({navigation,route,props}) {
                  style={styles.icon }
                                 source={require('../images/Back.png')}>
                    <TouchableOpacity style={styles.btnIcon}
-                      onPress={() => {navigation.navigate('QLNV')}}>
+                      onPress={() => {navigation.navigate('CTSP')}}>
 
 
                    </TouchableOpacity>
                    </ImageBackground>
                    <View style={styles.contenthead}>
-                  <Text style={styles.txtcontenthead}> Sửa nhân viên</Text>
+                  <Text style={styles.txtcontenthead}> Sửa sản phẩm</Text>
                   </View>
         </View>
         <View style={styles.content}>
                 <View style={styles.txtTT}>
-                    <Text style={styles.txtContent2}> Tên NV:</Text>
+                    <Text style={styles.txtContent2}> Tên SP:</Text>
                     <TextInput
                     style={styles.textInput}
-                    placeholder="Nhập vào tên nhân viên"
+                    placeholder="Nhập vào tên sản phẩm"
                     placeholderTextColor="gray"
-                    onChangeText={(TenNhanVien) => setTenNhanVien(TenNhanVien)}
-                    defaultValue={tenNhanVien}
-                   
-                    />
-                    <Text style={styles.txtContent2}> Ngày Sinh:</Text>
-                    <TextInput
-                    style={styles.textInput}
-                    placeholder="Nhập vào ngày sinh"
-                    placeholderTextColor="gray"
-                    onChangeText={(NgaySinh) => setNgaySinh(NgaySinh)}
-                    defaultValue={ngaySinh}
-                   
-                    />
-                    <Text style={styles.txtContent2}> Giới Tính:</Text>
-                    <TextInput
-                    style={styles.textInput}
-                    placeholder="Nhập vào giới tính"
-                    placeholderTextColor="gray"
-                    onChangeText={(GioiTinh) => setGioiTinh(GioiTinh)}
-                    defaultValue={gioiTinh}
-                   
-                    />
-                    <Text style={styles.txtContent2}> Số điện thoại:</Text>
-                    <TextInput
-                    style={styles.textInput}
-                    placeholder="Nhập vào số điện thoại"
-                    placeholderTextColor="gray"
-                    onChangeText={(So) => setSoDT(SoDT)}
-                    defaultValue={soDT}
+                    onChangeText={(TenSanPham) => setTenSanPham(TenSanPham)}
+                    defaultValue={tenSanPham}
                     
                     />
-                    <Text style={styles.txtContent2}> Địa Chỉ:</Text>
+                    <Text style={styles.txtContent2}> Loại Sản Phẩm:</Text>
                     <TextInput
                     style={styles.textInput}
-                    placeholder="Nhập vào địa chỉ"
+                    placeholder="Nhập vào loại sản phẩm"
                     placeholderTextColor="gray"
-                    onChangeText={(DiaChi) => setDiaChi(DiaChi)}
-                    defaultValue={diaChi}
+                    onChangeText={(LoaiSanPham) => setLoaiSanPham(LoaiSanPham)}
+                    defaultValue={loaiSanPham}
+                   
+                    />
+                    <Text style={styles.txtContent2}> Hãng Sản Xuất:</Text>
+                    <TextInput
+                    style={styles.textInput}
+                    placeholder="Nhập vào hảng sản xuất"
+                    placeholderTextColor="gray"
+                    onChangeText={(HangSanXuat) => setHangSanXuat(HangSanXuat)}
+                    defaultValue={hangSanXuat}
+                   
+                    />
+                    <Text style={styles.txtContent2}> Giá bán:</Text>
+                    <TextInput
+                    style={styles.textInput}
+                    placeholder="Nhập vào số giá bán"
+                    placeholderTextColor="gray"
+                    onChangeText={(GiaBan) => setGiaBan(GiaBan)}
                     
+                    defaultValue={giaBan}
+                    
+                    />
+                    <Text style={styles.txtContent2}> TonKho:</Text>
+                    <TextInput
+                    style={styles.textInput}
+                    placeholder="Nhập vào tồn kho"
+                    placeholderTextColor="gray"
+                    onChangeText={(TonKho) => setTonKho(TonKho)}
+                    defaultValue={tonKho}
+                    
+                    />
+                    <Text style={styles.txtContent2}> Trạng Thái:</Text>
+                    <TextInput
+                    style={styles.textInput}
+                    placeholder="Nhập vào trạng thái"
+                    placeholderTextColor="gray"
+                    onChangeText={(TrangThai) => setTrangThai(TrangThai)}
+                  
+                    defaultValue={trangThai}
                     />
                     <Text style={styles.txtContent2}> Ghi Chú:</Text>
                     <TextInput
                     style={styles.textInput}
                     placeholder="Nhập vào ghi chú"
                     placeholderTextColor="gray"
-                    onChangeText={(GhiChu) => setGhiChu(GhiChu)}
-                    defaultValue={ghiChu}
+                    onChangeText={(ChuThich) => setChuThich(ChuThich)}
+                    defaultValue={chuThich}
                     />
                 </View>
         </View>
         <TouchableOpacity
                   style={styles.btnthem}
-                  onPress={()=>{CapNhatNV()}}
+                  onPress={()=>{CapNhatSP()}}
                   >
                   <Text style={styles.txtdn}>Cập nhật</Text>
                 </TouchableOpacity>
@@ -200,7 +193,7 @@ export default function ThemPN ({navigation,route,props}) {
       flex: 1,
       fontFamily: 'Roboto',
       alignItems: 'center',
-      top:30
+        marginTop:30,
   
     },
     btnthem: {
@@ -225,7 +218,7 @@ export default function ThemPN ({navigation,route,props}) {
 
       },
     content:{
-      marginBottom:100,
+      marginBottom:20,
     },
     image: {
       flex: 1,

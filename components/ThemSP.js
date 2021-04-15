@@ -25,22 +25,21 @@ var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Databa
 
 export default function ThemSP ({navigation,route,props}) 
 {  
-  const [tenSanPham, setTenSanPham] = useState([])
+  const[tenSanPham, setTenSanPham]=useState([])
   const[loaiSanPham,setLoaiSanPham]=useState([]);
   const[hangSanXuat,setHangSanXuat]=useState([]);
-  const[giaNhap,setGiaNhap]=useState([]);
   const[giaBan,setGiaBan]=useState([]);
   const[tonKho,setTonKho]=useState([]);
   const[trangThai,setTrangThai]=useState([]);
-  const[chuThich,setChuThich]=useState('');
+  const[chuThich,setChuThich]=useState();
   const isRender=()=>{
     return true;
   }
 
-   const ThemSP=()=>{
-   
+   const LuuSP=()=>{
         if (!tenSanPham) {
             alert('Vui lòng nhập tên sản phẩm');
+            
             return;
           }
           if (!loaiSanPham) {
@@ -49,10 +48,6 @@ export default function ThemSP ({navigation,route,props})
           }
           if (!hangSanXuat) {
             alert('Vui lòng nhập hãng sản xuất');
-            return;
-          }
-          if (!giaNhap) {
-            alert('Vui lòng nhập giá nhập');
             return;
           }
           if (!giaBan) {
@@ -70,23 +65,19 @@ export default function ThemSP ({navigation,route,props})
           db.transaction(function (tx) {
             
             tx.executeSql(
-              'INSERT INTO SanPham (TenSanPham,LoaiSanPham, HangSanXuat, GiaNhap,GiaBan,TonKho,TrangThai,ChuThich) VALUES (?,?,?,?,?,?,?,?)',
-              [tenSanPham,loaiSanPham, hangSanXuat, giaNhap,giaBan,tonKho,trangThai,chuThich],
+              
+              'INSERT INTO SanPham(TenSanPham, LoaiSanPham, HangSanXuat,GiaBan,TonKho,TrangThai,ChuThich ) VALUES (?,?,?,?,?,?,?)',
+        
+              [tenSanPham,loaiSanPham, hangSanXuat,giaBan,tonKho,trangThai,chuThich],
+              
               (tx, results) => {
-             
+                
                 console.log('Results', results.rowsAffected);
                 if (results.rowsAffected > 0) {
                    
                   Alert.alert(
-                    'Thành công',
-                    'Bạn đã thêm thành công',
-                    [
-                      {
-                        text: 'Ok',
-                        onPress: () => navigation.navigate('QLSP'),
-                      },
-                    ],
-                    {cancelable: false},
+                    'Thành công'
+                    
                   );
                   navigation.navigate('QLSP');
                 } else alert('Thêm thất bại');
@@ -95,7 +86,7 @@ export default function ThemSP ({navigation,route,props})
           });
         
         
-    }
+    };
       
     return (
       <ImageBackground
@@ -144,14 +135,6 @@ export default function ThemSP ({navigation,route,props})
                     onChangeText={(hangSanXuat) => setHangSanXuat(hangSanXuat)}
                    
                     />
-                    <Text style={styles.txtContent2}> Giá Nhập:</Text>
-                    <TextInput
-                    style={styles.textInput}
-                    placeholder="Nhập vào giá nhập"
-                    placeholderTextColor="gray"
-                    onChangeText={(giaNhap) => setGiaNhap(giaNhap)}
-                    
-                    />
                     <Text style={styles.txtContent2}> Giá Bán:</Text>
                     <TextInput
                     style={styles.textInput}
@@ -189,7 +172,7 @@ export default function ThemSP ({navigation,route,props})
       
         <TouchableOpacity
           style={styles.btnthem}
-          onPress={()=>{ThemSP()}}>
+          onPress={()=>{LuuSP()}}>
          <Text style={styles.txtdn}>Thêm</Text>
         </TouchableOpacity>
 

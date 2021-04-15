@@ -19,6 +19,7 @@ var SQLite=require('react-native-sqlite-storage')
 var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
 export default function CTSP ({navigation,route}) {
   const {ID}=route.params;
+  
   const [items, setItems] = useState([]);
   const [empty, setEmpty] = useState([]);
   const[isRender,setisRender]=useState(false);
@@ -26,11 +27,11 @@ export default function CTSP ({navigation,route}) {
   const [tenSanPham, setTenSanPham] = useState([])
   const[loaiSanPham,setLoaiSanPham]=useState([]);
   const[hangSanXuat,setHangSanXuat]=useState([]);
-  const[giaNhap,setGiaNhap]=useState([]);
   const[giaBan,setGiaBan]=useState([]);
   const[tonKho,setTonKho]=useState([]);
   const[trangThai,setTrangThai]=useState([]);
   const[chuThich,setChuThich]=useState('');
+
     useEffect(() => {
       db.transaction((tx) => {
         tx.executeSql(
@@ -41,12 +42,13 @@ export default function CTSP ({navigation,route}) {
             for (let i = 0; i < results.rows.length; ++i)
             {
               temp.push(results.rows.item(i));
-              setTenSanPham(results.rows.item(i).tenSanPham);
-              setLoaiSanPham(results.rows.item(i).loaiSanPham);
-              setHangSanXuat(results.rows.item(i).hangSanXuat);
-              setGiaBan(results.rows.item(i).giaBan);
-              setTonKho(results.rows.item(i).giaNhap);
-              setTrangThai(results.rows.item(i).trangThai);
+              setTenSanPham(results.rows.item(i).TenSanPham);
+              setLoaiSanPham(results.rows.item(i).LoaiSanPham);
+              setHangSanXuat(results.rows.item(i).HangSanXuat);
+              setGiaBan(results.rows.item(i).GiaBan);
+              setTonKho(results.rows.item(i).TonKho);
+              setTrangThai(results.rows.item(i).TrangThai);
+              setChuThich(results.rows.item(i).ChuThich);
             } 
             setItems(temp);
             if (results.rows.length >= 1) {
@@ -114,7 +116,6 @@ export default function CTSP ({navigation,route}) {
               <Text style={styles.txtContent2}> Tên Sản Phẩm:</Text>
               <Text style={styles.txtContent2}> Loại Sản Phẩm:</Text>
               <Text style={styles.txtContent2}> Hãng Sản Xuất:</Text>
-              <Text style={styles.txtContent2}> Giá Nhập:</Text>
               <Text style={styles.txtContent2}> Giá Bán:</Text>
               <Text style={styles.txtContent2}> Tồn Kho:</Text>
               <Text style={styles.txtContent2}> Trạng Thái:</Text>
@@ -176,16 +177,7 @@ export default function CTSP ({navigation,route}) {
                     </ImageBackground>
                   </TouchableOpacity>
                   </View>
-                  <View  style={styles.content2}>
-
-                  <Text style={styles.txtContent2Change}>{item.GiaNhap}</Text>
-                  <TouchableOpacity>
-                    <ImageBackground
-                      style={styles.iconNext}
-                      source={require('../images/Next.png')}>
-                    </ImageBackground>
-                  </TouchableOpacity>
-                  </View>
+       
                   <View  style={styles.content2}>
 
                   <Text style={styles.txtContent2Change}>{item.GiaBan}</Text>
@@ -222,11 +214,15 @@ export default function CTSP ({navigation,route}) {
                     <TouchableOpacity >
                     <ImageBackground
                         style={styles.iconNext}
-                        source={require('../images/Next.png')}>
+                        source={require('../images/Next.png')}
+                        >
+                            
                     </ImageBackground>
                     </TouchableOpacity>
-                    </View>                 
+                    </View> 
+                                    
                 </View>
+                
             }
             extraData={isRender}
            />
@@ -244,8 +240,8 @@ export default function CTSP ({navigation,route}) {
           <TouchableOpacity
               style={styles.btnlogin}
               onPress={() => {
-                  navigation.navigate("SuaNV",{ID,tenNhanVien,ngaySinh,gioiTinh,soDT,diaChi,ghiChu})
-              
+                  navigation.navigate("SuaSP",{ID,tenSanPham,loaiSanPham,hangSanXuat,giaBan,tonKho,trangThai,chuThich})
+                  
               }}>
               <Text style={styles.txtdn}>Sửa thông tin</Text>
           </TouchableOpacity>
