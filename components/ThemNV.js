@@ -35,6 +35,9 @@ export default function ThemPN ({navigation,route,props}) {
   const [diaChi, setdiaChi] = useState([]);
   const [gioiTinh, setgioiTinh] = useState([]);
   const [ghiChu, setghiChu] = useState('');
+  const isRender=()=>{
+    return true;
+  }
    const LuuNV=()=>{
         if (!tenNhanVien) {
             alert('Vui lòng nhập tên nhân viên');
@@ -52,12 +55,16 @@ export default function ThemPN ({navigation,route,props}) {
             alert('Vui lòng nhập địa chỉ');
             return;
           }
-          ToastAndroid.show(""+tenNhanVien+gioiTinh+soDT+diaChi+ghiChu,ToastAndroid.SHORT);
+          if (!ngaySinh) {
+            alert('Vui lòng nhập địa chỉ');
+            return;
+          }
+          
           db.transaction(function (tx) {
-            
+            ToastAndroid.show(""+tenNhanVien+ngaySinh+gioiTinh+soDT+diaChi+ghiChu,ToastAndroid.SHORT);
             tx.executeSql(
-              'INSERT INTO NhanVien (TenNhanVien, GioiTinh, SoDT,DiaChi,GhiChu) VALUES (?,?,?,?,?)',
-              [tenNhanVien, gioiTinh, soDT,diaChi,ghiChu],
+              'INSERT INTO NhanVien (TenNhanVien,NgaySinh, GioiTinh, SoDT,DiaChi,GhiChu) VALUES (?,?,?,?,?,?)',
+              [tenNhanVien,ngaySinh, gioiTinh, soDT,diaChi,ghiChu],
               (tx, results) => {
                 
                 console.log('Results', results.rowsAffected);
@@ -67,6 +74,7 @@ export default function ThemPN ({navigation,route,props}) {
                     'Thành công'
                     
                   );
+                  navigation.navigate('QLNV',{isRender});
                 } else alert('Thêm thất bại');
               }
             );
@@ -110,7 +118,7 @@ export default function ThemPN ({navigation,route,props}) {
                     style={styles.textInput}
                     placeholder="Nhập vào ngày sinh"
                     placeholderTextColor="gray"
-                    onChangeText={(tenNhanVien) => settenNhanVien(tenNhanVien)}
+                    onChangeText={(ngaySinh) => setngaySinh(ngaySinh)}
                    
                     />
                     <Text style={styles.txtContent2}> Giới Tính:</Text>
