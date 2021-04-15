@@ -133,7 +133,7 @@ export default function QLSanPham ({navigation,route,props}) {
           <Text style={styles.headerText}>Sản Phẩm</Text>
           
         </View>
-        <ScrollView>
+  
         <SafeAreaView>
         
          <View
@@ -145,7 +145,11 @@ export default function QLSanPham ({navigation,route,props}) {
               ItemSeparatorComponent={listViewItemSeparator}
               keyExtractor={(item,index)=>index.toString()}
               renderItem={({item})=>
-              <TouchableOpacity onPress={()=>{navigation.navigate("CTNV")}}>
+ 
+                              <TouchableOpacity onPress={()=>{
+                const ID=item.MaSanPham;
+                navigation.navigate("CTSP",{ID})
+                }}>
                 <View key={item.MaNhanVien}
                   style={{
                  
@@ -159,14 +163,6 @@ export default function QLSanPham ({navigation,route,props}) {
                         flex: 1,
                         flexDirection: 'row'
                     }}>
-                    <Image style={{
-                      width: 70,
-                      height:70,
-                    }}
-                    source={{uri:item.Image}}
-                    >
-                     
-                    </Image>
                     <View style={{
                         flex: 1,
                         flexDirection: 'column'
@@ -211,7 +207,7 @@ export default function QLSanPham ({navigation,route,props}) {
            </View>
         </SafeAreaView>
          
-        </ScrollView>
+     
          <TouchableOpacity style={styles.Add}>
               <Text style={styles.AddText}>+</Text>
           </TouchableOpacity>
