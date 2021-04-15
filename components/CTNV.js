@@ -233,11 +233,7 @@ const styles = StyleSheet.create({
     top:30
 
   },
-  modalView:{
-    flex:1,
-    alignItems:'center',
-    justifyContent:'center',
-  },
+
   content:{
     marginBottom:320,
   },

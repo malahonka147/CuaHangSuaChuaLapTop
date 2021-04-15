@@ -188,10 +188,9 @@ export default function QLNhanVien ({navigation,route,props}) {
         </SafeAreaView>
          
         
-         <TouchableOpacity style={styles.Add}>
-           onPress{()=>{
-             navigation.navigate("ThemNV");
-           }}
+         <TouchableOpacity onPress={()=>{
+            navigation.navigate("ThemNV")
+         }} style={styles.Add}>
               <Text style={styles.AddText}>+</Text>
           </TouchableOpacity>
 
