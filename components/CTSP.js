@@ -26,7 +26,6 @@ export default function CTSP ({navigation,route}) {
   const [tenSanPham, setTenSanPham] = useState([])
   const[loaiSanPham,setLoaiSanPham]=useState([]);
   const[hangSanXuat,setHangSanXuat]=useState([]);
-  const[giaNhap,setGiaNhap]=useState([]);
   const[giaBan,setGiaBan]=useState([]);
   const[tonKho,setTonKho]=useState([]);
   const[trangThai,setTrangThai]=useState([]);
@@ -45,8 +44,9 @@ export default function CTSP ({navigation,route}) {
               setLoaiSanPham(results.rows.item(i).loaiSanPham);
               setHangSanXuat(results.rows.item(i).hangSanXuat);
               setGiaBan(results.rows.item(i).giaBan);
-              setTonKho(results.rows.item(i).giaNhap);
+              setTonKho(results.rows.item(i).tonKho);
               setTrangThai(results.rows.item(i).trangThai);
+              setChuThich(results.rows.item(i).chuThich);
             } 
             setItems(temp);
             if (results.rows.length >= 1) {
@@ -114,7 +114,6 @@ export default function CTSP ({navigation,route}) {
               <Text style={styles.txtContent2}> Tên Sản Phẩm:</Text>
               <Text style={styles.txtContent2}> Loại Sản Phẩm:</Text>
               <Text style={styles.txtContent2}> Hãng Sản Xuất:</Text>
-              <Text style={styles.txtContent2}> Giá Nhập:</Text>
               <Text style={styles.txtContent2}> Giá Bán:</Text>
               <Text style={styles.txtContent2}> Tồn Kho:</Text>
               <Text style={styles.txtContent2}> Trạng Thái:</Text>
@@ -176,16 +175,7 @@ export default function CTSP ({navigation,route}) {
                     </ImageBackground>
                   </TouchableOpacity>
                   </View>
-                  <View  style={styles.content2}>
-
-                  <Text style={styles.txtContent2Change}>{item.GiaNhap}</Text>
-                  <TouchableOpacity>
-                    <ImageBackground
-                      style={styles.iconNext}
-                      source={require('../images/Next.png')}>
-                    </ImageBackground>
-                  </TouchableOpacity>
-                  </View>
+       
                   <View  style={styles.content2}>
 
                   <Text style={styles.txtContent2Change}>{item.GiaBan}</Text>
@@ -244,7 +234,7 @@ export default function CTSP ({navigation,route}) {
           <TouchableOpacity
               style={styles.btnlogin}
               onPress={() => {
-                  navigation.navigate("SuaNV",{ID,tenNhanVien,ngaySinh,gioiTinh,soDT,diaChi,ghiChu})
+                  navigation.navigate("SuaSP",{ID,tenSanPham,loaiSanPham,hangSanXuat,giaBan,tonKho,trangThai,chuThich})
               
               }}>
               <Text style={styles.txtdn}>Sửa thông tin</Text>
