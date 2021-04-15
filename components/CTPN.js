@@ -30,6 +30,8 @@ export default function CTPN ({navigation,route,props}) {
   const [TongTienPN, setTongTienPN] = useState();
   const [ChuThich, setChuThich] = useState([]);
   
+  
+
   const[isRender,setisRender]=useState(false);
     useEffect(() => {
       
@@ -185,7 +187,7 @@ export default function CTPN ({navigation,route,props}) {
               renderItem={({item})=>
               <TouchableOpacity 
               
-              onPress={()=>{const IDMaCTPN =item.MaCTPN; navigation.navigate("CTPNH",[IDMaCTPN])}}>
+              onPress={()=>{const IDMaCTPN =item.MaCTPN; navigation.navigate("CTPNH",{IDMaCTPN})}}>
                 <View key={item.MaCTPN}
                   style={{
                     backgroundColor: 'white',
@@ -198,7 +200,7 @@ export default function CTPN ({navigation,route,props}) {
                     <Text style={styles.txtContent}>Mã CT Phiếu Nhập: {item.MaCTPN}</Text>
                     <Text style={styles.txtContent}>Mã SP: {item.MaSanPham}</Text>
                     <Text style={styles.txtContent}>Số Lượng: {item.SoLuong}</Text>
-                    <Text style={styles.txtContent}>Tổng Tiền: {item.TongTien}</Text>
+                    <Text style={styles.txtContent}>Giá Nhập: {item.GiaNhap}</Text>
                     <Text style={styles.txtContent}>Chú Thích: {item.ChuThich}</Text>
                    <TouchableOpacity style={styles.btnIconDel} 
                      onPress={
@@ -235,7 +237,7 @@ export default function CTPN ({navigation,route,props}) {
         
          <TouchableOpacity style={styles.Add}
          onPress={()=>{
-           const IDPN=[IDPhieuNhap];
+           const IDPN=IDPhieuNhap;
            console.log(IDPN);
            navigation.navigate("ThemCTPN",{IDPN})}}>
               <Text style={styles.AddText}>+</Text>
@@ -288,8 +290,8 @@ const styles = StyleSheet.create({
   },
   iconBack: {
     bottom:-20,
-    width: 30,
-    height: 30,
+    width: 40,
+    height: 40,
     alignSelf: 'center',
     marginVertical: -5,
   },

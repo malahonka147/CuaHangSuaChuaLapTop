@@ -26,15 +26,14 @@ export default function ThemPN ({navigation,route,props}) {
   const [items, setItems] = useState([]);
   const [empty, setEmpty] = useState([]);
   const {IDPN}=route.params;
-  const[MaSanPham,setMaSanPham]=useState();
-  const[ChuThich,setchuthich]=useState();
+  const [MaSanPham,setMaSanPham]=useState();
+  const [ChuThich,setchuthich]=useState();
   const [SoLuong, setSoLuong] = useState();
-
   const [GiaNhap, setGiaNhap] = useState();
 
   
-  const ThemPNhap = () => {
-    console.log(IDPN, MaSanPham, SoLuong,ChuThich);
+  const ThemCTPNhap = () => {
+    console.log(IDPN, MaSanPham, SoLuong,GiaNhap,ChuThich);
 
     if (!MaSanPham) {
       alert('Vui lòng nhập mã sản phẩm');
@@ -44,36 +43,54 @@ export default function ThemPN ({navigation,route,props}) {
       alert('Vui lòng nhập số lượng');
       return;
     }
+    if (!GiaNhap) {
+      alert('Vui lòng nhập giá nhập');
+      return;
+    }
     if (!ChuThich) {
       alert('Vui lòng nhập chú thích');
       return;
     }
+    db.transaction((tx)=>{
+      
+      sql='select * from SanPham where MaSanPham=\''+MaSanPham+'\'';
 
-    db.transaction(function (tx) {
-      tx.executeSql(
-        'INSERT INTO ChiTietPhieuNhap (MaPhieuNhap, MaSanPham, GiaNhap, SoLuong,ChuThich) VALUES (?,?,?,?,?)',
-        [IDPN, MaSanPham,GiaNhap, SoLuong,ChuThich],
-        (tx, results) => {
-          console.log('Results', results.rowsAffected);
-          if (results.rowsAffected > 0) {
-            Alert.alert(
-              'Thành công',
-              'Bạn đã thêm thành công',
-              [
-                {
-                  text: 'Ok',
-                  onPress: () => navigation.navigate('CTPN',[{IDPhieuNhap}]),
-                },
-              ],
-              {cancelable: false},
+      tx.executeSql(sql,[],(tx,results)=>{
+        
+        var len=results.rows.length;
+        if(len==0){
+          ToastAndroid.show("Mã sản phẩm không tồn tại",ToastAndroid.SHORT);
+          
+        }
+        else
+        {
+          db.transaction((tx)=>{
+            tx.executeSql(
+              'INSERT INTO ChiTietPhieuNhap (MaPhieuNhap, MaSanPham, GiaNhap, SoLuong,ChuThich) VALUES (?,?,?,?,?)',
+              [IDPN, MaSanPham,GiaNhap, SoLuong,ChuThich],
+              (tx, results) => {
+                console.log('Results', results.rowsAffected);
+                if (results.rowsAffected > 0) {
+                  Alert.alert(
+                    'Thành công',
+                    'Bạn đã thêm thành công',
+                    [
+                      {
+                        text: 'Ok',
+                        onPress: () => navigation.navigate('CTPN'),
+                      },
+                    ],
+                    {cancelable: false},
+                  );
+                  
+                } else alert('Thêm thất bại!!!');
+              },
             );
-            
-          } else alert('Thêm thất bại!!!');
-        },
-      );
-    });
-  };
-   
+          });
+        }
+      });
+});
+}
     
     return (
       <ImageBackground
@@ -84,7 +101,7 @@ export default function ThemPN ({navigation,route,props}) {
         <View style={styles.container}>
           <Text style={styles.txtNhanVien}>
           <TouchableOpacity style={styles.btnIcon}
-          onPress={() => {navigation.navigate('QLPN')}}
+          onPress={() => {navigation.navigate('CTPN')}}
             >
             <ImageBackground
               style={styles.iconBack}
@@ -132,7 +149,7 @@ export default function ThemPN ({navigation,route,props}) {
                   placeholder="Nhập giá nhập"
                   keyboardType = 'numeric'
                   placeholderTextColor="gray"
-                  onChangeText={(SoLuong) => setSoLuong(SoLuong)}
+                  onChangeText={(GiaNhap) => setGiaNhap(GiaNhap)}
                   
                 />
                 
@@ -154,7 +171,7 @@ export default function ThemPN ({navigation,route,props}) {
                   
            <TouchableOpacity
                   style={styles.btnthem}
-                  onPress={()=>{ThemPNhap()}}
+                  onPress={()=>{ThemCTPNhap()}}
                   >
                   <Text style={styles.txtdn}>Thêm</Text>
                 </TouchableOpacity>
