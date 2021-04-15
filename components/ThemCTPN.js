@@ -33,7 +33,7 @@ export default function ThemPN ({navigation,route,props}) {
 
   
   const ThemPNhap = () => {
-    console.log(IDPN, MaSanPham, SoLuong,GiaNhap,ChuThich);
+    
 
     if (!MaSanPham) {
       alert('Vui lòng nhập mã sản phẩm');
@@ -56,13 +56,17 @@ export default function ThemPN ({navigation,route,props}) {
       sql='select * from SanPham where MaSanPham=\''+MaSanPham+'\'';
 
       tx.executeSql(sql,[],(tx,results)=>{
+        
         var len=results.rows.length;
         if(len==0){
           ToastAndroid.show("Mã sản phẩm không tồn tại",ToastAndroid.SHORT);
+          
         }
         else
         {
+          
           db.transaction(function (tx) {
+            
             tx.executeSql(
               'INSERT INTO ChiTietPhieuNhap (MaPhieuNhap, MaSanPham, GiaNhap, SoLuong,ChuThich) VALUES (?,?,?,?,?)',
               [IDPN, MaSanPham,GiaNhap, SoLuong,ChuThich],
