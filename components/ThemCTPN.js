@@ -56,9 +56,11 @@ export default function ThemPN ({navigation,route,props}) {
       sql='select * from SanPham where MaSanPham=\''+MaSanPham+'\'';
 
       tx.executeSql(sql,[],(tx,results)=>{
+        
         var len=results.rows.length;
         if(len==0){
           ToastAndroid.show("Mã sản phẩm không tồn tại",ToastAndroid.SHORT);
+          
         }
         else
         {
