@@ -13,6 +13,7 @@ import ThemPN from './components/ThemPN';
 import ThemSP from './components/ThemSP';
 import SuaNV from './components/SuaNV';
 import ThemNV from './components/ThemNV';
+import CTPN from './components/CTPN';
 export default function App() {
   const Stack = createStackNavigator();
   return (
@@ -30,6 +31,7 @@ export default function App() {
         <Stack.Screen name="ThemPN" component={ThemPN} options={{headerShown: false,}} />
         <Stack.Screen name="SuaNV" component={SuaNV} options={{headerShown: false,}} />
         <Stack.Screen name="ThemNV" component={ThemNV} options={{headerShown: false,}} />
+        <Stack.Screen name="CTPN" component={ThemNV} options={{headerShown: false,}} />
       </Stack.Navigator>
     </NavigationContainer>
   );

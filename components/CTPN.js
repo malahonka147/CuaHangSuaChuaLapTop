@@ -18,16 +18,21 @@ import { useState,useEffect } from 'react';
 var SQLite=require('react-native-sqlite-storage') 
 var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
 
-export default function QLSanPham ({navigation,route,props}) {
+export default function QLPN ({navigation,route,props}) {
   const [items, setItems] = useState([]);
   const [empty, setEmpty] = useState([]);
-  const[IDSanPham,setIDSanPham]=useState([]);
+  const [MaPhieuNhap, setMaPhieuNhap] = useState([]);
+  const [MaCTPN, setMaCTPN] = useState([]);
+  const [MaSP, setMaSP] = useState([]);
+  const [SoLuong, setSoLuong] = useState([]);
+  const [TongTien, setTongTien] = useState([]);
+  const [ChuThich, setChuThich] = useState([]);
   const[isRender,setisRender]=useState(false);
     useEffect(() => {
       db.transaction((tx) => {
         tx.executeSql(
-          'SELECT * FROM SanPham',
-          [],
+          'SELECT * FROM ChiTietPhieuNhap',
+          [IDPhieuNhap],
           (tx, results) => {
             var temp = [];
             for (let i = 0; i < results.rows.length; ++i)
@@ -69,18 +74,18 @@ export default function QLSanPham ({navigation,route,props}) {
         </View>
       );
     }
-    const deleteNV = (item) => {
+    const deletePN = (item) => {
       db.transaction((tx) => {
         tx.executeSql(
-          'DELETE FROM  SanPham where MaSanPham=?',
-          [item.MaNhanVien],
+          'DELETE FROM  ChiTietPhieuNhap where MaCTPN=?',
+          [item.MaCTPN],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
             if (results.rowsAffected > 0) {
               alert('Xóa thành công');
                 db.transaction((tx) => {
                   tx.executeSql(
-                    'SELECT * FROM SanPham',
+                    'SELECT * FROM ChiTietPhieuNhap',
                     [],
                     (tx, results) => {
                       var temp = [];
@@ -106,7 +111,29 @@ export default function QLSanPham ({navigation,route,props}) {
         );
       });
     };
-    
+    const RefreshPN=()=>{
+      db.transaction((tx) => {
+        tx.executeSql(
+          'SELECT * FROM ChiTietPhieuNhap',
+          [],
+          (tx, results) => {
+            var temp = [];
+            for (let i = 0; i < results.rows.length; ++i)
+              temp.push(results.rows.item(i));
+            setItems(temp);
+   
+            if (results.rows.length >= 1) {
+              setEmpty(false);
+            } else {
+              setEmpty(true)
+            }
+   
+          }
+        );
+   
+      });
+    setisRender(!isRender);
+    }
     return (
       <ImageBackground
 
@@ -116,7 +143,7 @@ export default function QLSanPham ({navigation,route,props}) {
         <View style={styles.container}>
           <Text style={styles.txtNhanVien}>
           <TouchableOpacity style={styles.btnIcon}
-          onPress={() => {navigation.navigate('Main')}}
+          onPress={() => {navigation.navigate('QLPN')}}
             >
             <ImageBackground
               style={styles.iconBack}
@@ -125,65 +152,52 @@ export default function QLSanPham ({navigation,route,props}) {
           <TouchableOpacity style={styles.btnIconNV} >
              <ImageBackground
               style={styles.iconNV}
-               source={require('../images/qlsp.png')}></ImageBackground>
-          </TouchableOpacity> Danh sách sản phẩm</Text>
+               source={require('../images/qlhn.png')}></ImageBackground>
+          </TouchableOpacity> Quản lý phiếu nhập</Text>
 
-          
+          <TouchableOpacity style={styles.btnIconRF}
+          onPress={()=>{RefreshPN()}} >
+             <ImageBackground
+              style={styles.iconNV}
+               source={require('../images/refresh.png')}></ImageBackground>
+          </TouchableOpacity>
+
           <View style={styles.header}>
-          <Text style={styles.headerText}>Sản Phẩm</Text>
-          
+          <Text style={styles.headerText}>Chi Tiết Phiếu Nhập - Mã Phiếu Nhập {IDPhieuNhap}</Text>
+
         </View>
-        <ScrollView>
         <SafeAreaView>
-        
-         <View
-         style={{
-         height: 550,
-        }}>
-           <FlatList
+
+        <View style={{height:650}}>
+           <FlatList 
+
               data={items}
               ItemSeparatorComponent={listViewItemSeparator}
               keyExtractor={(item,index)=>index.toString()}
               renderItem={({item})=>
-              <TouchableOpacity onPress={()=>{navigation.navigate("CTNV")}}>
-                <View key={item.MaNhanVien}
+              <TouchableOpacity onPress={()=>{navigation.navigate("CTPNH")}}>
+                <View key={item.MaPhieuNhap}
                   style={{
-                 
-                    width: 384,
-                    marginTop: -0,
-                    marginBottom: -10,
-                    height: 100,
+                    backgroundColor: 'white',
+                    width: 450,
+                    height: 140,
+                    
                   }}
                 >
-                  <View style={{
-                        flex: 1,
-                        flexDirection: 'row'
-                    }}>
-                    <Image style={{
-                      width: 70,
-                      height:70,
-                    }}
-                    source={{uri:item.Image}}
-                    >
-                     
-                    </Image>
-                    <View style={{
-                        flex: 1,
-                        flexDirection: 'column'
-                    }}>
-                    
-                    <Text style={styles.txtContent}>ID: {item.MaSanPham}</Text>
-                    <Text style={styles.txtContent}>Tên: {item.TenSanPham}</Text>
-                    <Text style={styles.txtContent}>Số Lượng: {item.TonKho}</Text>
                  
+                    <Text style={styles.txtContent}>Mã CT Phiếu Nhập: {item.MaCTPN}</Text>
+                    <Text style={styles.txtContent}>Mã SP: {item.MaSP}</Text>
+                    <Text style={styles.txtContent}>Số Lượng: {item.SoLuong}</Text>
+                    <Text style={styles.txtContent}>Tổng Tiền: {item.TongTien}</Text>
+                    <Text style={styles.txtContent}>Chú Thích: {item.ChuThich}</Text>
                    <TouchableOpacity style={styles.btnIconDel} 
                      onPress={
                       ()=> {
                         Alert.alert(
                           'Cảnh báo!',
-                          'Bạn có muốn xóa sản phẩm này?',
+                          'Bạn có muốn xóa nhân viên này?',
                           [
-                            {text: 'Có', onPress: () => {deleteNV(item)}},
+                            {text: 'Có', onPress: () => {deletePN(item)}},
                             {text: 'Không', onPress: () => {}},
                           ],
                           { 
@@ -198,32 +212,26 @@ export default function QLSanPham ({navigation,route,props}) {
                       style={styles.icon}
                       source={require('../images/Delete.png')}>
                     </ImageBackground>
-                  </TouchableOpacity>
-                  </View>
-                  </View>
+                      </TouchableOpacity>
                 </View>
                 </TouchableOpacity>
-                
             }
             extraData={isRender}
            />
-           
            </View>
+           
         </SafeAreaView>
          
-        </ScrollView>
-         <TouchableOpacity style={styles.Add}>
+        
+         <TouchableOpacity style={styles.Add}
+         onPress={()=>{navigation.navigate("ThemPN")}}>
               <Text style={styles.AddText}>+</Text>
+
           </TouchableOpacity>
-          <TouchableOpacity
-                  style={styles.btnlogin}
-                  onPress={() => {navigation.navigate('ThemSP')}}>
-                              
-                  <Text style={styles.txtdn}>Thêm Sản Phẩm</Text>
-          </TouchableOpacity>
-          
+
+
           </View>
-         
+          
       </ImageBackground>
 
     );
@@ -236,26 +244,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 
   },
+  btnIconRF:{
+    left:190,
+    bottom:170,
+  },
+  
   header: {
         backgroundColor: '#BED0EC',
         alignItems: 'center',
         justifyContent: 'center',
         height:60,
-        width:'80%',
-        marginTop:9
+        width:450,
+        marginTop:-15
       },
       headerText:{
         color: '#002D69',
         fontSize: 25,
         fontWeight: 'bold',
-        paddingRight:250
+        paddingRight:300
       },
   image: {
     flex: 1,
   },
   icon: {
-    width: 30,
-    height: 30,
+    width: 60,
+    height: 60,
     alignSelf: 'center',
     marginVertical: -5,
   },
@@ -289,7 +302,7 @@ const styles = StyleSheet.create({
     bottom:50,
     height: 40,
     width:30,
-    marginLeft:280,
+    marginLeft:380,
   },
   txtNhanVien: {
     fontSize: 30,
@@ -307,7 +320,7 @@ const styles = StyleSheet.create({
     height: 59,
   },
   txtContent: {
-    color: '#FFFFFF',
+    color: '#002D69',
     fontSize: 16,
     fontWeight: 'bold',
     textAlignVertical: 'center',
@@ -324,27 +337,11 @@ const styles = StyleSheet.create({
     top: 225,
     right:50,
     height: 55,
-    width:'20%'
+    width:'10%'
   },
   AddText:{
     color: '#002D69',
     fontSize: 30,
     fontWeight:'bold'
-  },
-  btnlogin: {
-    backgroundColor: '#0431B4',
-    borderRadius: 23,
-    width: '90%',
-    marginTop: 10,
-    marginBottom: 5,
-    height: 52,
-  },
-  txtdn: {
-    color: 'white',
-    textAlign: 'center',
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlignVertical: 'center',
-    margin: 14,
-  },
+  }
 });

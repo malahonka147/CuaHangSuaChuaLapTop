@@ -69,11 +69,11 @@ export default function QLPN ({navigation,route,props}) {
         </View>
       );
     }
-    const deleteNV = (item) => {
+    const deletePN = (item) => {
       db.transaction((tx) => {
         tx.executeSql(
-          'DELETE FROM  PhieuNhap where MaPhieuNhap=?',
-          [item.MaNhanVien],
+          'DELETE FROM  PHieuNhap where MaPhieuNhap=?',
+          [item.MaPhieuNhap],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
             if (results.rowsAffected > 0) {
@@ -106,7 +106,29 @@ export default function QLPN ({navigation,route,props}) {
         );
       });
     };
-    
+    const RefreshPN=()=>{
+      db.transaction((tx) => {
+        tx.executeSql(
+          'SELECT * FROM PhieuNhap',
+          [],
+          (tx, results) => {
+            var temp = [];
+            for (let i = 0; i < results.rows.length; ++i)
+              temp.push(results.rows.item(i));
+            setItems(temp);
+   
+            if (results.rows.length >= 1) {
+              setEmpty(false);
+            } else {
+              setEmpty(true)
+            }
+   
+          }
+        );
+   
+      });
+    setisRender(!isRender);
+    }
     return (
       <ImageBackground
 
@@ -128,6 +150,12 @@ export default function QLPN ({navigation,route,props}) {
                source={require('../images/qlhn.png')}></ImageBackground>
           </TouchableOpacity> Quản lý phiếu nhập</Text>
 
+          <TouchableOpacity style={styles.btnIconRF}
+          onPress={()=>{RefreshPN()}} >
+             <ImageBackground
+              style={styles.iconNV}
+               source={require('../images/refresh.png')}></ImageBackground>
+          </TouchableOpacity>
 
           <View style={styles.header}>
           <Text style={styles.headerText}>Phiếu Nhập {}</Text>
@@ -142,7 +170,9 @@ export default function QLPN ({navigation,route,props}) {
               ItemSeparatorComponent={listViewItemSeparator}
               keyExtractor={(item,index)=>index.toString()}
               renderItem={({item})=>
-              <TouchableOpacity onPress={()=>{navigation.navigate("CTPN")}}>
+              <TouchableOpacity 
+              onPress={()=>{
+                const IDPhieuNhap=item.MaPhieuNhap; navigation.navigate("CTPN",{IDPhieuNhap})}}>
                 <View key={item.MaPhieuNhap}
                   style={{
                     backgroundColor: 'white',
@@ -161,9 +191,9 @@ export default function QLPN ({navigation,route,props}) {
                       ()=> {
                         Alert.alert(
                           'Cảnh báo!',
-                          'Bạn có muốn xóa phiếu nhập này?',
+                          'Bạn có muốn xóa nhân viên này?',
                           [
-                            {text: 'Có', onPress: () => {deleteNV(item)}},
+                            {text: 'Có', onPress: () => {deletePN(item)}},
                             {text: 'Không', onPress: () => {}},
                           ],
                           { 
@@ -210,13 +240,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 
   },
+  btnIconRF:{
+    left:190,
+    bottom:170,
+  },
+  
   header: {
         backgroundColor: '#BED0EC',
         alignItems: 'center',
         justifyContent: 'center',
         height:60,
         width:450,
-        marginTop:9
+        marginTop:-15
       },
       headerText:{
         color: '#002D69',
@@ -228,8 +263,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   icon: {
-    width: 30,
-    height: 30,
+    width: 60,
+    height: 60,
     alignSelf: 'center',
     marginVertical: -5,
   },
