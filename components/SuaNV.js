@@ -88,7 +88,6 @@ export default function ThemPN ({navigation,route,props}) {
             'Update NhanVien set TenNhanVien=?, NgaySinh=?, GioiTinh=?, SoDT=?,DiaChi=?,GhiChu=?  where MaNhanVien=?',
             [TenNhanVien,NgaySinh, GioiTinh, SoDT,DiaChi,GhiChu,ID],
             (tx, results) => {
-              ToastAndroid.show(""+TenNhanVien+NgaySinh+GioiTinh+SoDT+DiaChi+GhiChu,ToastAndroid.SHORT);
               console.log('Results', results.rowsAffected);
               if (results.rowsAffected > 0) {
                  
