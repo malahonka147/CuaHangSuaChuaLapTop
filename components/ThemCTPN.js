@@ -32,7 +32,7 @@ export default function ThemPN ({navigation,route,props}) {
   const [GiaNhap, setGiaNhap] = useState();
 
   
-  const ThemPNhap = () => {
+  const ThemCTPNhap = () => {
     console.log(IDPN, MaSanPham, SoLuong,GiaNhap,ChuThich);
 
     if (!MaSanPham) {
@@ -62,7 +62,7 @@ export default function ThemPN ({navigation,route,props}) {
         }
         else
         {
-          db.transaction(function (tx) {
+          db.transaction((tx)=>{
             tx.executeSql(
               'INSERT INTO ChiTietPhieuNhap (MaPhieuNhap, MaSanPham, GiaNhap, SoLuong,ChuThich) VALUES (?,?,?,?,?)',
               [IDPN, MaSanPham,GiaNhap, SoLuong,ChuThich],
@@ -169,7 +169,7 @@ export default function ThemPN ({navigation,route,props}) {
                   
            <TouchableOpacity
                   style={styles.btnthem}
-                  onPress={()=>{ThemPNhap()}}
+                  onPress={()=>{ThemCTPNhap()}}
                   >
                   <Text style={styles.txtdn}>Thêm</Text>
                 </TouchableOpacity>

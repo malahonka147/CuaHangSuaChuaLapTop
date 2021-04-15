@@ -187,7 +187,7 @@ export default function CTPN ({navigation,route,props}) {
               renderItem={({item})=>
               <TouchableOpacity 
               
-              onPress={()=>{const IDMaCTPN =item.MaCTPN; navigation.navigate("CTPNH",[IDMaCTPN])}}>
+              onPress={()=>{const IDMaCTPN =item.MaCTPN; navigation.navigate("CTPNH",{IDMaCTPN})}}>
                 <View key={item.MaCTPN}
                   style={{
                     backgroundColor: 'white',
@@ -237,7 +237,7 @@ export default function CTPN ({navigation,route,props}) {
         
          <TouchableOpacity style={styles.Add}
          onPress={()=>{
-           const IDPN=[IDPhieuNhap];
+           const IDPN=IDPhieuNhap;
            console.log(IDPN);
            navigation.navigate("ThemCTPN",{IDPN})}}>
               <Text style={styles.AddText}>+</Text>
