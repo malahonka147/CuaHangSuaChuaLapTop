@@ -135,7 +135,7 @@ export default function QLPN ({navigation,route,props}) {
         </View>
         <SafeAreaView>
 
-        <View >
+        <View style={{height:650}}>
            <FlatList 
 
               data={items}
