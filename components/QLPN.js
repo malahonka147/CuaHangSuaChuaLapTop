@@ -72,7 +72,7 @@ export default function QLPN ({navigation,route,props}) {
     const deleteNV = (item) => {
       db.transaction((tx) => {
         tx.executeSql(
-          'DELETE FROM  PhieuNhap where MaPhieuNhap=?',
+          'DELETE FROM PhieuNhap where MaPhieuNhap=?',
           [item.MaNhanVien],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
@@ -228,8 +228,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   icon: {
-    width: 30,
-    height: 30,
+    width: 60,
+    height: 60,
     alignSelf: 'center',
     marginVertical: -5,
   },

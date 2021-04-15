@@ -66,6 +66,7 @@ export default function ThemPN ({navigation,route,props}) {
               ],
               {cancelable: false},
             );
+            
           } else alert('Thêm thất bại!!!');
         },
       );
