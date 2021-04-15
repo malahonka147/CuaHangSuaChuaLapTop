@@ -91,7 +91,7 @@ export default function CTPN ({navigation,route,props}) {
               alert('Xóa thành công');
                 db.transaction((tx) => {
                   tx.executeSql(
-                    'SELECT * FROM ChiTietPhieuNhap where MaCTPN=?',
+                    'SELECT * FROM ChiTietPhieuNhap where MaPhieuNhap=?',
                     [IDPhieuNhap],
                     (tx, results) => {
                       var temp = [];
@@ -209,7 +209,7 @@ export default function CTPN ({navigation,route,props}) {
                       ()=> {
                         Alert.alert(
                           'Cảnh báo!',
-                          'Bạn có muốn xóa nhân viên này?',
+                          'Bạn có muốn xóa CTPN này?',
                           [
                             {text: 'Có', onPress: () => {deletePN(item)}},
                             {text: 'Không', onPress: () => {}},
