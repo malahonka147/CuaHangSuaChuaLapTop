@@ -189,6 +189,9 @@ export default function QLNhanVien ({navigation,route,props}) {
          
         
          <TouchableOpacity style={styles.Add}>
+           onPress{()=>{
+             navigation.navigate("ThemNV");
+           }}
               <Text style={styles.AddText}>+</Text>
           </TouchableOpacity>
 
