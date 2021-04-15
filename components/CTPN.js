@@ -18,7 +18,8 @@ import { useState,useEffect } from 'react';
 var SQLite=require('react-native-sqlite-storage') 
 var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
 
-export default function QLPN ({navigation,route,props}) {
+export default function CTPN ({navigation,route,props}) {
+  const {IDPhieuNhap}=route.params;
   const [items, setItems] = useState([]);
   const [empty, setEmpty] = useState([]);
   const [MaPhieuNhap, setMaPhieuNhap] = useState([]);
@@ -26,12 +27,15 @@ export default function QLPN ({navigation,route,props}) {
   const [MaSP, setMaSP] = useState([]);
   const [SoLuong, setSoLuong] = useState([]);
   const [TongTien, setTongTien] = useState([]);
+  const [TongTienPN, setTongTienPN] = useState();
   const [ChuThich, setChuThich] = useState([]);
+  
   const[isRender,setisRender]=useState(false);
     useEffect(() => {
+      
       db.transaction((tx) => {
         tx.executeSql(
-          'SELECT * FROM ChiTietPhieuNhap',
+          'SELECT * FROM ChiTietPhieuNhap where MaPhieuNhap=?',
           [IDPhieuNhap],
           (tx, results) => {
             var temp = [];
@@ -85,8 +89,8 @@ export default function QLPN ({navigation,route,props}) {
               alert('Xóa thành công');
                 db.transaction((tx) => {
                   tx.executeSql(
-                    'SELECT * FROM ChiTietPhieuNhap',
-                    [],
+                    'SELECT * FROM ChiTietPhieuNhap where MaCTPN=?',
+                    [IDPhieuNhap],
                     (tx, results) => {
                       var temp = [];
                       for (let i = 0; i < results.rows.length; ++i)
@@ -111,11 +115,13 @@ export default function QLPN ({navigation,route,props}) {
         );
       });
     };
+    
     const RefreshPN=()=>{
+
       db.transaction((tx) => {
         tx.executeSql(
-          'SELECT * FROM ChiTietPhieuNhap',
-          [],
+          'SELECT * FROM ChiTietPhieuNhap where MaPhieuNhap=?',
+          [IDPhieuNhap],
           (tx, results) => {
             var temp = [];
             for (let i = 0; i < results.rows.length; ++i)
@@ -153,7 +159,9 @@ export default function QLPN ({navigation,route,props}) {
              <ImageBackground
               style={styles.iconNV}
                source={require('../images/qlhn.png')}></ImageBackground>
-          </TouchableOpacity> Quản lý phiếu nhập</Text>
+          </TouchableOpacity> Chi Tiết Phiếu Nhập</Text>
+
+
 
           <TouchableOpacity style={styles.btnIconRF}
           onPress={()=>{RefreshPN()}} >
@@ -163,7 +171,7 @@ export default function QLPN ({navigation,route,props}) {
           </TouchableOpacity>
 
           <View style={styles.header}>
-          <Text style={styles.headerText}>Chi Tiết Phiếu Nhập - Mã Phiếu Nhập {IDPhieuNhap}</Text>
+          <Text style={styles.headerText}>Mã Phiếu Nhập: {IDPhieuNhap}</Text>
 
         </View>
         <SafeAreaView>
@@ -175,8 +183,10 @@ export default function QLPN ({navigation,route,props}) {
               ItemSeparatorComponent={listViewItemSeparator}
               keyExtractor={(item,index)=>index.toString()}
               renderItem={({item})=>
-              <TouchableOpacity onPress={()=>{navigation.navigate("CTPNH")}}>
-                <View key={item.MaPhieuNhap}
+              <TouchableOpacity 
+              
+              onPress={()=>{const IDMaCTPN =item.MaCTPN; navigation.navigate("CTPNH",[IDMaCTPN])}}>
+                <View key={item.MaCTPN}
                   style={{
                     backgroundColor: 'white',
                     width: 450,
@@ -186,7 +196,7 @@ export default function QLPN ({navigation,route,props}) {
                 >
                  
                     <Text style={styles.txtContent}>Mã CT Phiếu Nhập: {item.MaCTPN}</Text>
-                    <Text style={styles.txtContent}>Mã SP: {item.MaSP}</Text>
+                    <Text style={styles.txtContent}>Mã SP: {item.MaSanPham}</Text>
                     <Text style={styles.txtContent}>Số Lượng: {item.SoLuong}</Text>
                     <Text style={styles.txtContent}>Tổng Tiền: {item.TongTien}</Text>
                     <Text style={styles.txtContent}>Chú Thích: {item.ChuThich}</Text>
@@ -224,7 +234,10 @@ export default function QLPN ({navigation,route,props}) {
          
         
          <TouchableOpacity style={styles.Add}
-         onPress={()=>{navigation.navigate("ThemPN")}}>
+         onPress={()=>{
+           const IDPN=[IDPhieuNhap];
+           console.log(IDPN);
+           navigation.navigate("ThemCTPN",{IDPN})}}>
               <Text style={styles.AddText}>+</Text>
 
           </TouchableOpacity>
@@ -258,10 +271,11 @@ const styles = StyleSheet.create({
         marginTop:-15
       },
       headerText:{
-        color: '#002D69',
+        color: '#002D69', 
         fontSize: 25,
         fontWeight: 'bold',
-        paddingRight:300
+        paddingRight:300,
+
       },
   image: {
     flex: 1,
