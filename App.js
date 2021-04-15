@@ -34,7 +34,7 @@ export default function App() {
         <Stack.Screen name="SuaNV" component={SuaNV} options={{headerShown: false,}} />
         <Stack.Screen name="ThemNV" component={ThemNV} options={{headerShown: false,}} />
         <Stack.Screen name="CTSP" component={CTSP} options={{headerShown: false,}}/>
-        <Stack.Screen name="CTPN" component={ThemNV} options={{headerShown: false,}} />
+
         <Stack.Screen name="CTPN" component={CTPN} options={{headerShown: false,}} />
         <Stack.Screen name="ThemCTPN" component={ThemCTPN} options={{headerShown: false,}} />
       </Stack.Navigator>
