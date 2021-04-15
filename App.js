@@ -36,20 +36,12 @@ export default function App() {
         <Stack.Screen name="ThemPN" component={ThemPN} options={{headerShown: false,}} />
         <Stack.Screen name="SuaNV" component={SuaNV} options={{headerShown: false,}} />
         <Stack.Screen name="ThemNV" component={ThemNV} options={{headerShown: false,}} />
-<<<<<<< HEAD
         <Stack.Screen name="SuaSP" component={SuaSP} options={{headerShown: false,}} />
         <Stack.Screen name="CTSP" component={CTSP} options={{headerShown: false,}}/> 
         <Stack.Screen name="CTPN" component={CTPN} options={{headerShown: false,}} />
         <Stack.Screen name="ThemCTPN" component={ThemCTPN} options={{headerShown: false,}} />
 
 
-=======
-        <Stack.Screen name="CTSP" component={CTSP} options={{headerShown: false,}}/>
-        <Stack.Screen name="CTPN" component={CTPN} options={{headerShown: false,}}/>
-        <Stack.Screen name="CTPNH" component={CTPNH} options={{headerShown: false,}}/>
-        <Stack.Screen name="ThemCTPN" component={ThemCTPN} options={{headerShown: false,}}/>
-        <Stack.Screen name="SuaCTPN" component={SuaCTPN} options={{headerShown: false,}}/>
->>>>>>> 6e4e8927bc61876f5b9b5faa0018702dc7d3675b
       </Stack.Navigator>
     </NavigationContainer>
   );

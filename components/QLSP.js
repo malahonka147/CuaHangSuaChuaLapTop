@@ -73,7 +73,7 @@ export default function QLSanPham ({navigation,route,props}) {
       db.transaction((tx) => {
         tx.executeSql(
           'DELETE FROM  SanPham where MaSanPham=?',
-          [item.MaNhanVien],
+          [item.MaPhieuNhap],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
             if (results.rowsAffected > 0) {
@@ -106,6 +106,30 @@ export default function QLSanPham ({navigation,route,props}) {
         );
       });
     };
+    const RefreshNV=()=>{
+      
+      db.transaction((tx) => {
+        tx.executeSql(
+          'SELECT * FROM SanPham',
+          [],
+          (tx, results) => {
+            var temp = [];
+            for (let i = 0; i < results.rows.length; ++i)
+              temp.push(results.rows.item(i));
+            setItems(temp);
+   
+            if (results.rows.length >= 1) {
+              setEmpty(false);
+            } else {
+              setEmpty(true)
+            }
+   
+          }
+        );
+          
+      });
+              setisRender(!isRender);
+            } 
     
     return (
       <ImageBackground
@@ -127,7 +151,12 @@ export default function QLSanPham ({navigation,route,props}) {
               style={styles.iconNV}
                source={require('../images/qlsp.png')}></ImageBackground>
           </TouchableOpacity> Danh sách sản phẩm</Text>
-
+          <TouchableOpacity style={styles.btnIconRF}
+          onPress={()=>{RefreshNV()}} >
+             <ImageBackground
+              style={styles.iconNV}
+               source={require('../images/refresh.png')}></ImageBackground>
+          </TouchableOpacity>
           
           <View style={styles.header}>
           <Text style={styles.headerText}>Sản Phẩm</Text>
@@ -209,9 +238,7 @@ export default function QLSanPham ({navigation,route,props}) {
         </SafeAreaView>
          
      
-         <TouchableOpacity style={styles.Add}>
-              <Text style={styles.AddText}>+</Text>
-          </TouchableOpacity>
+
           <TouchableOpacity
                   style={styles.btnlogin}
                   onPress={() => {navigation.navigate('ThemSP')}}
@@ -345,5 +372,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlignVertical: 'center',
     margin: 14,
+  },
+  btnIconRF:{
+    left:190,
+    bottom:170,
   },
 });
