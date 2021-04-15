@@ -22,304 +22,302 @@ var SQLite=require('react-native-sqlite-storage')
 var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
 
 export default function SuaCTPN ({navigation,route,props}) {  
-  
+
   const [items, setItems] = useState([]);
   const [empty, setEmpty] = useState([]);
-  const {IDPN}=route.params;
-  const [MaSanPham,setMaSanPham]=useState();
-  const [ChuThich,setchuthich]=useState();
-  const [SoLuong, setSoLuong] = useState();
-  const [GiaNhap, setGiaNhap] = useState();
-
+  const {IDMaCTPN,IDMaPN,MaSP,SoLuong,GiaNhap,ChuThich}=route.params;
+  const [maSP, setmaSP] = useState(MaSP);
+  const [soLuong, setsoLuong] = useState(SoLuong);
+  const [giaNhap, setgiaNhap] = useState(GiaNhap);
+  const [chuThich, setchuThich] = useState(ChuThich);
   
-  const ThemCTPNhap = () => {
-    console.log(IDPN, MaSanPham, SoLuong,GiaNhap,ChuThich);
+  useEffect(() => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        'SELECT * FROM ChiTietPhieuNhap',
+        [],
+        (tx, results) => {
+          var temp = [];
+          for (let i = 0; i < results.rows.length; ++i)
+            temp.push(results.rows.item(i));
 
-    if (!MaSanPham) {
+          setItems({items: temp});
+ 
+          if (results.rows.length >= 1) {
+            setEmpty(false);
+          } else {
+            setEmpty(true)
+          }
+          
+ 
+        }
+      );
+ 
+    });
+  }, []);
+  const CapNhatNV = () => {
+    
+
+    if (!maSP) {
       alert('Vui lòng nhập mã sản phẩm');
       return;
     }
-    if (!SoLuong) {
+    if (!soLuong) {
       alert('Vui lòng nhập số lượng');
       return;
     }
-    if (!GiaNhap) {
+    if (!giaNhap) {
       alert('Vui lòng nhập giá nhập');
       return;
     }
-    if (!ChuThich) {
+    if (!chuThich) {
       alert('Vui lòng nhập chú thích');
       return;
     }
-    db.transaction((tx)=>{
-      
-      sql='select * from SanPham where MaSanPham=\''+MaSanPham+'\'';
-
-      tx.executeSql(sql,[],(tx,results)=>{
-        
-        var len=results.rows.length;
-        if(len==0){
-          ToastAndroid.show("Mã sản phẩm không tồn tại",ToastAndroid.SHORT);
+    db.transaction(function (tx) {
           
-        }
-        else
-        {
-          db.transaction((tx)=>{
-            tx.executeSql(
-              'INSERT INTO ChiTietPhieuNhap (MaPhieuNhap, MaSanPham, GiaNhap, SoLuong,ChuThich) VALUES (?,?,?,?,?)',
-              [IDPN, MaSanPham,GiaNhap, SoLuong,ChuThich],
-              (tx, results) => {
-                console.log('Results', results.rowsAffected);
-                if (results.rowsAffected > 0) {
-                  Alert.alert(
-                    'Thành công',
-                    'Bạn đã thêm thành công',
-                    [
-                      {
-                        text: 'Ok',
-                        onPress: () => navigation.navigate('CTPN'),
-                      },
-                    ],
-                    {cancelable: false},
-                  );
-                  
-                } else alert('Thêm thất bại!!!');
-              },
+      tx.executeSql(
+        'Update ChiTietPhieuNhap set MaSanPham=?, SoLuong=?, GiaNhap=?, ChuThich=?  where MaCTPN=?',
+        [maSP,soLuong, giaNhap, chuThich,IDMaCTPN],
+        (tx, results) => {
+          console.log('Results', results.rowsAffected);
+          if (results.rowsAffected > 0) {
+             
+            Alert.alert(
+              'Thành công'
+              
             );
-          });
+            navigation.navigate('QLPN');
+          } else alert('Thêm thất bại');
         }
-      });
-});
+      );
+    });
+
 }
-    
-    return (
-      <ImageBackground
+return (
+  <ImageBackground
 
-        source={require('../images/background2.png')}
-        style={styles.image}>
+    source={require('../images/background2.png')}
+    style={styles.image}>
 
-        <View style={styles.container}>
-          <Text style={styles.txtNhanVien}>
-          <TouchableOpacity style={styles.btnIcon}
-          onPress={() => {navigation.navigate('CTPN')}}
-            >
+    <View style={styles.container}>
             <ImageBackground
-              style={styles.iconBack}
-              source={require('../images/Back.png')}></ImageBackground>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.btnIconNV} >
-             <ImageBackground
-              style={styles.iconNV}
-               source={require('../images/qlhn.png')}></ImageBackground>
-          </TouchableOpacity> Thêm Chi Tiết PN</Text>
+             style={styles.icon }
+                            source={require('../images/Back.png')}>
+               <TouchableOpacity style={styles.btnIcon}
+                  onPress={() => {navigation.navigate('QLPN')}}>
 
 
-          
-        
-
-        <View >
-        <SafeAreaView>
-        <Text style={{color:'white',marginBottom:3,marginTop:10,marginLeft:10}}>Mã Sản Phẩm</Text>
+               </TouchableOpacity>
+               </ImageBackground>
+               <View style={styles.contenthead}>
+              <Text style={styles.txtcontenthead}> Sửa Thông Tin CTPN</Text>
+              </View>
+    </View>
+    <View style={styles.content}>
+            <View style={styles.txtTT}>
+                <Text style={styles.txtContent2}> Mã Sản Phẩm:</Text>
                 <TextInput
-
-                  style={styles.textInput}
-                  
-                  placeholder="Nhập mã sản phẩm"
-                  placeholderTextColor="gray"
-                  keyboardType = 'numeric'
-                  onChangeText={(MaSanPham) => setMaSanPham(MaSanPham)}
-                  
+                style={styles.textInput}
+                placeholder="Nhập vào mã sản phẩm"
+                placeholderTextColor="gray"
+                onChangeText={(maSP) => setMaSP(maSP)}
+                
+               
                 />
-                <Text style={{color:'white',marginBottom:3,marginTop:5,marginLeft:10}}>Số lượng</Text>
+                <Text style={styles.txtContent2}> Số Lượng:</Text>
                 <TextInput
-
-                  style={styles.textInput}
-                  
-                  placeholder="Nhập số lượng"
-                  keyboardType = 'numeric'
-                  placeholderTextColor="gray"
-                  onChangeText={(SoLuong) => setSoLuong(SoLuong)}
-                  
+                style={styles.textInput}
+                placeholder="Nhập vào số lượng"
+                placeholderTextColor="gray"
+                onChangeText={(soLuong) => setSoLuong(soLuong)}
+                
+               
                 />
-                <Text style={{color:'white',marginBottom:3,marginTop:5,marginLeft:10}}>Giá Nhập</Text>
+                <Text style={styles.txtContent2}> Giá Nhập:</Text>
                 <TextInput
-
-                  style={styles.textInput}
-                  
-                  placeholder="Nhập giá nhập"
-                  keyboardType = 'numeric'
-                  placeholderTextColor="gray"
-                  onChangeText={(GiaNhap) => setGiaNhap(GiaNhap)}
-                  
+                style={styles.textInput}
+                placeholder="Nhập vào giá nhập"
+                placeholderTextColor="gray"
+                onChangeText={(giaNhap) => setGiaNhap(giaNhap)}
+                
+               
                 />
                 
-                
-                <Text style={{color:'white',marginBottom:3,marginTop:5,marginLeft:10}}>Chú Thích</Text>
-
+                <Text style={styles.txtContent2}> Chú Thích:</Text>
                 <TextInput
-                  style={styles.textInput}
-                  placeholder="Nhập chú thích"
-                  placeholderTextColor="gray"
-                  onChangeText={(ChuThich) => setchuthich(ChuThich)}
-                  
-                  
-                />
-                   
-                  
-                   </SafeAreaView>   
-           </View>
-                  
-           <TouchableOpacity
-                  style={styles.btnthem}
-                  onPress={()=>{ThemCTPNhap()}}
-                  >
-                  <Text style={styles.txtdn}>Thêm</Text>
-                </TouchableOpacity>
+                style={styles.textInput}
+                placeholder="Nhập vào chú thích"
+                placeholderTextColor="gray"
+                onChangeText={(chuThich) => setChuThich(chuThich)}
                 
+                />
+            </View>
+    </View>
+    <TouchableOpacity
+              style={styles.btnthem}
+              onPress={()=>{CapNhatNV()}}
+              >
+              <Text style={styles.txtdn}>Cập nhật</Text>
+            </TouchableOpacity>
 
-          </View>
-          
-      </ImageBackground>
+      
+  </ImageBackground>
 
-    );
-  }
+);
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    fontFamily: 'Roboto',
-    alignItems: 'center',
+container: {
+  flex: 1,
+  fontFamily: 'Roboto',
+  alignItems: 'center',
+  top:30
 
+},
+btnthem: {
+    backgroundColor: '#0269FC',
+    borderRadius: 23,
+    width: '90%',
+    marginBottom: 150,
+    height: 52,
+    left:20,
   },
-  header: {
-        backgroundColor: '#BED0EC',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height:60,
-        width:450,
-        marginTop:9
-      },
-      headerText:{
-        color: '#002D69',
-        fontSize: 25,
-        fontWeight: 'bold',
-        paddingRight:300
-      },
-  image: {
-    flex: 1,
-  },
-  textInput: {
+textInput: {
     height: 54,
     width: 450,
-    marginTop: 8,
-    paddingLeft: 10,
+    left:10,
     borderColor: '#00A2C3',
     color: 'black',
     backgroundColor: 'white',
     borderWidth: 1.7,
     borderRadius: 23,
     marginBottom:10,
-  },
-  icon: {
-    width: 30,
-    height: 30,
-    alignSelf: 'center',
-    marginVertical: -5,
-  },
-  iconBack: {
-    bottom:-20,
-    width: 30,
-    height: 30,
-    alignSelf: 'center',
-    marginVertical: -5,
-  },
-  btnIcon: {
-    width: 30,
-    height: 30,
-    marginTop:3,
-  },
-  btnlogin: {
-    backgroundColor: '#2E1FDD',
-    borderRadius: 23,
-    width: '90%',
-    marginTop: 10,
-    marginBottom: 5,
-    height: 52,
-  },
-  iconNV: {
-      top:10,
-      width: 45,
-      height: 35,
-      alignSelf: 'center',
-      marginVertical: -5,
-
-    },
-    btnIconNV: {
-      paddingTop:20,
-      width: 50,
-      height: 50,
-      marginTop:3,
-    },
-  btnIconDel:{
-    bottom:50,
-    height: 40,
-    width:30,
-    marginLeft:380,
-  },
-  txtNhanVien: {
-    fontSize: 30,
-    color: 'white',
-    fontWeight: '700',
-    marginBottom: 130,
-    marginTop: 25,
-    paddingRight:80
-  },
-  btnNhanVien:{
-    backgroundColor: 'white',
-    width: '80%',
-    marginTop: -0,
-    marginBottom: -10,
-    height: 59,
-  },
-  txtContent: {
-    color: '#002D69',
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlignVertical: 'center',
-    margin: 2,
-    left:10
+    fontSize:16,
 
   },
-  Add:{
-    position: 'absolute',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#BED0EC',
-    padding: 1,
-    top: 225,
-    right:50,
-    height: 55,
-    width:'10%'
-  },
-  AddText:{
-    color: '#002D69',
-    fontSize: 30,
-    fontWeight:'bold'
-  },
-  btnthem: {
-    backgroundColor: '#0269FC',
-    borderRadius: 23,
-    width: '90%',
-    marginTop: 10,
-    marginBottom: 5,
-    height: 52,
-  },
-  txtdn: {
-    color: 'white',
-    textAlign: 'center',
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlignVertical: 'center',
-    margin: 14,
-  },
+content:{
+  marginBottom:100,
+},
+image: {
+  flex: 1,
+},
+icon: {
+  width: 45,
+  height: 30,
+  alignSelf: 'center',
+  marginVertical: -5,
+  right:200,
+  marginTop:10,
+},
+
+btnIcon: {
+  paddingTop:20,
+  width: 45,
+  height: 40,
+  marginTop:3,
+},
+txtUser:{
+  fontSize: 30,
+  color: 'white',
+  fontWeight: '700',
+  marginTop: 25,
+  marginLeft:5,
+},
+iconDiaChi:{
+  width: 20,
+  height: 20,
+  alignItems: 'center',
+  marginRight:8,
+  marginTop: 10,
+},
+txtDiaChi:{
+  fontSize: 18,
+  color: 'white',
+
+},
+txtContent: {
+  color: '#002D69',
+  fontSize: 16,
+  fontWeight: 'bold',
+  textAlignVertical: 'center',
+  margin: 19,
+
+},
+content2:{
+  justifyContent: 'flex-end',
+  flexDirection: 'row',
+  marginBottom:20,
+},
+txtTT:{
+  justifyContent: 'flex-start',
+},
+content3:{
+  justifyContent: 'flex-end',
+  flexDirection: 'row',
+  marginBottom:300,
+},
+contentmid:{
+  flexDirection: 'row',
+},
+txtContent2:{
+  fontSize: 18,
+  color: 'white',
+  marginRight:100,
+  marginBottom:10,
+  marginLeft:10,
+  
+},
+
+txtContent2Change:{
+  fontSize: 18,
+  color: 'white',
+  marginRight:5,
+
+},
+iconNext:{
+  width: 30,
+  height: 30,
+},
+contenthead:{
+  right:90,
+  bottom:25
+},
+txtcontenthead:{
+  fontSize: 25,
+  color: 'white',
+  marginLeft:10,
+  fontWeight: 'bold',
+
+},
+btnlogin: {
+  backgroundColor: '#0269FC',
+  borderRadius: 5,
+  width: '90%',
+  marginBottom: 20,
+  marginLeft: 20,
+  height: 52,
+
+},
+txtdn: {
+  color: 'white',
+  textAlign: 'center',
+  fontSize: 20,
+  fontWeight: 'bold',
+  textAlignVertical: 'center',
+  margin: 14,
+},
+txtcontentfooter:{
+  fontSize: 20,
+  color: 'white',
+  marginLeft:10,
+  fontWeight: 'bold',
+},
+  btnBack:{
+ fontSize: 30,
+     color: 'white',
+     fontWeight: '700',
+     marginBottom: 130,
+     marginTop: 25,
+     paddingRight:100}
 });
