@@ -22,6 +22,14 @@ export default function Main ({navigation,route}) {
           <View style={styles.header}>
             <Text style={styles.txth1}>Xin chào </Text>
             <Text style={styles.txth2}>Let’s Learn More About App</Text>
+            <TouchableOpacity>
+           
+              <ImageBackground
+              source={require('../images/logout.png')}
+              style={styles.image}></ImageBackground>
+               <Text style={styles.txth3}>Đăng xuất</Text>
+            </TouchableOpacity>
+            
           </View>
 
           <View style={styles.content}>
@@ -59,7 +67,7 @@ const styles = StyleSheet.create({
 
   },
   header: {
-
+    height:100,
   },
   image: {
     flex: 1,
@@ -81,13 +89,23 @@ const styles = StyleSheet.create({
   },
   txth1: {
     fontWeight: '700',
-    fontSize: 21,
+    fontSize: 30,
     color: 'white',
-    lineHeight: 24,
+    lineHeight: 30,
     marginLeft:10,
   },
+  txth3:{
+    textAlign: 'right',
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 30,
+    lineHeight: 30,
+    bottom:83,
+    
+
+  },
   txth2: {
-    fontSize: 14,
+    fontSize: 20,
     color: 'white',
     lineHeight: 19,
     marginBottom: 21,
