@@ -73,7 +73,7 @@ export default function QLSanPham ({navigation,route,props}) {
       db.transaction((tx) => {
         tx.executeSql(
           'DELETE FROM  SanPham where MaSanPham=?',
-          [item.MaPhieuNhap],
+          [item.MaSanPham],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
             if (results.rowsAffected > 0) {
