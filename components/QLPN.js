@@ -23,6 +23,7 @@ export default function QLPN ({navigation,route,props}) {
   const [empty, setEmpty] = useState([]);
   const[IDMaPhieuNhap,setIDMaPhieuNhap]=useState([]);
   const[isRender,setisRender]=useState(false);
+  const[TongTien,setTongTien]=useState([]);
     useEffect(() => {
       db.transaction((tx) => {
         tx.executeSql(
@@ -107,6 +108,7 @@ export default function QLPN ({navigation,route,props}) {
       });
     };
     const RefreshPN=()=>{
+      
       db.transaction((tx) => {
         tx.executeSql(
           'SELECT * FROM PhieuNhap',
@@ -125,10 +127,11 @@ export default function QLPN ({navigation,route,props}) {
    
           }
         );
-   
+          
       });
     setisRender(!isRender);
     }
+    
     return (
       <ImageBackground
 
