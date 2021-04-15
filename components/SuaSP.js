@@ -18,26 +18,50 @@ import {
 import DatePicker from 'react-native-date-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useState,useEffect } from 'react';
-//import ImagePicker from 'react-native-image-picker';
-//import RNFetchBlob from 'rn-fetch-blob';
 var SQLite=require('react-native-sqlite-storage') 
 var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
 
-export default function ThemSP ({navigation,route,props}) 
-{  
-  const [tenSanPham, setTenSanPham] = useState([])
-  const[loaiSanPham,setLoaiSanPham]=useState([]);
-  const[hangSanXuat,setHangSanXuat]=useState([]);
-  const[giaBan,setGiaBan]=useState([]);
-  const[tonKho,setTonKho]=useState([]);
-  const[trangThai,setTrangThai]=useState([]);
-  const[chuThich,setChuThich]=useState('');
-  const isRender=()=>{
-    return true;
-  }
-
-   const ThemSP=()=>{
+export default function SuaSP ({navigation,route,props}) {  
+  const [date, setDate] = useState(new Date())
+  const[NhaPhanPhoi,setnhaphanphoi]=useState();
+  
+  const [items, setItems] = useState([]);
+  const [empty, setEmpty] = useState([]);
    
+  const {ID,tenSanPham,loaiSanPham,hangSanXuat,giaBan,tonKho,trangThai,chuThich}=route.params;
+  const [TenSanPham, setTenSanPham] = useState(tenSanPham)
+  const[LoaiSanPham,setLoaiSanPham]=useState(loaiSanPham);
+  const[HangSanXuat,setHangSanXuat]=useState(hangSanXuat);
+  const[GiaBan,setGiaBan]=useState(giaBan);
+  const[TonKho,setTonKho]=useState(tonKho);
+  const[TrangThai,setTrangThai]=useState(trangThai);
+  const[ChuThich,setChuThich]=useState(chuThich);
+    useEffect(() => {
+      db.transaction((tx) => {
+        tx.executeSql(
+          'SELECT TenSanPham,MaSanPham FROM SanPham',
+          [],
+          (tx, results) => {
+            var temp = [];
+            for (let i = 0; i < results.rows.length; ++i)
+              temp.push({label: results.rows.item(i).TenSanPham, value: results.rows.item[i].MaSanPham});
+              console.log(label);
+              console.log(value);
+            setItems({items: temp});
+   
+            if (results.rows.length >= 1) {
+              setEmpty(false);
+            } else {
+              setEmpty(true)
+            }
+            
+   
+          }
+        );
+   
+      });
+    }, []);
+    const CapNhatSP=()=>{
         if (!tenSanPham) {
             alert('Vui lòng nhập tên sản phẩm');
             return;
@@ -62,36 +86,28 @@ export default function ThemSP ({navigation,route,props})
             alert('Vui lòng nhập trạng thái');
             return;
           }
-          db.transaction(function (tx) {
-            
-            tx.executeSql(
-              'INSERT INTO SanPham (TenSanPham,LoaiSanPham, HangSanXuat,GiaBan,TonKho,TrangThai,ChuThich) VALUES (?,?,?,?,?,?,?)',
-              [tenSanPham,loaiSanPham, hangSanXuat,giaBan,tonKho,trangThai,chuThich],
-              (tx, results) => {
-             
-                console.log('Results', results.rowsAffected);
-                if (results.rowsAffected > 0) {
-                   
-                  Alert.alert(
-                    'Thành công',
-                    'Bạn đã thêm thành công',
-                    [
-                      {
-                        text: 'Ok',
-                        onPress: () => navigation.navigate('QLSP'),
-                      },
-                    ],
-                    {cancelable: false},
-                  );
-                  navigation.navigate('QLSP');
-                } else alert('Thêm thất bại');
-              }
-            );
-          });
         
-        
-    }
+        db.transaction(function (tx) {
+          
+          tx.executeSql(
+            'Update SanPham set TenSanPham=?, LoaiSanPham=?, HangSanXuat=?, GiaBan=?,TonKho=?,TrangThai=?,GhiChu=?   where MaSanPham=?',
+            [TenSanPham,LoaiSanPham, HangSanXuat,GiaBan,TonKho,TrangThai,ChuThich,ID],
+            (tx, results) => {
+              console.log('Results', results.rowsAffected);
+              if (results.rowsAffected > 0) {
+                 
+                Alert.alert(
+                  'Thành công'
+                  
+                );
+                navigation.navigate('QLSP');
+              } else alert('Thêm thất bại');
+            }
+          );
+        });
       
+      
+  }
     return (
       <ImageBackground
 
@@ -109,50 +125,54 @@ export default function ThemSP ({navigation,route,props})
                    </TouchableOpacity>
                    </ImageBackground>
                    <View style={styles.contenthead}>
-                  <Text style={styles.txtcontenthead}> Thêm sản phẩm</Text>
+                  <Text style={styles.txtcontenthead}> Sửa sản phẩm</Text>
                   </View>
         </View>
-       
-        <ScrollView style={styles.content}>
+        <View style={styles.content}>
                 <View style={styles.txtTT}>
-                    <Text style={styles.txtContent2}> Tên Sản Phẩm:</Text>
+                    <Text style={styles.txtContent2}> Tên SP:</Text>
                     <TextInput
                     style={styles.textInput}
                     placeholder="Nhập vào tên sản phẩm"
                     placeholderTextColor="gray"
-                    onChangeText={(tenSanPham) => setTenSanPham(tenSanPham)}
-      
+                    onChangeText={(TenSanPham) => setTenSanPham(TenSanPham)}
+                    defaultValue={tenSanPham}
+                    
                     />
-                    <Text style={styles.txtContent2}> Loại Sản Phẩmh:</Text>
+                    <Text style={styles.txtContent2}> Loại Sản Phẩm:</Text>
                     <TextInput
                     style={styles.textInput}
                     placeholder="Nhập vào loại sản phẩm"
                     placeholderTextColor="gray"
-                    onChangeText={(loaiSanPham) => setLoaiSanPham(loaiSanPham)}
+                    onChangeText={(LoaiSanPham) => setLoaiSanPham(LoaiSanPham)}
+                    defaultValue={loaiSanPham}
                    
                     />
                     <Text style={styles.txtContent2}> Hãng Sản Xuất:</Text>
                     <TextInput
                     style={styles.textInput}
-                    placeholder="Nhập vào hãng sản xuất"
+                    placeholder="Nhập vào hảng sản xuất"
                     placeholderTextColor="gray"
-                    onChangeText={(hangSanXuat) => setHangSanXuat(hangSanXuat)}
+                    onChangeText={(HangSanXuat) => setHangSanXuat(HangSanXuat)}
+                    defaultValue={hangSanXuat}
                    
                     />
-                    <Text style={styles.txtContent2}> Giá Bán:</Text>
+                    <Text style={styles.txtContent2}> Giá bán:</Text>
                     <TextInput
                     style={styles.textInput}
-                    placeholder="Nhập vào giá bán"
+                    placeholder="Nhập vào số giá bán"
                     placeholderTextColor="gray"
-                    onChangeText={(giaBan) => setGiaBan(giaBan)}
+                    onChangeText={(GiaBan) => setGiaBan(GiaBan)}
+                    defaultValue={giaBan}
                     
                     />
-                    <Text style={styles.txtContent2}> Tồn Kho:</Text>
+                    <Text style={styles.txtContent2}> TonKho:</Text>
                     <TextInput
                     style={styles.textInput}
-                    placeholder="Nhập vào số lượng tồn"
+                    placeholder="Nhập vào tồn kho"
                     placeholderTextColor="gray"
-                    onChangeText={(tonKho) => setTonKho(tonKho)}
+                    onChangeText={(TonKho) => setTonKho(TonKho)}
+                    defaultValue={tonKho}
                     
                     />
                     <Text style={styles.txtContent2}> Trạng Thái:</Text>
@@ -160,32 +180,31 @@ export default function ThemSP ({navigation,route,props})
                     style={styles.textInput}
                     placeholder="Nhập vào trạng thái"
                     placeholderTextColor="gray"
-                    onChangeText={(trangThai) => setTrangThai(trangThai)}
-                    
-                    />                 
-                    <Text style={styles.txtContent2}> Chú Thích:</Text>
+                    onChangeText={(TrangThai) => setTrangThai(TrangThai)}
+                    defaultValue={trangThai}
+                    />
+                    <Text style={styles.txtContent2}> Ghi Chú:</Text>
                     <TextInput
                     style={styles.textInput}
-                    placeholder="Nhập vào chú thích"
+                    placeholder="Nhập vào ghi chú"
                     placeholderTextColor="gray"
-                    onChangeText={(chuThich) => setChuThich(chuThich)}
-                    
+                    onChangeText={(ChuThich) => setChuThich(ChuThich)}
+                    defaultValue={chuThich}
                     />
                 </View>
-        </ScrollView>
-      
+        </View>
         <TouchableOpacity
-          style={styles.btnthem}
-          onPress={()=>{ThemSP()}}>
-         <Text style={styles.txtdn}>Thêm</Text>
-        </TouchableOpacity>
+                  style={styles.btnthem}
+                  onPress={()=>{CapNhatSP()}}
+                  >
+                  <Text style={styles.txtdn}>Cập nhật</Text>
+                </TouchableOpacity>
 
           
       </ImageBackground>
 
     );
   }
-  
 
   const styles = StyleSheet.create({
     container: {
@@ -213,13 +232,11 @@ export default function ThemSP ({navigation,route,props})
         borderWidth: 1.7,
         borderRadius: 23,
         marginBottom:10,
-        fontSize:16
+        fontSize:16,
+
       },
     content:{
       marginBottom:100,
-      height: 550,
-      marginTop:150,
-
     },
     image: {
       flex: 1,
@@ -303,7 +320,7 @@ export default function ThemSP ({navigation,route,props})
     },
     contenthead:{
       right:90,
-      bottom:25,
+      bottom:25
     },
     txtcontenthead:{
       fontSize: 25,
@@ -319,6 +336,7 @@ export default function ThemSP ({navigation,route,props})
       marginBottom: 20,
       marginLeft: 20,
       height: 52,
+  
     },
     txtdn: {
       color: 'white',
