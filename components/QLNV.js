@@ -17,7 +17,7 @@ import { useState,useEffect } from 'react';
 var SQLite=require('react-native-sqlite-storage') 
 var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
 
-export default function QLNhanVien ({navigation,route,props}) {
+export default function QLNhanVien ({navigation,route}) {
   const [items, setItems] = useState([]);
   const [empty, setEmpty] = useState([]);
   const[isRender,setisRender]=useState(false);
@@ -132,7 +132,9 @@ export default function QLNhanVien ({navigation,route,props}) {
 
         </View>
         <SafeAreaView>
-         <View>
+         <View style={{
+           height:650,
+         }} >
            <FlatList
               data={items}
               ItemSeparatorComponent={listViewItemSeparator}
@@ -146,8 +148,8 @@ export default function QLNhanVien ({navigation,route,props}) {
                   style={{
                     backgroundColor: 'white',
                     width: 384,
-                    marginTop: -0,
-                    marginBottom: -10,
+                    marginTop: 0,
+                    marginBottom:-10,
                     height: 100,
                   }}
                 >
@@ -188,7 +190,9 @@ export default function QLNhanVien ({navigation,route,props}) {
         </SafeAreaView>
          
         
-         <TouchableOpacity style={styles.Add}>
+         <TouchableOpacity onPress={()=>{
+            navigation.navigate("ThemNV")
+         }} style={styles.Add}>
               <Text style={styles.AddText}>+</Text>
           </TouchableOpacity>
 
@@ -218,7 +222,7 @@ const styles = StyleSheet.create({
         color: '#002D69',
         fontSize: 25,
         fontWeight: 'bold',
-        paddingRight:250
+        marginRight:250
       },
   image: {
     flex: 1,

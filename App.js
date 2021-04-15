@@ -10,6 +10,9 @@ import Main from './components/Main';
 import QLSP from './components/QLSP';
 import QLPN from './components/QLPN';
 import ThemPN from './components/ThemPN';
+import ThemSP from './components/ThemSP';
+import SuaNV from './components/SuaNV';
+import ThemNV from './components/ThemNV';
 export default function App() {
   const Stack = createStackNavigator();
   return (
@@ -22,7 +25,11 @@ export default function App() {
         <Stack.Screen name="CTNV" component={CTNV} options={{headerShown: false,}} />
         <Stack.Screen name="Main" component={Main} options={{headerShown: false,}} />
         <Stack.Screen name="QLPN" component={QLPN} options={{headerShown: false,}} />
+        <Stack.Screen name="QLSP" component={QLSP} options={{headerShown: false,}} />
+        <Stack.Screen name="ThemSP" component={ThemSP} options={{headerShown: false,}} />
         <Stack.Screen name="ThemPN" component={ThemPN} options={{headerShown: false,}} />
+        <Stack.Screen name="SuaNV" component={SuaNV} options={{headerShown: false,}} />
+        <Stack.Screen name="ThemNV" component={ThemNV} options={{headerShown: false,}} />
       </Stack.Navigator>
     </NavigationContainer>
   );
