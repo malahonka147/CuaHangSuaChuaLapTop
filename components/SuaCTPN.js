@@ -25,13 +25,36 @@ export default function SuaCTPN ({navigation,route,props}) {
 
   const [items, setItems] = useState([]);
   const [empty, setEmpty] = useState([]);
-  const {IDMaCTPN,IDMaPN,MaSanPham,SoLuong,GiaNhap,ChuThich}=route.params;
-  const [maSP, setMaSP] = useState(MaSanPham);
-  const [soLuong, setSoLuong] = useState(SoLuong);
-  const [giaNhap, setGiaNhap] = useState(GiaNhap);
-  const [chuThich, setChuThich] = useState(ChuThich);
-
+  const {IDMaCTPN,IDMaPN,MaSP,SoLuong,GiaNhap,ChuThich}=route.params;
+  const [maSP, setmaSP] = useState(MaSP);
+  const [soLuong, setsoLuong] = useState(SoLuong);
+  const [giaNhap, setgiaNhap] = useState(GiaNhap);
+  const [chuThich, setchuThich] = useState(ChuThich);
   
+  useEffect(() => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        'SELECT * FROM ChiTietPhieuNhap',
+        [],
+        (tx, results) => {
+          var temp = [];
+          for (let i = 0; i < results.rows.length; ++i)
+            temp.push(results.rows.item(i));
+
+          setItems({items: temp});
+ 
+          if (results.rows.length >= 1) {
+            setEmpty(false);
+          } else {
+            setEmpty(true)
+          }
+          
+ 
+        }
+      );
+ 
+    });
+  }, []);
   const CapNhatNV = () => {
     
 
