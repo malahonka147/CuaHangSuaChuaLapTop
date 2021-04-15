@@ -136,7 +136,10 @@ export default function QLSanPham ({navigation,route,props}) {
         <ScrollView>
         <SafeAreaView>
         
-         <View>
+         <View
+         style={{
+         height: 550,
+        }}>
            <FlatList
               data={items}
               ItemSeparatorComponent={listViewItemSeparator}
@@ -159,7 +162,9 @@ export default function QLSanPham ({navigation,route,props}) {
                     <Image style={{
                       width: 70,
                       height:70,
-                    }}>
+                    }}
+                    source={{uri:item.Image}}
+                    >
                      
                     </Image>
                     <View style={{
