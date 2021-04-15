@@ -61,7 +61,7 @@ export default function ThemPN ({navigation,route,props}) {
           }
           
           db.transaction(function (tx) {
-            ToastAndroid.show(""+tenNhanVien+ngaySinh+gioiTinh+soDT+diaChi+ghiChu,ToastAndroid.SHORT);
+            
             tx.executeSql(
               'INSERT INTO NhanVien (TenNhanVien,NgaySinh, GioiTinh, SoDT,DiaChi,GhiChu) VALUES (?,?,?,?,?,?)',
               [tenNhanVien,ngaySinh, gioiTinh, soDT,diaChi,ghiChu],
@@ -74,7 +74,7 @@ export default function ThemPN ({navigation,route,props}) {
                     'Thành công'
                     
                   );
-                  navigation.navigate('QLNV',{isRender});
+                  navigation.navigate('QLNV');
                 } else alert('Thêm thất bại');
               }
             );
@@ -150,7 +150,7 @@ export default function ThemPN ({navigation,route,props}) {
                     style={styles.textInput}
                     placeholder="Nhập vào ghi chú"
                     placeholderTextColor="gray"
-                    onChangeText={(ghiChu) => setgioiTinh(gioiTinh)}
+                    onChangeText={(ghiChu) => setghiChu(ghiChu)}
                     
                     />
                 </View>
@@ -193,6 +193,7 @@ export default function ThemPN ({navigation,route,props}) {
         borderWidth: 1.7,
         borderRadius: 23,
         marginBottom:10,
+        fontSize:16
       },
     content:{
       marginBottom:100,

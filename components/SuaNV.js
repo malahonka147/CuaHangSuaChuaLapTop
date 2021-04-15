@@ -27,6 +27,14 @@ export default function ThemPN ({navigation,route,props}) {
   
   const [items, setItems] = useState([]);
   const [empty, setEmpty] = useState([]);
+   
+  const {ID,tenNhanVien,ngaySinh,gioiTinh,soDT,diaChi,ghiChu}=route.params;
+  const [TenNhanVien, setTenNhanVien] = useState(tenNhanVien);
+  const [NgaySinh, setNgaySinh] = useState(ngaySinh);
+  const [SoDT, setSoDT] = useState(soDT);
+  const [DiaChi, setDiaChi] = useState(diaChi);
+  const [GioiTinh, setGioiTinh] = useState(gioiTinh);
+  const [GhiChu, setGhiChu] = useState(ghiChu);
     useEffect(() => {
       db.transaction((tx) => {
         tx.executeSql(
@@ -52,6 +60,50 @@ export default function ThemPN ({navigation,route,props}) {
    
       });
     }, []);
+    const CapNhatNV=()=>{
+      if (!tenNhanVien) {
+          alert('Vui lòng nhập tên nhân viên');
+          return;
+        }
+        if (!gioiTinh||(gioiTinh!='Nam'&&gioiTinh!='Nữ')) {
+          alert('Vui lòng nhập giới tính bằng Nam hoặc Nữ');
+          return;
+        }
+        if (!soDT) {
+          alert('Vui lòng nhập số điện thoại');
+          return;
+        }
+        if (!diaChi) {
+          alert('Vui lòng nhập địa chỉ');
+          return;
+        }
+        if (!ngaySinh) {
+          alert('Vui lòng nhập địa chỉ');
+          return;
+        }
+        
+        db.transaction(function (tx) {
+          
+          tx.executeSql(
+            'Update NhanVien set TenNhanVien=?, NgaySinh=?, GioiTinh=?, SoDT=?,DiaChi=?,GhiChu=?  where MaNhanVien=?',
+            [TenNhanVien,NgaySinh, GioiTinh, SoDT,DiaChi,GhiChu,ID],
+            (tx, results) => {
+              ToastAndroid.show(""+TenNhanVien+NgaySinh+GioiTinh+SoDT+DiaChi+GhiChu,ToastAndroid.SHORT);
+              console.log('Results', results.rowsAffected);
+              if (results.rowsAffected > 0) {
+                 
+                Alert.alert(
+                  'Thành công'
+                  
+                );
+                navigation.navigate('QLNV');
+              } else alert('Thêm thất bại');
+            }
+          );
+        });
+      
+      
+  }
     return (
       <ImageBackground
 
@@ -69,7 +121,7 @@ export default function ThemPN ({navigation,route,props}) {
                    </TouchableOpacity>
                    </ImageBackground>
                    <View style={styles.contenthead}>
-                  <Text style={styles.txtcontenthead}> Thêm nhân viên</Text>
+                  <Text style={styles.txtcontenthead}> Sửa nhân viên</Text>
                   </View>
         </View>
         <View style={styles.content}>
@@ -79,47 +131,61 @@ export default function ThemPN ({navigation,route,props}) {
                     style={styles.textInput}
                     placeholder="Nhập vào tên nhân viên"
                     placeholderTextColor="gray"
-                    onChangeText={(NhaPhanPhoi) => setnhaphanphoi(NhaPhanPhoi)}
-                    defaultValue={NhaPhanPhoi}
+                    onChangeText={(TenNhanVien) => setTenNhanVien(TenNhanVien)}
+                    defaultValue={tenNhanVien}
+                   
+                    />
+                    <Text style={styles.txtContent2}> Ngày Sinh:</Text>
+                    <TextInput
+                    style={styles.textInput}
+                    placeholder="Nhập vào ngày sinh"
+                    placeholderTextColor="gray"
+                    onChangeText={(NgaySinh) => setNgaySinh(NgaySinh)}
+                    defaultValue={ngaySinh}
+                   
                     />
                     <Text style={styles.txtContent2}> Giới Tính:</Text>
                     <TextInput
                     style={styles.textInput}
                     placeholder="Nhập vào giới tính"
                     placeholderTextColor="gray"
-                    onChangeText={(NhaPhanPhoi) => setnhaphanphoi(NhaPhanPhoi)}
-                    defaultValue={NhaPhanPhoi}
+                    onChangeText={(GioiTinh) => setGioiTinh(GioiTinh)}
+                    defaultValue={gioiTinh}
+                   
                     />
                     <Text style={styles.txtContent2}> Số điện thoại:</Text>
                     <TextInput
                     style={styles.textInput}
                     placeholder="Nhập vào số điện thoại"
                     placeholderTextColor="gray"
-                    onChangeText={(NhaPhanPhoi) => setnhaphanphoi(NhaPhanPhoi)}
-                    defaultValue={NhaPhanPhoi}
+                    onChangeText={(So) => setSoDT(SoDT)}
+                    defaultValue={soDT}
+                    
                     />
                     <Text style={styles.txtContent2}> Địa Chỉ:</Text>
                     <TextInput
                     style={styles.textInput}
                     placeholder="Nhập vào địa chỉ"
                     placeholderTextColor="gray"
-                    onChangeText={(NhaPhanPhoi) => setnhaphanphoi(NhaPhanPhoi)}
-                    defaultValue={NhaPhanPhoi}
+                    onChangeText={(DiaChi) => setDiaChi(DiaChi)}
+                    defaultValue={diaChi}
+                    
                     />
                     <Text style={styles.txtContent2}> Ghi Chú:</Text>
                     <TextInput
                     style={styles.textInput}
                     placeholder="Nhập vào ghi chú"
                     placeholderTextColor="gray"
-                    onChangeText={(NhaPhanPhoi) => setnhaphanphoi(NhaPhanPhoi)}
-                    defaultValue={NhaPhanPhoi}
+                    onChangeText={(GhiChu) => setGhiChu(GhiChu)}
+                    defaultValue={ghiChu}
                     />
                 </View>
         </View>
         <TouchableOpacity
                   style={styles.btnthem}
+                  onPress={()=>{CapNhatNV()}}
                   >
-                  <Text style={styles.txtdn}>Sửa</Text>
+                  <Text style={styles.txtdn}>Cập nhật</Text>
                 </TouchableOpacity>
 
           
@@ -154,9 +220,11 @@ export default function ThemPN ({navigation,route,props}) {
         borderWidth: 1.7,
         borderRadius: 23,
         marginBottom:10,
+        fontSize:16,
+
       },
     content:{
-      marginBottom:200,
+      marginBottom:100,
     },
     image: {
       flex: 1,

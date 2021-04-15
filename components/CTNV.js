@@ -117,7 +117,7 @@ export default function CTNV ({navigation,route}) {
               <Text style={styles.txtContent2}> Ghi Chú:</Text>
             </View>
 
-            <View  style={styles.content2}>
+            <View  style={styles.contentFlatlist}>
             <SafeAreaView>
               <FlatList
               data={items}
@@ -212,7 +212,7 @@ export default function CTNV ({navigation,route}) {
           <TouchableOpacity
               style={styles.btnlogin}
               onPress={() => {
-                  navigation.navigate("SuaNV",{ID,tenNhanVien,gioiTinh,soDT,diaChi,ghiChu})
+                  navigation.navigate("SuaNV",{ID,tenNhanVien,ngaySinh,gioiTinh,soDT,diaChi,ghiChu})
               
               }}>
               <Text style={styles.txtdn}>Sửa thông tin</Text>
@@ -233,7 +233,10 @@ const styles = StyleSheet.create({
     top:30
 
   },
-
+  contentFlatlist:{
+    width:280,
+    right:100
+  },
   content:{
     marginBottom:320,
   },

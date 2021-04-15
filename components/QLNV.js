@@ -12,6 +12,7 @@ import {
   ToastAndroid,
   SafeAreaView,
   FlatList,
+  RefreshControl,
 } from 'react-native';
 import { useState,useEffect } from 'react';
 var SQLite=require('react-native-sqlite-storage') 
@@ -104,7 +105,29 @@ export default function QLNhanVien ({navigation,route}) {
         );
       });
     };
-    
+    const RefreshNV=()=>{
+      db.transaction((tx) => {
+        tx.executeSql(
+          'SELECT * FROM NhanVien',
+          [],
+          (tx, results) => {
+            var temp = [];
+            for (let i = 0; i < results.rows.length; ++i)
+              temp.push(results.rows.item(i));
+            setItems(temp);
+   
+            if (results.rows.length >= 1) {
+              setEmpty(false);
+            } else {
+              setEmpty(true)
+            }
+   
+          }
+        );
+   
+      });
+    setisRender(!isRender);
+    }
     return (
       <ImageBackground
 
@@ -125,6 +148,12 @@ export default function QLNhanVien ({navigation,route}) {
               style={styles.iconNV}
                source={require('../images/NhanVien.png')}></ImageBackground>
           </TouchableOpacity> Quản lý nhân viên</Text>
+          <TouchableOpacity style={styles.btnIconRF}
+          onPress={()=>{RefreshNV()}} >
+             <ImageBackground
+              style={styles.iconNV}
+               source={require('../images/refresh.png')}></ImageBackground>
+          </TouchableOpacity>
 
 
           <View style={styles.header}>
@@ -210,6 +239,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 
   },
+  btnIconRF:{
+    left:190,
+    bottom:170,
+  },
   header: {
         backgroundColor: '#BED0EC',
         alignItems: 'center',
@@ -234,9 +267,9 @@ const styles = StyleSheet.create({
     marginVertical: -5,
   },
   iconBack: {
-    bottom:-20,
-    width: 30,
-    height: 30,
+    top:5,
+    width: 40,
+    height: 40,
     alignSelf: 'center',
     marginVertical: -5,
   },
@@ -295,7 +328,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#BED0EC',
     padding: 1,
-    top: 225,
+    top: 250,
     right:50,
     height: 55,
     width:'20%'
