@@ -10,7 +10,7 @@ import {
   Image,
   TouchableOpacity,
   Safe,
-  ToastAndroid
+  ToastAndroid,
 } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 var SQLite=require('react-native-sqlite-storage') 
@@ -41,6 +41,7 @@ export default function Login ({navigation,route}) {
       });
     });
   };
+  
     return (
      <ImageBackground
             source={require('../images/background.png')}
@@ -54,7 +55,7 @@ export default function Login ({navigation,route}) {
                   placeholder="Tài khoản"
                   placeholderTextColor="white"
                   onChangeText={(user) => setuser(user)}
-                  defaultValue={user}
+                  
                 />
 
                 <TextInput
@@ -63,7 +64,7 @@ export default function Login ({navigation,route}) {
                   placeholder="Mật khẩu"
                   placeholderTextColor="white"
                   onChangeText={(password) => setpassword(password)}
-                  defaultValue={password}
+                  
                 />
               </View>
 

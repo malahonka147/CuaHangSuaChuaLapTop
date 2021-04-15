@@ -21,13 +21,18 @@ var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Databa
 export default function QLPN ({navigation,route,props}) {
   const [items, setItems] = useState([]);
   const [empty, setEmpty] = useState([]);
-  const[IDMaPhieuNhap,setIDMaPhieuNhap]=useState([]);
+  const [MaPhieuNhap, setMaPhieuNhap] = useState([]);
+  const [MaCTPN, setMaCTPN] = useState([]);
+  const [MaSP, setMaSP] = useState([]);
+  const [SoLuong, setSoLuong] = useState([]);
+  const [TongTien, setTongTien] = useState([]);
+  const [ChuThich, setChuThich] = useState([]);
   const[isRender,setisRender]=useState(false);
     useEffect(() => {
       db.transaction((tx) => {
         tx.executeSql(
-          'SELECT * FROM PhieuNhap',
-          [],
+          'SELECT * FROM ChiTietPhieuNhap',
+          [IDPhieuNhap],
           (tx, results) => {
             var temp = [];
             for (let i = 0; i < results.rows.length; ++i)
@@ -72,15 +77,15 @@ export default function QLPN ({navigation,route,props}) {
     const deletePN = (item) => {
       db.transaction((tx) => {
         tx.executeSql(
-          'DELETE FROM  PHieuNhap where MaPhieuNhap=?',
-          [item.MaPhieuNhap],
+          'DELETE FROM  ChiTietPhieuNhap where MaCTPN=?',
+          [item.MaCTPN],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
             if (results.rowsAffected > 0) {
               alert('Xóa thành công');
                 db.transaction((tx) => {
                   tx.executeSql(
-                    'SELECT * FROM PhieuNhap',
+                    'SELECT * FROM ChiTietPhieuNhap',
                     [],
                     (tx, results) => {
                       var temp = [];
@@ -109,7 +114,7 @@ export default function QLPN ({navigation,route,props}) {
     const RefreshPN=()=>{
       db.transaction((tx) => {
         tx.executeSql(
-          'SELECT * FROM PhieuNhap',
+          'SELECT * FROM ChiTietPhieuNhap',
           [],
           (tx, results) => {
             var temp = [];
@@ -138,7 +143,7 @@ export default function QLPN ({navigation,route,props}) {
         <View style={styles.container}>
           <Text style={styles.txtNhanVien}>
           <TouchableOpacity style={styles.btnIcon}
-          onPress={() => {navigation.navigate('Main')}}
+          onPress={() => {navigation.navigate('QLPN')}}
             >
             <ImageBackground
               style={styles.iconBack}
@@ -158,7 +163,7 @@ export default function QLPN ({navigation,route,props}) {
           </TouchableOpacity>
 
           <View style={styles.header}>
-          <Text style={styles.headerText}>Phiếu Nhập {}</Text>
+          <Text style={styles.headerText}>Chi Tiết Phiếu Nhập - Mã Phiếu Nhập {IDPhieuNhap}</Text>
 
         </View>
         <SafeAreaView>
@@ -170,9 +175,7 @@ export default function QLPN ({navigation,route,props}) {
               ItemSeparatorComponent={listViewItemSeparator}
               keyExtractor={(item,index)=>index.toString()}
               renderItem={({item})=>
-              <TouchableOpacity 
-              onPress={()=>{
-                const IDPhieuNhap=item.MaPhieuNhap; navigation.navigate("CTPN",{IDPhieuNhap})}}>
+              <TouchableOpacity onPress={()=>{navigation.navigate("CTPNH")}}>
                 <View key={item.MaPhieuNhap}
                   style={{
                     backgroundColor: 'white',
@@ -182,10 +185,11 @@ export default function QLPN ({navigation,route,props}) {
                   }}
                 >
                  
-                    <Text style={styles.txtContent}>Mã Phiếu Nhập: {item.MaPhieuNhap}</Text>
-                    <Text style={styles.txtContent}>Nhà Phân Phối: {item.NhaPhanPhoi}</Text>
-                    <Text style={styles.txtContent}>Ngày Nhập: {item.NgayNhap}</Text>
+                    <Text style={styles.txtContent}>Mã CT Phiếu Nhập: {item.MaCTPN}</Text>
+                    <Text style={styles.txtContent}>Mã SP: {item.MaSP}</Text>
+                    <Text style={styles.txtContent}>Số Lượng: {item.SoLuong}</Text>
                     <Text style={styles.txtContent}>Tổng Tiền: {item.TongTien}</Text>
+                    <Text style={styles.txtContent}>Chú Thích: {item.ChuThich}</Text>
                    <TouchableOpacity style={styles.btnIconDel} 
                      onPress={
                       ()=> {
