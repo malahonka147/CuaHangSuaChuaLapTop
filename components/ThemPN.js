@@ -16,6 +16,7 @@ import {
 
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
+import DropDownPicker from 'react-native-dropdown-picker';
 import { useState,useEffect } from 'react';
 var SQLite=require('react-native-sqlite-storage') 
 var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
@@ -23,8 +24,36 @@ var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Databa
 export default function ThemPN ({navigation,route,props}) {  
   const [date, setDate] = useState(new Date())
   const[NhaPhanPhoi,setnhaphanphoi]=useState();
-  const[IDNhanVien,setIDNhanVien]=useState([]);
+
   const[ChuThich,setchuthich]=useState();
+  
+  const [items, setItems] = useState([]);
+  const [empty, setEmpty] = useState([]);
+    useEffect(() => {
+      db.transaction((tx) => {
+        tx.executeSql(
+          'SELECT TenNhanVien,MaNhanVien FROM NhanVien',
+          [],
+          (tx, results) => {
+            var temp = [];
+            for (let i = 0; i < results.rows.length; ++i)
+              temp.push({label: results.rows.item(i).TenNhanVien, value: results.rows.item[i].MaNhanVien});
+              console.log(label);
+              console.log(value);
+            setItems({items: temp});
+   
+            if (results.rows.length >= 1) {
+              setEmpty(false);
+            } else {
+              setEmpty(true)
+            }
+            
+   
+          }
+        );
+   
+      });
+    }, []);
     return (
       <ImageBackground
 
@@ -51,6 +80,7 @@ export default function ThemPN ({navigation,route,props}) {
         
 
         <View >
+        <SafeAreaView>
         <Text style={{color:'white',marginBottom:3,marginTop:10,marginLeft:10}}>Nhà Phân Phối</Text>
                 <TextInput
 
@@ -62,22 +92,27 @@ export default function ThemPN ({navigation,route,props}) {
                   defaultValue={NhaPhanPhoi}
                 />
                 <Text style={{color:'white',marginBottom:3,marginTop:5,marginLeft:10}}>Nhân Viên</Text>
-                <TextInput
-                  style={styles.textInput}
-                  placeholder="Chọn Mã NV"
-                  placeholderTextColor="gray"
-                  onChangeText={(IDNhanVien) => setIDNhanVien(IDNhanVien)}
-                  defaultValue={IDNhanVien}
-                  
+                <DropDownPicker
+                    items={items}
+                  defaultValue={items}
+                  containerStyle={{height: 40}}
+                  style={{backgroundColor: '#fafafa'}}
+                  itemStyle={{
+                      justifyContent: 'flex-start'
+                  }}
+                  dropDownStyle={{backgroundColor: '#fafafa'}}
+                  onChangeItem={item=>setItems({items: item.value})}
                 />
                 <Text style={{color:'white',marginBottom:3,marginLeft:10}}>Ngày Lập</Text>
                 <DatePicker 
+
                   style={{width:450}}
                   date={date}
                   mode="date"
                   onDateChange={setDate}
                 />
                 <Text style={{color:'white',marginBottom:3,marginTop:5,marginLeft:10}}>Chú Thích</Text>
+
                 <TextInput
                   style={styles.textInput}
                   placeholder="Nhập chú thích"
@@ -88,18 +123,15 @@ export default function ThemPN ({navigation,route,props}) {
                 />
                    
                   
-           
+                   </SafeAreaView>   
            </View>
-           
-        
-         
-        
+                  
            <TouchableOpacity
                   style={styles.btnthem}
                   >
                   <Text style={styles.txtdn}>Thêm</Text>
                 </TouchableOpacity>
-
+                
 
           </View>
           
