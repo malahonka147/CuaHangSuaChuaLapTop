@@ -20,6 +20,7 @@ export default function Login ({navigation,route}) {
  const[password,setpassword]=useState();
   OnPressLogin=()=>{
     db.transaction((tx)=>{
+      
       sql='select * from User where TenDangNhap=\''+user+'\'';
       tx.executeSql(sql,[],(tx,results)=>{
         var len=results.rows.length;

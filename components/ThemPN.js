@@ -22,38 +22,57 @@ var SQLite=require('react-native-sqlite-storage')
 var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
 
 export default function ThemPN ({navigation,route,props}) {  
-  const [date, setDate] = useState(new Date())
+  const [date, setDate] = useState()
   const[NhaPhanPhoi,setnhaphanphoi]=useState();
 
   const[ChuThich,setchuthich]=useState();
   
   const [items, setItems] = useState([]);
   const [empty, setEmpty] = useState([]);
-    useEffect(() => {
-      db.transaction((tx) => {
-        tx.executeSql(
-          'SELECT TenNhanVien,MaNhanVien FROM NhanVien',
-          [],
-          (tx, results) => {
-            var temp = [];
-            for (let i = 0; i < results.rows.length; ++i)
-              temp.push({label: results.rows.item(i).TenNhanVien, value: results.rows.item[i].MaNhanVien});
-              console.log(label);
-              console.log(value);
-            setItems({items: temp});
+  const [MaNhanVien, setMaNhanVien] = useState();
+  
+  const [TenNhanVien, setTenNhanVien] = useState([]);
+  const ThemPNhap = () => {
+    console.log(NhaPhanPhoi, MaNhanVien, date,ChuThich);
+
+    if (!NhaPhanPhoi) {
+      alert('Vui lòng nhập tên nhà phân phối');
+      return;
+    }
+    if (!MaNhanVien) {
+      alert('Vui lòng nhập mã nhân viên');
+      return;
+    }
+    if (!ChuThich) {
+      alert('Vui lòng nhập chú thích');
+      return;
+    }
+
+    db.transaction(function (tx) {
+      tx.executeSql(
+        'INSERT INTO PhieuNhap (MaNhanVien, NhaPhanPhoi, TongTien,NgayNhap,ChuThich) VALUES (?,?,?,?,?)',
+        [MaNhanVien, NhaPhanPhoi, 0,date,ChuThich],
+        (tx, results) => {
+          console.log('Results', results.rowsAffected);
+          if (results.rowsAffected > 0) {
+            Alert.alert(
+              'Thành công',
+              'Bạn đã thêm thành công',
+              [
+                {
+                  text: 'Ok',
+                  onPress: () => navigation.navigate('QLPN'),
+                },
+              ],
+              {cancelable: false},
+            );
+          } else alert('Thêm thất bại!!!');
+        },
+      );
+    });
+  };
    
-            if (results.rows.length >= 1) {
-              setEmpty(false);
-            } else {
-              setEmpty(true)
-            }
-            
-   
-          }
-        );
-   
-      });
-    }, []);
+    
     return (
       <ImageBackground
 
@@ -89,10 +108,19 @@ export default function ThemPN ({navigation,route,props}) {
                   placeholder="Nhập tên nhà phân phối"
                   placeholderTextColor="gray"
                   onChangeText={(NhaPhanPhoi) => setnhaphanphoi(NhaPhanPhoi)}
-                  defaultValue={NhaPhanPhoi}
+                  
                 />
                 <Text style={{color:'white',marginBottom:3,marginTop:5,marginLeft:10}}>Nhân Viên</Text>
-                <DropDownPicker
+                <TextInput
+
+                  style={styles.textInput}
+                  
+                  placeholder="Nhập mã nhân viên"
+                  placeholderTextColor="gray"
+                  onChangeText={(MaNhanVien) => setMaNhanVien(MaNhanVien)}
+                  
+                />
+                {/* <DropDownPicker
                     items={items}
                   defaultValue={items}
                   containerStyle={{height: 40}}
@@ -101,16 +129,28 @@ export default function ThemPN ({navigation,route,props}) {
                       justifyContent: 'flex-start'
                   }}
                   dropDownStyle={{backgroundColor: '#fafafa'}}
-                  onChangeItem={item=>setItems({items: item.value})}
-                />
+                  onChangeItem={(items)=>setItems({items: items.value})}
+                /> */}
+
+                
                 <Text style={{color:'white',marginBottom:3,marginLeft:10}}>Ngày Lập</Text>
-                <DatePicker 
+                {/* <DatePicker 
 
                   style={{width:450}}
                   date={date}
                   mode="date"
                   onDateChange={setDate}
-                />
+                /> */
+                }
+                <TextInput
+
+style={styles.textInput}
+
+placeholder="Nhập ngày lập"
+placeholderTextColor="gray"
+onChangeText={(date) => setDate(date)}
+
+/>
                 <Text style={{color:'white',marginBottom:3,marginTop:5,marginLeft:10}}>Chú Thích</Text>
 
                 <TextInput
@@ -118,7 +158,7 @@ export default function ThemPN ({navigation,route,props}) {
                   placeholder="Nhập chú thích"
                   placeholderTextColor="gray"
                   onChangeText={(ChuThich) => setchuthich(ChuThich)}
-                  defaultValue={ChuThich}
+                  
                   
                 />
                    
@@ -128,6 +168,7 @@ export default function ThemPN ({navigation,route,props}) {
                   
            <TouchableOpacity
                   style={styles.btnthem}
+                  onPress={()=>{ThemPNhap()}}
                   >
                   <Text style={styles.txtdn}>Thêm</Text>
                 </TouchableOpacity>
