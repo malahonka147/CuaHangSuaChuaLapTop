@@ -71,22 +71,13 @@ export default function ThemPN ({navigation,route,props}) {
                 console.log('Results', results.rowsAffected);
                 if (results.rowsAffected > 0) 
                 {
-                  
-
                   db.transaction((tx)=>
                   {
                     
-                    tx.executeSql('Update phieunhap set Tongtien=TongTien+? where MaPhieuNhap=?',
-                    [(SoLuong*GiaNhap),IDPN],
-                    (tx, results) => {
-                      console.log('Results', results.rowsAffected);
-                      if (results.rowsAffected > 0) 
-                      { Alert.alert('Thêm thành công')
-                      db.transaction((tx)=>
-                  {
-                    console.log(IDPN, MaSanPham, SoLuong,GiaNhap,ChuThich);
-                    tx.executeSql('Update SanPham set TonKho=TonKho+? where MaSanPham=?',
-                    [SoLuong,MaSanPham],
+                    sql='Update SanPham set TonKho=TonKho+\''+SoLuong+'\'where MaSanPham=\''+MaSanPham+'\'' ;
+                    
+                    tx.executeSql(sql,
+                    [],
                     (tx, results) => {
                       console.log('Results', results.rowsAffected);
                       if (results.rowsAffected > 0) 
@@ -97,6 +88,17 @@ export default function ThemPN ({navigation,route,props}) {
                       else alert('Cập nhật SL thất bại!!!');
                   });
                   });
+                  
+                  db.transaction((tx)=>
+                  {
+                    
+                    tx.executeSql('Update phieunhap set Tongtien=TongTien+? where MaPhieuNhap=?',
+                    [(SoLuong*GiaNhap),IDPN],
+                    (tx, results) => {
+                      console.log('Results', results.rowsAffected);
+                      if (results.rowsAffected > 0) 
+                      { Alert.alert('Thêm thành công')
+                      
                       navigation.navigate('CTPN');
                       }
                       else alert('Cập nhật Tổng Tiền thất bại!!!');
