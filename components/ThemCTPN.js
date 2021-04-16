@@ -33,8 +33,8 @@ export default function ThemPN ({navigation,route,props}) {
 
   
   const ThemCTPNhap = () => {
-    console.log(IDPN, MaSanPham, SoLuong,GiaNhap,ChuThich);
-
+    
+    
     if (!MaSanPham) {
       alert('Vui lòng nhập mã sản phẩm');
       return;
@@ -65,15 +65,18 @@ export default function ThemPN ({navigation,route,props}) {
         else
         {
           db.transaction((tx)=>{
+            
             tx.executeSql(
-              'INSERT INTO ChiTietPhieuNhap (MaPhieuNhap, MaSanPham, GiaNhap, SoLuong,ChuThich) VALUES (?,?,?,?,?)',
-              [IDPN, MaSanPham,GiaNhap, SoLuong,ChuThich],
+              'INSERT INTO ChiTietPhieuNhap (MaPhieuNhap, MaSanPham, SoLuong, GiaNhap,ChuThich) VALUES (?,?,?,?,?)',
+              [IDPN, MaSanPham, SoLuong,GiaNhap,ChuThich],
               (tx, results) => {
+                console.log(IDPN, MaSanPham, SoLuong,GiaNhap,ChuThich);
                 console.log('Results', results.rowsAffected);
                 if (results.rowsAffected > 0) 
                 {
                   db.transaction((tx)=>
                   {
+                    
                     tx.executeSql('Update phieunhap set Tongtien=? where MaPhieuNhap=?',
                     [(SoLuong*GiaNhap),IDPN],
                     (tx, results) => {

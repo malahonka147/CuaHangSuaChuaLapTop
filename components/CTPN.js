@@ -277,7 +277,8 @@ const styles = StyleSheet.create({
         color: '#002D69', 
         fontSize: 25,
         fontWeight: 'bold',
-        paddingRight:300,
+        width:250,
+        right:80,
         
 
       },
@@ -289,17 +290,18 @@ const styles = StyleSheet.create({
     height: 60,
     alignSelf: 'center',
     marginVertical: -5,
+    
   },
   iconBack: {
-    bottom:-20,
-    width: 40,
-    height: 40,
+    bottom:-50,
+    width: 50,
+    height: 50,
     alignSelf: 'center',
     marginVertical: -5,
   },
   btnIcon: {
-    width: 30,
-    height: 30,
+    width: 50,
+    height: 80,
     marginTop:3,
   },
   iconNV: {
@@ -317,10 +319,11 @@ const styles = StyleSheet.create({
       marginTop:3,
     },
   btnIconDel:{
-    bottom:50,
+    bottom:80,
     height: 40,
     width:30,
     marginLeft:380,
+    
   },
   txtNhanVien: {
     fontSize: 30,
@@ -352,9 +355,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#BED0EC',
     padding: 1,
-    top: 225,
+    top: 255,
     right:50,
     height: 55,
+
     width:'10%'
   },
   AddText:{
