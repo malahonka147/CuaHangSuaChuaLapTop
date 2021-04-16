@@ -67,10 +67,12 @@ export default function ThemPN ({navigation,route,props}) {
               'INSERT INTO ChiTietPhieuNhap (MaPhieuNhap, MaSanPham, SoLuong, GiaNhap,ChuThich) VALUES (?,?,?,?,?)',
               [IDPN, MaSanPham, SoLuong,GiaNhap,ChuThich],
               (tx, results) => {
-                console.log(IDPN, MaSanPham, SoLuong,GiaNhap,ChuThich);
+               
                 console.log('Results', results.rowsAffected);
                 if (results.rowsAffected > 0) 
                 {
+                  
+
                   db.transaction((tx)=>
                   {
                     
@@ -80,10 +82,24 @@ export default function ThemPN ({navigation,route,props}) {
                       console.log('Results', results.rowsAffected);
                       if (results.rowsAffected > 0) 
                       { Alert.alert('Thêm thành công')
+                      db.transaction((tx)=>
+                  {
+                    console.log(IDPN, MaSanPham, SoLuong,GiaNhap,ChuThich);
+                    tx.executeSql('Update SanPham set TonKho=TonKho+? where MaSanPham=?',
+                    [SoLuong,MaSanPham],
+                    (tx, results) => {
+                      console.log('Results', results.rowsAffected);
+                      if (results.rowsAffected > 0) 
+                      { Alert.alert('Cập nhật Số lượng thành công')
                       
+                     
+                      }
+                      else alert('Cập nhật SL thất bại!!!');
+                  });
+                  });
                       navigation.navigate('CTPN');
                       }
-                      else alert('Cập nhật thất bại!!!');
+                      else alert('Cập nhật Tổng Tiền thất bại!!!');
                   });
                   });
                   

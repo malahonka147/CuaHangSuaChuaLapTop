@@ -178,7 +178,7 @@ export default function QLNhanVien ({navigation,route}) {
                     backgroundColor: 'white',
                     width: 384,
                     marginTop: 0,
-                    marginBottom:-10,
+                    marginBottom:0,
                     height: 100,
                   }}
                 >
