@@ -18,8 +18,6 @@ import {
 import DatePicker from 'react-native-date-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useState,useEffect } from 'react';
-//import ImagePicker from 'react-native-image-picker';
-//import RNFetchBlob from 'rn-fetch-blob';
 var SQLite=require('react-native-sqlite-storage') 
 var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
 
@@ -109,7 +107,7 @@ export default function ThemSP ({navigation,route,props})
                   </View>
         </View>
        
-        <ScrollView style={styles.content}>
+
                 <View style={styles.txtTT}>
                     <Text style={styles.txtContent2}> Tên Sản Phẩm:</Text>
                     <TextInput
@@ -119,7 +117,7 @@ export default function ThemSP ({navigation,route,props})
                     onChangeText={(tenSanPham) => setTenSanPham(tenSanPham)}
       
                     />
-                    <Text style={styles.txtContent2}> Loại Sản Phẩmh:</Text>
+                    <Text style={styles.txtContent2}> Loại Sản Phẩm:</Text>
                     <TextInput
                     style={styles.textInput}
                     placeholder="Nhập vào loại sản phẩm"
@@ -168,7 +166,6 @@ export default function ThemSP ({navigation,route,props})
                     
                     />
                 </View>
-        </ScrollView>
       
         <TouchableOpacity
           style={styles.btnthem}
@@ -269,6 +266,7 @@ export default function ThemSP ({navigation,route,props})
     },
     txtTT:{
       justifyContent: 'flex-start',
+      height:700,
     },
     content3:{
       justifyContent: 'flex-end',

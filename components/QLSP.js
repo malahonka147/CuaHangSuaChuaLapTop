@@ -182,7 +182,7 @@ export default function QLSanPham ({navigation,route,props}) {
                 }}>
                 <View key={item.MaNhanVien}
                   style={{
-                 
+                    backgroundColor:"white",
                     width: 384,
                     marginTop: -0,
                     marginBottom: -10,
@@ -315,7 +315,7 @@ const styles = StyleSheet.create({
     bottom:50,
     height: 40,
     width:30,
-    marginLeft:280,
+    marginLeft:320,
   },
   txtNhanVien: {
     fontSize: 30,
@@ -333,7 +333,7 @@ const styles = StyleSheet.create({
     height: 59,
   },
   txtContent: {
-    color: '#FFFFFF',
+    color: '#002D69',
     fontSize: 16,
     fontWeight: 'bold',
     textAlignVertical: 'center',
