@@ -122,6 +122,7 @@ return (
                 placeholder="Nhập vào mã sản phẩm"
                 placeholderTextColor="gray"
                 onChangeText={(maSP) => setmaSP(maSP)}
+                defaultvalue={MaSP}
                 
                
                 />
@@ -131,7 +132,7 @@ return (
                 placeholder="Nhập vào số lượng"
                 placeholderTextColor="gray"
                 onChangeText={(soLuong) => setsoLuong(soLuong)}
-                
+                defaultvalue={SoLuong}
                
                 />
                 <Text style={styles.txtContent2}> Giá Nhập:</Text>
@@ -140,6 +141,7 @@ return (
                 placeholder="Nhập vào giá nhập"
                 placeholderTextColor="gray"
                 onChangeText={(giaNhap) => setgiaNhap(giaNhap)}
+                defaultvalue={GiaNhap}
                 
                
                 />
@@ -150,7 +152,7 @@ return (
                 placeholder="Nhập vào chú thích"
                 placeholderTextColor="gray"
                 onChangeText={(chuThich) => setchuThich(chuThich)}
-                
+                defaultvalue={ChuThich}
                 />
             </View>
     </View>

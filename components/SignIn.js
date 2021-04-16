@@ -72,21 +72,7 @@ export default function Login ({navigation,route}) {
                 />
               </View>
 
-              <View style={styles.checkboxContainer}>
-                <View style={styles.checkboxContainer}>
-                  <CheckBox value={true}  style={styles.checkbox} />
-                  <Text style={styles.label}>Nhớ mật khẩu</Text>
-                </View>
-
-                <View style={styles.checkboxContainer}>
-                  <TouchableOpacity
-                    onPress={() => {
-                    navigation.navigate('ForgotPassword');
-                    }}>
-                    <Text style={{ color: 'white' }}>Quên mật khẩu</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
+              
 
               <View style={styles.containera}>
                 <TouchableOpacity

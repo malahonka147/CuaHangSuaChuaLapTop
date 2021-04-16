@@ -107,7 +107,6 @@ export default function CTPN ({navigation,route,props}) {
              
                     }
                   );
-             
                 });
               setisRender(!isRender);
             } else {
@@ -279,6 +278,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         paddingRight:300,
+        
 
       },
   image: {
