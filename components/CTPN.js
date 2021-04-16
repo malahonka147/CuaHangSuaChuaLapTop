@@ -88,10 +88,9 @@ export default function CTPN ({navigation,route,props}) {
           'DELETE FROM  ChiTietPhieuNhap where MaCTPN=?',
           [item.MaCTPN],
           (tx, results) => {
-            console.log('Results', results.rowsAffected);
             if (results.rowsAffected > 0) {
               alert('Xóa thành công');
-              
+            +
                 db.transaction((tx) => {
                   tx.executeSql(
                     'SELECT * FROM ChiTietPhieuNhap where MaPhieuNhap=?',
@@ -242,7 +241,6 @@ export default function CTPN ({navigation,route,props}) {
          <TouchableOpacity style={styles.Add}
          onPress={()=>{
            const IDPN=IDPhieuNhap;
-           console.log(IDPN);
            navigation.navigate("ThemCTPN",{IDPN})}}>
               <Text style={styles.AddText}>+</Text>
 
