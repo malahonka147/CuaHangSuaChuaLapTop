@@ -25,11 +25,11 @@ export default function CTPN ({navigation,route,props}) {
   const [MaPhieuNhap, setMaPhieuNhap] = useState([]);
   const [MaCTPN, setMaCTPN] = useState([]);
   const [MaSP, setMaSP] = useState([]);
-  const [SoLuong, setSoLuong] = useState([]);
-  const [TongTien, setTongTien] = useState([]);
+  const [SoLuong, setSoLuong] = useState();
+  const [GiaNhap, setGiaNhap] = useState();
   const [TongTienPN, setTongTienPN] = useState();
   const [ChuThich, setChuThich] = useState([]);
-  
+  const [itemss, setItemss] = useState([]);
   
 
   const[isRender,setisRender]=useState(false);
@@ -81,7 +81,9 @@ export default function CTPN ({navigation,route,props}) {
       );
     }
     const deletePN = (item) => {
+      
       db.transaction((tx) => {
+        
         tx.executeSql(
           'DELETE FROM  ChiTietPhieuNhap where MaCTPN=?',
           [item.MaCTPN],
@@ -89,6 +91,7 @@ export default function CTPN ({navigation,route,props}) {
             console.log('Results', results.rowsAffected);
             if (results.rowsAffected > 0) {
               alert('Xóa thành công');
+              
                 db.transaction((tx) => {
                   tx.executeSql(
                     'SELECT * FROM ChiTietPhieuNhap where MaPhieuNhap=?',

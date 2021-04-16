@@ -44,10 +44,7 @@ export default function ThemPN ({navigation,route,props})
       alert('Vui lòng nhập mã nhân viên');
       return;
     }
-    if (!ChuThich) {
-      alert('Vui lòng nhập chú thích');
-      return;
-    }
+    
     
           db.transaction(function (tx) {
             tx.executeSql(
@@ -313,7 +310,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#0269FC',
     borderRadius: 23,
     width: '90%',
-    marginTop: 10,
+    marginTop: 290,
     marginBottom: 5,
     height: 52,
   },

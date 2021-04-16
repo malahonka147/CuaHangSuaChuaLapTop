@@ -50,10 +50,7 @@ export default function SuaCTPN ({navigation,route,props}) {
       alert('Vui lòng nhập giá nhập');
       return;
     }
-    if (!chuThich) {
-      alert('Vui lòng nhập chú thích');
-      return;
-    }
+    
     db.transaction(function (tx) {
           
       tx.executeSql(
@@ -102,7 +99,7 @@ return (
                 placeholder="Nhập vào mã sản phẩm"
                 placeholderTextColor="gray"
                 onChangeText={(maSP) => setmaSP(maSP)}
-                defaultvalue={maSP}
+                defaultValue={String(maSP)}
                 
                
                 />
@@ -112,7 +109,7 @@ return (
                 placeholder="Nhập vào số lượng"
                 placeholderTextColor="gray"
                 onChangeText={(soLuong) => setsoLuong(soLuong)}
-                defaultvalue={soLuong}
+                defaultValue={String(soLuong)}
                
                 />
                 <Text style={styles.txtContent2}> Giá Nhập:</Text>
@@ -121,7 +118,7 @@ return (
                 placeholder="Nhập vào giá nhập"
                 placeholderTextColor="gray"
                 onChangeText={(giaNhap) => setgiaNhap(giaNhap)}
-                defaultvalue={giaNhap}
+                defaultValue={String(giaNhap)}
                 
                
                 />
@@ -132,13 +129,13 @@ return (
                 placeholder="Nhập vào chú thích"
                 placeholderTextColor="gray"
                 onChangeText={(chuThich) => setchuThich(chuThich)}
-                defaultvalue={chuThich}
+                defaultValue={chuThich}
                 />
             </View>
     </View>
     <TouchableOpacity
               style={styles.btnthem}
-              onPress={()=>{test()}}
+              onPress={()=>{CapNhatNV()}}
               >
               <Text style={styles.txtdn}>Cập nhật</Text>
             </TouchableOpacity>
@@ -161,7 +158,8 @@ btnthem: {
     backgroundColor: '#0269FC',
     borderRadius: 23,
     width: '90%',
-    marginBottom: 150,
+    top:160,
+    marginBottom: 180,
     height: 52,
     left:20,
   },
@@ -262,7 +260,7 @@ iconNext:{
   height: 30,
 },
 contenthead:{
-  right:90,
+  right:70,
   bottom:25
 },
 txtcontenthead:{

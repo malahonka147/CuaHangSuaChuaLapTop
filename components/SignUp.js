@@ -16,10 +16,10 @@ var SQLite=require('react-native-sqlite-storage')
 var db = SQLite.openDatabase({name: "Database.db", createFromLocation : '~Database.db'});
 export default function SignUp ({navigation,route}) {
   
-  const [user,setuser]=useState([]);
-  const [password,setpassword]=useState([]);
-  const [maNV,setmaNV]=useState([]);
-  const [repassword,setrepassword]=useState([]);
+  const [user,setuser]=useState('');
+  const [password,setpassword]=useState('');
+  const [maNV,setmaNV]=useState('');
+  const [repassword,setrepassword]=useState('');
   const DangKyTK=()=>{
     if (!user) {
       alert('Vui lòng nhập tên tài khoản');
@@ -97,6 +97,7 @@ export default function SignUp ({navigation,route}) {
             placeholder="Tài khoản"
             placeholderTextColor="white"
             onChangeText={(user) => setuser( user )}
+            defaultValue={user}
           />
 
           <TextInput
@@ -105,6 +106,7 @@ export default function SignUp ({navigation,route}) {
             placeholderTextColor="white"
             autoCorrect={false}
             onChangeText={(maNV) => setmaNV( maNV )}
+            defaultValue={maNV}
           />
           <TextInput
             secureTextEntry
@@ -113,6 +115,7 @@ export default function SignUp ({navigation,route}) {
             placeholderTextColor="white"
             autoCorrect={false}
             onChangeText={(password) => setpassword( password )}
+            defaultValue={password}
           />
           <TextInput
             secureTextEntry
@@ -120,6 +123,7 @@ export default function SignUp ({navigation,route}) {
             placeholder="Nhập lại Mật khẩu"
             placeholderTextColor="white"
             onChangeText={(repassword) => setrepassword(repassword )}
+            defaultValue={repassword}
           />
           <TouchableOpacity
             style={styles.btnlogin}
