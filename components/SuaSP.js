@@ -144,7 +144,7 @@ export default function SuaSP ({navigation,route,props}) {
                     placeholderTextColor="gray"
                     onChangeText={(GiaBan) => setGiaBan(GiaBan)}
                     
-                    defaultValue={giaBan}
+                    defaultValue={String(giaBan)}
                     
                     />
                     <Text style={styles.txtContent2}> TonKho:</Text>
@@ -153,7 +153,7 @@ export default function SuaSP ({navigation,route,props}) {
                     placeholder="Nhập vào tồn kho"
                     placeholderTextColor="gray"
                     onChangeText={(TonKho) => setTonKho(TonKho)}
-                    defaultValue={tonKho}
+                    defaultValue={String(tonKho)}
                     
                     />
                     <Text style={styles.txtContent2}> Trạng Thái:</Text>
