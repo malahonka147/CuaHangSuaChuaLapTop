@@ -44,10 +44,7 @@ export default function ThemPN ({navigation,route,props})
       alert('Vui lòng nhập mã nhân viên');
       return;
     }
-    if (!ChuThich) {
-      alert('Vui lòng nhập chú thích');
-      return;
-    }
+    
     
           db.transaction(function (tx) {
             tx.executeSql(

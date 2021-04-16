@@ -47,10 +47,7 @@ export default function ThemPN ({navigation,route,props}) {
       alert('Vui lòng nhập giá nhập');
       return;
     }
-    if (!ChuThich) {
-      alert('Vui lòng nhập chú thích');
-      return;
-    }
+    
     db.transaction((tx)=>{
       
       sql='select * from SanPham where MaSanPham=\''+MaSanPham+'\'';
@@ -77,7 +74,7 @@ export default function ThemPN ({navigation,route,props}) {
                   db.transaction((tx)=>
                   {
                     
-                    tx.executeSql('Update phieunhap set Tongtien=? where MaPhieuNhap=?',
+                    tx.executeSql('Update phieunhap set Tongtien=TongTien+? where MaPhieuNhap=?',
                     [(SoLuong*GiaNhap),IDPN],
                     (tx, results) => {
                       console.log('Results', results.rowsAffected);
