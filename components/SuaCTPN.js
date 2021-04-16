@@ -31,30 +31,10 @@ export default function SuaCTPN ({navigation,route,props}) {
   const [giaNhap, setgiaNhap] = useState(GiaNhap);
   const [chuThich, setchuThich] = useState(ChuThich);
   
-  useEffect(() => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        'SELECT * FROM ChiTietPhieuNhap',
-        [],
-        (tx, results) => {
-          var temp = [];
-          for (let i = 0; i < results.rows.length; ++i)
-            temp.push(results.rows.item(i));
-
-          setItems({items: temp});
- 
-          if (results.rows.length >= 1) {
-            setEmpty(false);
-          } else {
-            setEmpty(true)
-          }
-          
- 
-        }
-      );
- 
-    });
-  }, []);
+  const test=()=>
+  {
+    console.log(IDMaCTPN,maSP,soLuong,giaNhap,chuThich);
+  }
   const CapNhatNV = () => {
     
 
@@ -122,7 +102,7 @@ return (
                 placeholder="Nhập vào mã sản phẩm"
                 placeholderTextColor="gray"
                 onChangeText={(maSP) => setmaSP(maSP)}
-                defaultvalue={MaSP}
+                defaultvalue={maSP}
                 
                
                 />
@@ -132,7 +112,7 @@ return (
                 placeholder="Nhập vào số lượng"
                 placeholderTextColor="gray"
                 onChangeText={(soLuong) => setsoLuong(soLuong)}
-                defaultvalue={SoLuong}
+                defaultvalue={soLuong}
                
                 />
                 <Text style={styles.txtContent2}> Giá Nhập:</Text>
@@ -141,7 +121,7 @@ return (
                 placeholder="Nhập vào giá nhập"
                 placeholderTextColor="gray"
                 onChangeText={(giaNhap) => setgiaNhap(giaNhap)}
-                defaultvalue={GiaNhap}
+                defaultvalue={giaNhap}
                 
                
                 />
@@ -152,13 +132,13 @@ return (
                 placeholder="Nhập vào chú thích"
                 placeholderTextColor="gray"
                 onChangeText={(chuThich) => setchuThich(chuThich)}
-                defaultvalue={ChuThich}
+                defaultvalue={chuThich}
                 />
             </View>
     </View>
     <TouchableOpacity
               style={styles.btnthem}
-              onPress={()=>{CapNhatNV()}}
+              onPress={()=>{test()}}
               >
               <Text style={styles.txtdn}>Cập nhật</Text>
             </TouchableOpacity>
